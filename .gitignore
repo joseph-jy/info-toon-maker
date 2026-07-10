@@ -1,0 +1,22 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+
+# All workspace outputs (runs are ephemeral, not source)
+_workspace/
+
+# Source reports (user-generated content, not repo source)
+reports/
+
+# Local Claude Code settings (machine-specific permissions)
+.claude/settings.local.json
+
+# OS / editor
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/

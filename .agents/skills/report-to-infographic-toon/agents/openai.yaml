@@ -1,0 +1,4 @@
+interface:
+  display_name: "Report to Infographic Toon"
+  short_description: "조사 메모를 근거 중심 리포트와 인포툰으로 안전하게 제작"
+  default_prompt: "Use $report-to-infographic-toon to format my research notes as a source report or produce an infographic-toon."

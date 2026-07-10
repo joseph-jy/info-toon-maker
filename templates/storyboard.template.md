@@ -1,0 +1,89 @@
+# Storyboard
+
+## Storyboard Mode
+- Selected:
+- Allowed: `editorial-poster`, `vertical-webtoon-page`, `adult-learning-comic`
+
+## Section Map
+- Page or poster thesis:
+- Prologue:
+- Block or Panel 1:
+- Block or Panel 2:
+- Block or Panel 3:
+- Block or Panel 4:
+- Epilogue:
+
+## Series Map (Adult Learning Comic)
+| Page | Page title | Learning objective | Knowledge before | Knowledge after | Dominant visual | Hook to next page |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 |  |  |  |  |  |  |
+
+## Character Roles (Adult Learning Comic)
+- Explainer:
+- Learner:
+- Challenger:
+- Mascot:
+
+## Page Header
+- Page label:
+- Main title:
+- Supporting thesis:
+
+## Blocks
+### Block or Panel 0
+- Purpose:
+- Story beat:
+- Visual motif:
+- Camera or framing:
+- Cast or continuity:
+- Required copy:
+- Optional copy:
+- Copy bucket:
+  - headline:
+  - caption:
+  - speech bubble:
+  - label or badge:
+- Baked-text policy:
+- Image prompt intent:
+- Transition note:
+- Learning function:
+- Knowledge state before:
+- Knowledge state after:
+- Speaker and listener:
+- Required visual model:
+
+### Block or Panel 1
+- Purpose:
+- Story beat:
+- Visual motif:
+- Camera or framing:
+- Cast or continuity:
+- Required copy:
+- Optional copy:
+- Copy bucket:
+  - headline:
+  - caption:
+  - speech bubble:
+  - label or badge:
+- Baked-text policy:
+- Image prompt intent:
+- Transition note:
+- Learning function:
+- Knowledge state before:
+- Knowledge state after:
+- Speaker and listener:
+- Required visual model:
+
+## Table Or Checklist Areas
+- Which content must stay as exact text?
+
+## Footer
+- Closing line:
+- CTA or strategic takeaway:
+- Footnote or next-page hook:
+
+## Series Resolution (Adult Learning Comic)
+- Page 1 misconception resolved on page:
+- Final one-sentence reframe:
+- Retrieval question shown to the reader:
+- Transfer question shown to the reader:
