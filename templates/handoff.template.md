@@ -28,6 +28,7 @@
 - `05_renders/block_*.png` for editorial-poster
 - `05_renders/panel_*.png` for vertical-webtoon-page
 - `05_renders/character-sheet.png` and `05_renders/page-*.png` for adult-learning-comic
+- `04_review/render-cost-report.md` after actual OpenAI rendering
 
 ## Visual Intent To Preserve
 
@@ -57,3 +58,4 @@
 - Exact Korean long-form copy may need separate composition downstream.
 - If the run is `vertical-webtoon-page`, downstream should preserve panel order and cast continuity when compositing captions.
 - If the run is `adult-learning-comic`, render pages through the Images edit endpoint with `character-sheet.png` as the identity reference.
+- After rendering, read `04_review/render-cost-report.md` for token usage and estimated API cost.

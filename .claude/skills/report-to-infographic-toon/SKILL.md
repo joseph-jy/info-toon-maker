@@ -99,9 +99,10 @@ Draft or validate the factual input, then convert approved research into a visua
    ```
 
 3. Render only through `scripts/render_openai.py`. Never create or claim files under `05_renders/` by another path.
-4. For a learning comic, render `character_sheet` and `page_01` first. Inspect both before rendering the remaining pages with the same character sheet reference.
-5. For a poster, render the one-shot first. Use block fallback only when the one-shot fails composition, legibility, or claim-safety checks.
-6. If credentials or the Images API are unavailable, finish the verified prompt package, record the blocker, and do not fabricate renders.
+4. After an actual render, read `_workspace/<slug>/04_review/render-cost-report.md` and include the reported token usage and estimated cost in the handoff or final summary. Treat rows marked with estimated output tokens as estimates, not exact billing data.
+5. For a learning comic, render `character_sheet` and `page_01` first. Inspect both before rendering the remaining pages with the same character sheet reference.
+6. For a poster, render the one-shot first. Use block fallback only when the one-shot fails composition, legibility, or claim-safety checks.
+7. If credentials or the Images API are unavailable, finish the verified prompt package, record the blocker, and do not fabricate renders.
 
 ## Visual QA
 

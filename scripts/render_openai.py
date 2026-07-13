@@ -9,6 +9,8 @@ QA handoff; this script bridges the prompt pack to real files under
 Reads prompts directly from `03_prompts/master-image-prompt.md`,
 `03_prompts/panel-prompts.md`, and `03_prompts/series-prompts.md`. Never
 invents prompts or writes files outside `05_renders/`.
+After actual API rendering, writes token usage and estimated cost to
+`04_review/render-cost-report.md`.
 
 Usage:
     python scripts/render_openai.py \
@@ -34,6 +36,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import json
 import os
 import re
 import sys
@@ -106,6 +109,34 @@ class RenderJob:
     spec: PromptSpec
     out_path: Path
     reference_paths: list[Path]
+
+
+@dataclass
+class UsageSummary:
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    total_tokens: int | None = None
+    text_input_tokens: int | None = None
+    image_input_tokens: int | None = None
+    output_tokens_estimated: bool = False
+    raw_usage: dict[str, object] | None = None
+    note: str = ""
+
+
+@dataclass
+class RenderResult:
+    job: RenderJob
+    operation: str
+    usage: UsageSummary
+    estimated_cost_usd: float
+    cost_note: str
+
+
+GPT_IMAGE_2_PRICE_PER_1M = {
+    "text_input": 5.00,
+    "image_input": 8.00,
+    "image_output": 30.00,
+}
 
 
 def _read(path: Path) -> str:
@@ -220,6 +251,309 @@ def extract_series(prompts_dir: Path) -> list[PromptSpec]:
     return specs
 
 
+# ---------- Usage and cost reporting ----------
+
+def _as_int(value: object) -> int | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    if isinstance(value, str) and value.strip().isdigit():
+        return int(value.strip())
+    return None
+
+
+def _plain_data(value: object) -> object:
+    if hasattr(value, "model_dump"):
+        value = value.model_dump()
+    elif hasattr(value, "to_dict"):
+        value = value.to_dict()
+
+    if isinstance(value, dict):
+        return {str(key): _plain_data(inner) for key, inner in value.items()}
+    if isinstance(value, list):
+        return [_plain_data(inner) for inner in value]
+    return value
+
+
+def _first_int(data: dict[str, object], keys: Iterable[str]) -> int | None:
+    for key in keys:
+        if key in data:
+            parsed = _as_int(data[key])
+            if parsed is not None:
+                return parsed
+    return None
+
+
+def _details_dict(data: dict[str, object], key: str) -> dict[str, object]:
+    value = data.get(key)
+    if isinstance(value, dict):
+        return value
+    return {}
+
+
+def estimate_gpt_image_2_output_tokens(size: str, quality: str) -> int | None:
+    match = re.fullmatch(r"(\d+)x(\d+)", size)
+    if not match:
+        return None
+    quality_steps = {"low": 16, "medium": 48, "high": 96}
+    if quality not in quality_steps:
+        return None
+
+    width = int(match.group(1))
+    height = int(match.group(2))
+    long_edge = max(width, height)
+    short_edge = min(width, height)
+    step = quality_steps[quality]
+    scaled_step = round(step * short_edge / long_edge)
+    width_tokens = step if width >= height else scaled_step
+    height_tokens = scaled_step if width >= height else step
+    tile_tokens = width_tokens * height_tokens
+    numerator = tile_tokens * (2_000_000 + width * height)
+    return (numerator + 4_000_000 - 1) // 4_000_000
+
+
+def extract_usage_summary(
+    response: object,
+    *,
+    model: str,
+    size: str,
+    quality: str,
+) -> UsageSummary:
+    raw_usage = getattr(response, "usage", None)
+    if raw_usage is None and isinstance(response, dict):
+        raw_usage = response.get("usage")
+    plain_usage = _plain_data(raw_usage)
+    usage = plain_usage if isinstance(plain_usage, dict) else None
+
+    if usage is None:
+        estimated_output = (
+            estimate_gpt_image_2_output_tokens(size, quality)
+            if model == "gpt-image-2"
+            else None
+        )
+        return UsageSummary(
+            output_tokens=estimated_output,
+            output_tokens_estimated=estimated_output is not None,
+            raw_usage=None,
+            note=(
+                "API response did not include usage; output tokens were estimated "
+                "from model, size, and quality."
+                if estimated_output is not None
+                else "API response did not include usage."
+            ),
+        )
+
+    input_details = _details_dict(usage, "input_tokens_details")
+    output_tokens = _first_int(usage, ("output_tokens", "image_output_tokens"))
+    if output_tokens is None and model == "gpt-image-2":
+        output_tokens = estimate_gpt_image_2_output_tokens(size, quality)
+
+    return UsageSummary(
+        input_tokens=_first_int(usage, ("input_tokens",)),
+        output_tokens=output_tokens,
+        total_tokens=_first_int(usage, ("total_tokens",)),
+        text_input_tokens=_first_int(input_details, ("text_tokens", "text_input_tokens")),
+        image_input_tokens=_first_int(input_details, ("image_tokens", "image_input_tokens")),
+        output_tokens_estimated=(
+            output_tokens is not None
+            and _first_int(usage, ("output_tokens", "image_output_tokens")) is None
+        ),
+        raw_usage=usage,
+        note="API usage was returned." if usage else "",
+    )
+
+
+def estimate_cost_usd(
+    usage: UsageSummary,
+    *,
+    model: str,
+    has_image_references: bool,
+) -> tuple[float, str]:
+    if model != "gpt-image-2":
+        return (
+            0.0,
+            f"Cost estimate unavailable because pricing constants are configured for gpt-image-2, not {model}.",
+        )
+
+    total = 0.0
+    notes: list[str] = []
+
+    if usage.text_input_tokens is not None or usage.image_input_tokens is not None:
+        text_tokens = usage.text_input_tokens or 0
+        image_tokens = usage.image_input_tokens or 0
+        total += text_tokens * GPT_IMAGE_2_PRICE_PER_1M["text_input"] / 1_000_000
+        total += image_tokens * GPT_IMAGE_2_PRICE_PER_1M["image_input"] / 1_000_000
+
+        if usage.input_tokens is not None:
+            unknown_input_tokens = max(usage.input_tokens - text_tokens - image_tokens, 0)
+            if unknown_input_tokens:
+                key = "image_input" if has_image_references else "text_input"
+                total += unknown_input_tokens * GPT_IMAGE_2_PRICE_PER_1M[key] / 1_000_000
+                notes.append(
+                    f"{unknown_input_tokens} input tokens lacked modality detail "
+                    f"and were priced as {key.replace('_', ' ')}."
+                )
+    elif usage.input_tokens is not None:
+        key = "image_input" if has_image_references else "text_input"
+        total += usage.input_tokens * GPT_IMAGE_2_PRICE_PER_1M[key] / 1_000_000
+        notes.append(
+            "Input modality details were unavailable; all input tokens were priced "
+            f"as {key.replace('_', ' ')}."
+        )
+
+    if usage.output_tokens is not None:
+        total += usage.output_tokens * GPT_IMAGE_2_PRICE_PER_1M["image_output"] / 1_000_000
+        if usage.output_tokens_estimated:
+            notes.append("Output tokens were estimated from gpt-image-2 size and quality.")
+    else:
+        notes.append("Output token count was unavailable; output cost is omitted.")
+
+    return total, " ".join(notes)
+
+
+def _fmt_int(value: int | None) -> str:
+    return f"{value:,}" if value is not None else "-"
+
+
+def _sum_optional(values: Iterable[int | None]) -> int | None:
+    present = [value for value in values if value is not None]
+    if not present:
+        return None
+    return sum(present)
+
+
+def _fmt_usd(value: float) -> str:
+    return f"${value:.4f}"
+
+
+def _rel(path: Path, root: Path) -> str:
+    try:
+        return str(path.relative_to(root))
+    except ValueError:
+        return str(path)
+
+
+def write_render_cost_report(
+    workspace: Path,
+    repo_root: Path,
+    *,
+    model: str,
+    size: str,
+    quality: str,
+    fmt: str,
+    results: list[RenderResult],
+    failures: list[str],
+) -> Path:
+    report_path = workspace / "04_review" / "render-cost-report.md"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+
+    total_cost = sum(result.estimated_cost_usd for result in results)
+    total_input_tokens = _sum_optional(result.usage.input_tokens for result in results)
+    total_output_tokens = _sum_optional(result.usage.output_tokens for result in results)
+    total_tokens = _sum_optional(result.usage.total_tokens for result in results)
+    any_estimated_output = any(result.usage.output_tokens_estimated for result in results)
+    any_missing_usage = any(result.usage.raw_usage is None for result in results)
+
+    lines = [
+        "# Render Cost Report",
+        "",
+        f"- Generated at: {time.strftime('%Y-%m-%d %H:%M:%S %Z')}",
+        f"- Workspace: `{_rel(workspace, repo_root)}`",
+        f"- Model: `{model}`",
+        f"- Size: `{size}`",
+        f"- Quality: `{quality}`",
+        f"- Format: `{fmt}`",
+        "- Price basis: OpenAI API standard pricing for `gpt-image-2` "
+        "as configured in `scripts/render_openai.py`.",
+        f"- Completed renders: {len(results)}",
+        f"- Failed renders: {len(failures)}",
+        "",
+        "## Totals",
+        "",
+        f"- Estimated cost: `{_fmt_usd(total_cost)}`",
+        f"- Input tokens: `{_fmt_int(total_input_tokens)}`",
+        f"- Output tokens: `{_fmt_int(total_output_tokens)}`"
+        + (" (some estimated)" if any_estimated_output else ""),
+        f"- Reported total tokens: `{_fmt_int(total_tokens)}`",
+        "",
+        "## Render Rows",
+        "",
+        "| Track | Slot | Operation | Output file | References | Input tokens | Text input | Image input | Output tokens | Cost |",
+        "|---|---|---|---|---:|---:|---:|---:|---:|---:|",
+    ]
+
+    for result in results:
+        usage = result.usage
+        output_tokens = _fmt_int(usage.output_tokens)
+        if usage.output_tokens_estimated and usage.output_tokens is not None:
+            output_tokens = f"~{output_tokens}"
+        lines.append(
+            "| "
+            f"{result.job.track} | "
+            f"{result.job.spec.slot_id} | "
+            f"{result.operation} | "
+            f"`{_rel(result.job.out_path, repo_root)}` | "
+            f"{len(result.job.reference_paths)} | "
+            f"{_fmt_int(usage.input_tokens)} | "
+            f"{_fmt_int(usage.text_input_tokens)} | "
+            f"{_fmt_int(usage.image_input_tokens)} | "
+            f"{output_tokens} | "
+            f"{_fmt_usd(result.estimated_cost_usd)} |"
+        )
+
+    if failures:
+        lines.extend(["", "## Failures", ""])
+        for failure in failures:
+            lines.append(f"- {failure}")
+
+    notes = []
+    if any_missing_usage:
+        notes.append(
+            "One or more API responses did not include usage; those rows use output-token estimates only."
+        )
+    if any_estimated_output:
+        notes.append(
+            "`~` marks output tokens estimated with the gpt-image-2 calculator formula."
+        )
+    row_notes = [result.cost_note for result in results if result.cost_note]
+    notes.extend(row_notes)
+    if notes:
+        lines.extend(["", "## Notes", ""])
+        for note in dict.fromkeys(notes):
+            lines.append(f"- {note}")
+
+    raw_rows = [
+        {
+            "track": result.job.track,
+            "slot": result.job.spec.slot_id,
+            "operation": result.operation,
+            "output_file": _rel(result.job.out_path, repo_root),
+            "references": [_rel(path, repo_root) for path in result.job.reference_paths],
+            "estimated_cost_usd": round(result.estimated_cost_usd, 8),
+            "usage": result.usage.raw_usage,
+            "usage_note": result.usage.note,
+        }
+        for result in results
+    ]
+    lines.extend(
+        [
+            "",
+            "## Raw Usage",
+            "",
+            "```json",
+            json.dumps(raw_rows, ensure_ascii=False, indent=2),
+            "```",
+            "",
+        ]
+    )
+
+    report_path.write_text("\n".join(lines), encoding="utf-8")
+    return report_path
+
+
 # ---------- OpenAI Images API ----------
 
 def render_one(
@@ -233,7 +567,7 @@ def render_one(
     timeout: int,
     max_retries: int,
     reference_paths: list[Path],
-) -> None:
+) -> UsageSummary:
     try:
         from openai import OpenAI
     except ImportError as e:
@@ -298,7 +632,7 @@ def render_one(
             out_path.parent.mkdir(parents=True, exist_ok=True)
             out_path.write_bytes(base64.b64decode(b64))
             print(f"[ok] wrote {out_path}")
-            return
+            return extract_usage_summary(resp, model=model, size=size, quality=quality)
         except Exception as e:
             if attempt > max_retries:
                 raise
@@ -496,6 +830,7 @@ def main(argv: list[str]) -> int:
         return 0
 
     failures: list[str] = []
+    results: list[RenderResult] = []
     for job in plan:
         missing_runtime_references = [
             path for path in job.reference_paths if not path.is_file()
@@ -510,7 +845,7 @@ def main(argv: list[str]) -> int:
             failures.append(f"{job.track}/{job.spec.slot_id}")
             continue
         try:
-            render_one(
+            usage = render_one(
                 job.spec,
                 job.out_path,
                 model=model,
@@ -521,12 +856,47 @@ def main(argv: list[str]) -> int:
                 max_retries=max_retries,
                 reference_paths=job.reference_paths,
             )
+            cost, cost_note = estimate_cost_usd(
+                usage,
+                model=model,
+                has_image_references=bool(job.reference_paths),
+            )
+            results.append(
+                RenderResult(
+                    job=job,
+                    operation="edit" if job.reference_paths else "generate",
+                    usage=usage,
+                    estimated_cost_usd=cost,
+                    cost_note=cost_note,
+                )
+            )
         except Exception as e:
             print(
                 f"[fail] {job.track}/{job.spec.slot_id}: {e!r}",
                 file=sys.stderr,
             )
             failures.append(f"{job.track}/{job.spec.slot_id}")
+
+    if results or failures:
+        report_path = write_render_cost_report(
+            workspace,
+            repo_root,
+            model=model,
+            size=size,
+            quality=quality,
+            fmt=fmt,
+            results=results,
+            failures=failures,
+        )
+        total_cost = sum(result.estimated_cost_usd for result in results)
+        total_tokens = _sum_optional(result.usage.total_tokens for result in results)
+        total_output_tokens = _sum_optional(result.usage.output_tokens for result in results)
+        print(
+            f"[cost] wrote {_rel(report_path, repo_root)} "
+            f"estimated_cost={_fmt_usd(total_cost)} "
+            f"reported_total_tokens={_fmt_int(total_tokens)} "
+            f"output_tokens={_fmt_int(total_output_tokens)}"
+        )
 
     if failures:
         print(f"[done] with failures: {failures}", file=sys.stderr)

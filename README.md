@@ -107,6 +107,11 @@ python scripts/render_openai.py --slug my-topic \
 - 웹툰 페이지: `final-webtoon.png`, `panel_01.png` ~ `panel_04.png`
 - 학습만화: `character-sheet.png`, `page-01.png` ~ `page-08.png`
 
+렌더 완료 후 `scripts/render_openai.py`는 토큰 사용량과 추정 비용을
+`_workspace/<slug>/04_review/render-cost-report.md`에 기록합니다. API 응답에
+`usage`가 포함되면 실제 토큰을 사용하고, 누락된 경우 `gpt-image-2` 출력 토큰
+계산식으로 가능한 범위만 추정합니다.
+
 ---
 
 ## 리포트 퍼스트 워크플로우
