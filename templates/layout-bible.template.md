@@ -27,7 +27,7 @@
 - Footer or next-page hook:
 
 ## Adult Learning Comic Rhythm
-- Series page count (4-8):
+- Series page count (2-8; default 3-6):
 - Per-page panel count (4-6):
 - Page title strip:
 - Character scene vs diagram ratio:

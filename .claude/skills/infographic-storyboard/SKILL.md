@@ -1,6 +1,6 @@
 ---
 name: infographic-storyboard
-description: "긴 문서나 설명 주제를 인포그래픽 포스터, 세로 웹툰 페이지, 또는 4-8페이지 성인 학습만화로 설계하는 스토리보드 스킬. 학습 목표, 오개념 교정, 페이지별 지식 상태 변화, 캐릭터 역할, 컷 전환, 카피 버킷과 시각 모델을 정의한다."
+description: "긴 문서나 설명 주제를 인포그래픽 포스터, 세로 웹툰 페이지, 또는 2-8페이지 성인 학습만화로 설계하는 스토리보드 스킬. 학습 목표, 오개념 교정, 페이지별 지식 상태 변화, 캐릭터 역할, 컷 전환, 카피 버킷과 시각 모델을 정의한다."
 ---
 
 # Infographic Storyboard
@@ -39,7 +39,7 @@ description: "긴 문서나 설명 주제를 인포그래픽 포스터, 세로 �
 
 기본 리듬:
 - 전체 시리즈를 run 1개로 유지한다.
-- 4-8페이지, 페이지당 4-6개 panel.
+- 3-6페이지를 기본으로 하고, 좁은 micro lesson은 2페이지까지 허용하며, 최대 8페이지까지 확장한다. 페이지당 4-6개 panel.
 - 각 페이지는 learning objective와 knowledge state before/after를 하나씩 가진다.
 - 캐릭터 역할은 설명자, 학습자, 선택형 반론자/마스코트로 고정한다.
 - 기본 6페이지 arc: 통념 -> 빠진 모델 -> 핵심 reveal -> 작동 원리 -> 적용과 한계 -> 재정의와 회상 질문.
@@ -61,7 +61,7 @@ Editorial Poster는 5-8개 block을 사용한다.
 
 Vertical Webtoon Page는 보통 4개 panel을 사용하고, 정보가 많을 때만 5-6개로 늘린다.
 
-Adult Learning Comic은 페이지 수부터 정하지 않는다. `learning-design.md`의 explanation spine에 필요한 개념 전환 수를 세고 4-8페이지로 배분한다. 각 페이지에는 반드시 다음이 있어야 한다.
+Adult Learning Comic은 페이지 수부터 정하지 않는다. `learning-design.md`의 explanation spine에 필요한 개념 전환 수를 세고 2-8페이지로 배분한다. 기본은 3-6페이지이며, 2페이지는 좁은 micro lesson에만 사용한다. 각 페이지에는 반드시 다음이 있어야 한다.
 - learning objective
 - knowledge state before / after
 - central visual model

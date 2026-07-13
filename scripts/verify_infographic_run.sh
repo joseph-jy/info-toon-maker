@@ -140,8 +140,8 @@ if [[ "${is_learning_comic}" -eq 1 ]]; then
     check_heading "${series_prompts}" "^### character_sheet" "character_sheet slot"
 
     page_count="$(rg -c '^### page_[0-9][0-9]\b' "${series_prompts}" || true)"
-    if [[ "${page_count}" -lt 4 || "${page_count}" -gt 8 ]]; then
-      echo "adult-learning-comic requires 4-8 page prompts; found ${page_count}: ${series_prompts}" >&2
+    if [[ "${page_count}" -lt 2 || "${page_count}" -gt 8 ]]; then
+      echo "adult-learning-comic requires 2-8 page prompts; found ${page_count}: ${series_prompts}" >&2
       FAIL=1
     fi
 

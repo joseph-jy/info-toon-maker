@@ -36,6 +36,13 @@ OUTPUT
 no watermark, no random text, no gibberish Korean, no misspelled technical terms, no duplicated speech bubbles, no duplicated characters, no identity drift, no age drift, no wardrobe drift, no role swap, no school uniforms, no child-coded body proportions, no chibi, no fan-service, no photorealistic portrait, no uniform dashboard grid, no slide deck, no startup infographic, no unreadable formula, no cropped title, no overlapping text, no extra fingers, no broken hands
 ```
 
+## Page Slot Policy
+- Keep only the actual `page_XX` sections for this run.
+- Minimum: `page_01` and `page_02`.
+- Default: add `page_03` through `page_06` as needed.
+- Maximum: `page_08`.
+- Remove unused placeholder page sections before verification.
+
 ### character_sheet
 - purpose: lock the recurring adult cast before page rendering
 - prompt:
@@ -73,70 +80,6 @@ no extra text, no identity drift, no panel that does not advance the learning ob
 - prompt:
 ```text
 Replace this block with the complete page 02 prompt.
-```
-- negative:
-```text
-no extra text, no identity drift, no panel that does not advance the learning objective
-```
-
-### page_03
-- learning objective:
-- knowledge state before:
-- knowledge state after:
-- central visual model:
-- exact baked copy:
-- character reminder:
-- prompt:
-```text
-Replace this block with the complete page 03 prompt.
-```
-- negative:
-```text
-no extra text, no identity drift, no panel that does not advance the learning objective
-```
-
-### page_04
-- learning objective:
-- knowledge state before:
-- knowledge state after:
-- central visual model:
-- exact baked copy:
-- character reminder:
-- prompt:
-```text
-Replace this block with the complete page 04 prompt.
-```
-- negative:
-```text
-no extra text, no identity drift, no panel that does not advance the learning objective
-```
-
-### page_05
-- learning objective:
-- knowledge state before:
-- knowledge state after:
-- central visual model:
-- exact baked copy:
-- character reminder:
-- prompt:
-```text
-Replace this block with the complete page 05 prompt.
-```
-- negative:
-```text
-no extra text, no identity drift, no panel that does not advance the learning objective
-```
-
-### page_06
-- learning objective:
-- knowledge state before:
-- knowledge state after:
-- central visual model:
-- exact baked copy:
-- character reminder:
-- prompt:
-```text
-Replace this block with the complete page 06 prompt.
 ```
 - negative:
 ```text

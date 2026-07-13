@@ -20,7 +20,7 @@ model: opus
   - 밝은 UI/whiteboard 컷과 어두운 시네마틱 시스템 컷을 교차시킨다.
   - 반복 등장 캐릭터의 얼굴/의상/역할을 고정한다.
 - adult-learning-comic 모드:
-  - 4-8페이지 전체를 하나의 visual family로 설계한다.
+  - 2-8페이지 전체를 하나의 visual family로 설계한다.
   - character sheet에 adult face/body proportions, hair/outfit silhouette, signature colors, accessory를 고정한다.
   - 페이지당 character scene, teaching diagram, recap/footer가 모두 존재하되 같은 카드 크기로 평탄화하지 않는다.
   - 밝은 전문 환경, 검은 패널선, 청록/파랑 구조색, 한 가지 warm emphasis color를 기본 검토한다.

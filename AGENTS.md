@@ -1,7 +1,7 @@
 # Infographic And Learning Comic Harness
 
 ## Purpose
-- This repo is a harness for producing either a **single-page infographic poster** or a **4-8 page adult learning comic series** with recurring characters.
+- This repo is a harness for producing either a **single-page infographic poster** or a **2-8 page adult learning comic series** with recurring characters.
 - This repo is **not** responsible for HTML page assembly. It stops at image-generation guidance, prompt packs, and image QA handoff.
 - One narrow exception: `scripts/render_openai.py` is allowed to call the OpenAI Images API (default model `gpt-image-2`) and write real files to `_workspace/<slug>/05_renders/`. The rest of the harness must still treat rendering as downstream — never claim renders exist unless the files actually exist on disk.
 - Treat dense Korean copy as a reliability problem. Default to an **image-first but text-conservative workflow**:
@@ -69,7 +69,7 @@
 
 ## Adult Learning Comic Grammar
 - Use `adult-learning-comic` when the user asks for a character-led educational comic, an explainer series, or a sequence like the LLM learning-comic reference.
-- Default to 4-8 pages. Each page is one portrait image with a title bar, 4-6 comic/diagram panels, and a short recap or forward hook.
+- Default to 3-6 pages, allow 2 pages for deliberately narrow micro-lessons, and cap at 8 pages. Each page is one portrait image with a title bar, 4-6 comic/diagram panels, and a short recap or forward hook.
 - The series must change the reader's knowledge state, not merely decorate facts. Use this default arc unless the topic requires another:
   1. surface belief or plausible misconception
   2. contrasting model or missing concept
@@ -124,7 +124,7 @@
 - Build a claim ledger in `01_research/research-summary.md`; mark unsupported or unstable claims `needs verification`.
 - Fill `02_storyboard/learning-design.md` before drawing the page storyboard. It must define learning objectives, misconception ladder, explanation spine, page-level knowledge-state changes, and a final retrieval/transfer check.
 - Fill `02_storyboard/character-bible.md` with stable visual identity tokens and speaking roles.
-- Write a 4-8 page series map in `02_storyboard/storyboard.md` and the series-wide page grammar in `02_storyboard/layout-bible.md`.
+- Write a 2-8 page series map in `02_storyboard/storyboard.md` and the series-wide page grammar in `02_storyboard/layout-bible.md`.
 - Produce `03_prompts/series-prompts.md` with:
   - one shared prompt policy
   - one `character_sheet` prompt
@@ -147,7 +147,7 @@ A task is complete only when all of the following are true:
 6. `handoff.md` tells the downstream renderer exactly what to render first.
 7. The agent does not claim image rendering happened unless files actually exist under `05_renders/`.
 8. For `adult-learning-comic`, `learning-design.md`, `character-bible.md`, and `series-prompts.md` pass the mode-specific verifier.
-9. For `adult-learning-comic`, the series contains 4-8 page prompts, each with a learning objective, knowledge-state change, exact-copy contract, panel sequence, and character reminder.
+9. For `adult-learning-comic`, the series contains 2-8 page prompts, each with a learning objective, knowledge-state change, exact-copy contract, panel sequence, and character reminder.
 10. A dry-run of `scripts/render_openai.py --track adult-learning-comic --mode series` resolves `character_sheet` and every `page_XX` slot without parser warnings.
 
 ## When Blocked

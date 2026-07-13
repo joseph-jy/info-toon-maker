@@ -12,5 +12,5 @@ model: opus
 - 사실, 해석, 희망사항을 구분한다.
 - must-keep 표현과 summary 가능한 표현을 나눈다.
 - dense Korean text 리스크가 보이면 `Text Policy`를 `hybrid`로 유지한다.
-- 성인 학습만화 요청이면 audience의 직업/연령 맥락, prior knowledge, desired depth, surface misconception, practical transfer, 4-8 page budget을 반드시 기록한다.
+- 성인 학습만화 요청이면 audience의 직업/연령 맥락, prior knowledge, desired depth, surface misconception, practical transfer, 2-8 page budget을 반드시 기록한다. 기본은 3-6페이지이며 2페이지는 좁은 micro lesson에만 사용한다.
 - 성인 학습만화 기본 Text Policy는 `dialogue-baked`다.

@@ -1,6 +1,6 @@
 ---
 name: report-to-infographic-toon
-description: Draft, normalize, and validate a source-backed dry report from user research notes, then turn an approved report into either a single-page Korean editorial infographic-toon poster or a 4-8 page adult learning comic, including run initialization, claim-safe story design, prompt packs, verification, optional OpenAI image rendering, and visual QA. Use when the user says "조사 메모를 리포트로 정리해줘", "리포트 작성 가이드에 맞춰 작성해줘", "리포트 검증해줘", "위 리포트를 포스터 형태의 웹툰으로 만들어줘", "성인용 학습만화로 만들어줘", "리포트로 인포툰을 기획해줘", or asks to revise an existing report-based run.
+description: Draft, normalize, and validate a source-backed dry report from user research notes, then turn an approved report into either a single-page Korean editorial infographic-toon poster or a 2-8 page adult learning comic, including run initialization, claim-safe story design, prompt packs, verification, optional OpenAI image rendering, and visual QA. Use when the user says "조사 메모를 리포트로 정리해줘", "리포트 작성 가이드에 맞춰 작성해줘", "리포트 검증해줘", "위 리포트를 포스터 형태의 웹툰으로 만들어줘", "성인용 학습만화로 만들어줘", "리포트로 인포툰을 기획해줘", or asks to revise an existing report-based run.
 ---
 
 # Report To Infographic Toon
@@ -43,9 +43,9 @@ Draft or validate the factual input, then convert approved research into a visua
 ## Choose The Deliverable
 
 - Map `포스터`, `포스터 형태의 웹툰`, `한 장`, or `editorial poster` to `editorial-poster`.
-- Map `성인용 학습만화`, `학습 웹툰`, `4-8페이지`, or a requested page range to `adult-learning-comic`.
+- Map `성인용 학습만화`, `학습 웹툰`, `2-8페이지`, or a requested page range to `adult-learning-comic`.
 - Require one of these two deliverables. If neither is explicit and the surrounding request does not resolve it, ask one short question.
-- Respect an exact page count. For a range, choose the smallest count that supports the required knowledge-state changes; stay within 4-8 pages.
+- Respect an exact page count. For a range, choose the smallest count that supports the required knowledge-state changes; stay within 2-8 pages. Use 3-6 pages by default; use 2 pages only for deliberately narrow micro-lessons.
 
 ## Choose The Execution Depth
 
@@ -81,7 +81,7 @@ Draft or validate the factual input, then convert approved research into a visua
 4. Use 2-4 stable adult characters. Lock identity and speaking roles in `character-bible.md` before page prompts.
 5. Use `dialogue-baked` by default. Whitelist every exact title, diagram label, formula, and speech bubble; prohibit all extra text.
 6. Enumerate the exact panel count and every panel in each page prompt. Put a closing group scene inside a named panel; do not append a free-floating closing-scene instruction that can create an extra panel.
-7. Fill a complete 4-8 page series in `storyboard.md`, `layout-bible.md`, and `series-prompts.md`. Keep `master-image-prompt.md` and `panel-prompts.md` present and explicitly route rendering to `series-prompts.md`.
+7. Fill a complete 2-8 page series in `storyboard.md`, `layout-bible.md`, and `series-prompts.md`. Keep `master-image-prompt.md` and `panel-prompts.md` present and explicitly route rendering to `series-prompts.md`.
 8. Resolve the opening misconception on the final page with a reframe, retrieval question, and transfer question.
 
 ## Verify And Render

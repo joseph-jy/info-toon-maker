@@ -21,7 +21,7 @@
 - Surface belief or misconception:
 - Corrected mental model:
 - Practical transfer or decision the reader should make:
-- Page budget (4-8):
+- Page budget (2-8; default 3-6; use 2 only for micro-lessons):
 
 ## Required Facts
 - List claims that must stay verbatim or close to verbatim.

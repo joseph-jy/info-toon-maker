@@ -1,11 +1,11 @@
 ---
 name: infographic-orchestrator
-description: "단일 페이지 인포그래픽, PAGE형 세로 웹툰, 또는 4-8페이지 성인 학습만화를 위한 이미지 생성 하네스 오케스트레이터. 학습만화에서는 학습 목표, 오개념 교정, 캐릭터 바이블, 페이지별 지식 상태 변화, 시리즈 프롬프트와 이미지 QA까지 만든다. 트리거: '인포그래픽 만들어', '웹툰 느낌 인포그래픽', '성인용 학습만화', '캐릭터가 설명하는 만화', '이 주제를 만화로 가르쳐줘'."
+description: "단일 페이지 인포그래픽, PAGE형 세로 웹툰, 또는 2-8페이지 성인 학습만화를 위한 이미지 생성 하네스 오케스트레이터. 학습만화에서는 학습 목표, 오개념 교정, 캐릭터 바이블, 페이지별 지식 상태 변화, 시리즈 프롬프트와 이미지 QA까지 만든다. 트리거: '인포그래픽 만들어', '웹툰 느낌 인포그래픽', '성인용 학습만화', '캐릭터가 설명하는 만화', '이 주제를 만화로 가르쳐줘'."
 ---
 
 # Infographic Orchestrator
 
-긴 서사를 **한 장의 세로 포스터**, **한 페이지짜리 세로 웹툰 인포그래픽**, 또는 **4-8페이지 성인 학습만화 시리즈**로 설계하는 하네스다.
+긴 서사를 **한 장의 세로 포스터**, **한 페이지짜리 세로 웹툰 인포그래픽**, 또는 **2-8페이지 성인 학습만화 시리즈**로 설계하는 하네스다.
 
 ## Core Principle
 
@@ -76,7 +76,7 @@ Optional:
 2. Choose the storyboard mode:
    - `editorial-poster` for a one-page asymmetric poster
    - `vertical-webtoon-page` for `PAGE 1` / `PAGE 2` style comic-infographic pages
-   - `adult-learning-comic` for a coherent 4-8 page character-led teaching series
+   - `adult-learning-comic` for a coherent 2-8 page character-led teaching series
 3. Break the page into 5-8 blocks for poster mode, or 4-6 panels for webtoon page mode.
 4. Each block or panel must specify:
    - purpose

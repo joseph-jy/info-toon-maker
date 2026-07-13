@@ -21,6 +21,6 @@ model: opus
   - 각 panel에 camera/framing, cast continuity, transition note를 명시한다.
   - 정보량이 4 panel로 불충분할 때만 5-6 panel로 확장한다.
 - `text-conservative`와 `all-baked` 중 render mode를 반드시 명시한다. 기본값은 `text-conservative`.
-- `adult-learning-comic`은 전체 시리즈를 run 1개로 유지하고 4-8페이지의 지식 상태 변화를 `learning-design.md`에 먼저 기록한다.
+- `adult-learning-comic`은 전체 시리즈를 run 1개로 유지하고 2-8페이지의 지식 상태 변화를 `learning-design.md`에 먼저 기록한다. 기본은 3-6페이지이며 2페이지는 좁은 micro lesson에만 사용한다.
 - 캐릭터의 시각 identity와 설명 역할을 `character-bible.md`에 고정한 뒤 페이지를 설계한다.
 - 첫 페이지 오개념, 마지막 페이지 reframe, retrieval/transfer question이 서로 대응해야 한다.
