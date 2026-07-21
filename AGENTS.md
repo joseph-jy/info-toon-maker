@@ -37,6 +37,7 @@
   - `05_renders/block_*.png`
   - `05_renders/final-poster.png`
   - `05_renders/character-sheet.png`
+  - `05_renders/thumbnail.png` (landscape catalog cover for the series list page)
   - `05_renders/page-01.png` through `page-08.png`
 
 ## Cross-Tool Skill Entry Point
@@ -128,8 +129,9 @@
 - Produce `03_prompts/series-prompts.md` with:
   - one shared prompt policy
   - one `character_sheet` prompt
+  - one `thumbnail` prompt (single landscape catalog cover: one short Korean topic phrase plus one simple motif, nothing more)
   - one complete `page_XX` prompt per page
-- Render the character sheet first. Render every page through the image edit endpoint using that sheet as a reference unless the user explicitly disables reference conditioning.
+- Render the character sheet first. Render the thumbnail and every page through the image edit endpoint using that sheet as a reference unless the user explicitly disables reference conditioning. The thumbnail renders once per series at landscape size (default `1536x1024`; the catalog page crops to 16:10).
 - Record factual, pedagogical, Korean-text, and continuity checks in `04_review/imagegen-checklist.md` and exact render order in `04_review/handoff.md`.
 
 ### When Revising An Existing Run
@@ -148,7 +150,7 @@ A task is complete only when all of the following are true:
 7. The agent does not claim image rendering happened unless files actually exist under `05_renders/`.
 8. For `adult-learning-comic`, `learning-design.md`, `character-bible.md`, and `series-prompts.md` pass the mode-specific verifier.
 9. For `adult-learning-comic`, the series contains 2-8 page prompts, each with a learning objective, knowledge-state change, exact-copy contract, panel sequence, and character reminder.
-10. A dry-run of `scripts/render_openai.py --track adult-learning-comic --mode series` resolves `character_sheet` and every `page_XX` slot without parser warnings.
+10. A dry-run of `scripts/render_openai.py --track adult-learning-comic --mode series` resolves `character_sheet`, `thumbnail`, and every `page_XX` slot without parser warnings.
 
 ## When Blocked
 - If factual claims are uncertain, mark them as `needs verification` in the research summary.

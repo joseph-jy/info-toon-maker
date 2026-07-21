@@ -20,6 +20,7 @@ description: "인포그래픽 포스터, PAGE형 세로 웹툰, 성인 학습만
 
 - 공통 정책은 `series-prompts.md`의 `Shared Prompt Policy`에 한 번 정의한다.
 - `character_sheet`를 첫 슬롯으로 둔다.
+- `thumbnail` 슬롯을 정확히 하나 둔다. 시리즈 목록 카드용 가로형 커버 1장이며, 짧은 한국어 주제 문구(2-6단어) 하나와 간단한 중심 모티프, 최대 1-2명의 등장인물만 담는다. 만화 패널, 말풍선, 본문 텍스트는 금지. 렌더 기본 크기는 1536x1024이고 목록 페이지가 16:10으로 크롭하므로 문구와 모티프를 중앙 16:10 안전 영역에 둔다.
 - 각 `page_XX`는 learning objective, knowledge state before/after, central visual model, exact baked copy, character reminder, prompt를 가진다.
 - 페이지 렌더 시 shared policy와 slot prompt를 합성한다.
 - 캐릭터 시트는 identity reference로만 사용하고 페이지 레이아웃 참고로 사용하지 않는다.

@@ -138,6 +138,7 @@ if [[ "${is_learning_comic}" -eq 1 ]]; then
     check_heading "${series_prompts}" "^## Shared Prompt Policy" "Shared Prompt Policy heading"
     check_heading "${series_prompts}" "^## Shared Negative Prompt" "Shared Negative Prompt heading"
     check_heading "${series_prompts}" "^### character_sheet" "character_sheet slot"
+    check_heading "${series_prompts}" "^### thumbnail" "thumbnail slot"
 
     page_count="$(rg -c '^### page_[0-9][0-9]\b' "${series_prompts}" || true)"
     if [[ "${page_count}" -lt 2 || "${page_count}" -gt 8 ]]; then

@@ -99,7 +99,7 @@ Optional:
 2. Produce both:
    - a one-shot poster prompt
    - block-by-block prompts for fallback rendering
-3. For `adult-learning-comic`, produce `series-prompts.md` instead: shared policy + character sheet + one `page_XX` prompt per page.
+3. For `adult-learning-comic`, produce `series-prompts.md` instead: shared policy + character sheet + one landscape `thumbnail` prompt (short topic phrase + simple motif only) + one `page_XX` prompt per page.
 4. Keep the storyboard and prompt pack strictly aligned.
 
 ### Phase 5: Image QA

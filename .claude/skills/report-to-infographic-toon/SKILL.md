@@ -81,7 +81,7 @@ Draft or validate the factual input, then convert approved research into a visua
 4. Use 2-4 stable adult characters. Lock identity and speaking roles in `character-bible.md` before page prompts.
 5. Use `dialogue-baked` by default. Whitelist every exact title, diagram label, formula, and speech bubble; prohibit all extra text.
 6. Enumerate the exact panel count and every panel in each page prompt. Put a closing group scene inside a named panel; do not append a free-floating closing-scene instruction that can create an extra panel.
-7. Fill a complete 2-8 page series in `storyboard.md`, `layout-bible.md`, and `series-prompts.md`. Keep `master-image-prompt.md` and `panel-prompts.md` present and explicitly route rendering to `series-prompts.md`.
+7. Fill a complete 2-8 page series in `storyboard.md`, `layout-bible.md`, and `series-prompts.md`, including exactly one `thumbnail` slot: a single landscape catalog cover with one short Korean topic phrase (2-6 words) and one simple motif, no comic panels or body text. Keep `master-image-prompt.md` and `panel-prompts.md` present and explicitly route rendering to `series-prompts.md`.
 8. Resolve the opening misconception on the final page with a reframe, retrieval question, and transfer question.
 
 ## Verify And Render
@@ -100,7 +100,7 @@ Draft or validate the factual input, then convert approved research into a visua
 
 3. Render only through `scripts/render_openai.py`. Never create or claim files under `05_renders/` by another path.
 4. After an actual render, read `_workspace/<slug>/04_review/render-cost-report.md` and include the reported token usage and estimated cost in the handoff or final summary. Treat rows marked with estimated output tokens as estimates, not exact billing data.
-5. For a learning comic, render `character_sheet` and `page_01` first. Inspect both before rendering the remaining pages with the same character sheet reference.
+5. For a learning comic, render `character_sheet` and `page_01` first. Inspect both before rendering the remaining pages and the landscape `thumbnail` with the same character sheet reference. The thumbnail renders automatically in `--mode series` (default size `1536x1024`; override with `--thumbnail-size` or `OPENAI_THUMBNAIL_SIZE`).
 6. For a poster, render the one-shot first. Use block fallback only when the one-shot fails composition, legibility, or claim-safety checks.
 7. If credentials or the Images API are unavailable, finish the verified prompt package, record the blocker, and do not fabricate renders.
 

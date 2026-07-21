@@ -41,6 +41,9 @@ no watermark, no random text, no gibberish Korean, no misspelled technical terms
 - Minimum: `page_01` and `page_02`.
 - Default: add `page_03` through `page_06` as needed.
 - Maximum: `page_08`.
+- Keep exactly one `thumbnail` slot. It renders once as a landscape catalog cover
+  (default 1536x1024; the list page crops to 16:10 with `object-fit: cover`, so keep
+  the phrase and motif inside a centered 16:10 safe area).
 - Remove unused placeholder page sections before verification.
 
 ### character_sheet
@@ -52,6 +55,19 @@ Replace this block with the final character-sheet prompt. Include every immutabl
 - negative:
 ```text
 no comic panels, no scene background, no alternate costumes, no age variants, no school uniforms, no chibi proportions, no duplicated views, no long text
+```
+
+### thumbnail
+- purpose: one landscape catalog cover that reveals the series topic at a glance
+- exact baked copy:
+- character reminder:
+- prompt:
+```text
+Replace this block with the final thumbnail prompt. One simple landscape cover image, not a comic page: one short Korean topic phrase (2-6 words) as the ONLY baked text, one central visual motif taken from the series, and at most 1-2 recurring characters from the character sheet. Keep the composition bold and readable at small card size. Keep the phrase and motif inside a centered 16:10 safe area because the catalog crops the image.
+```
+- negative:
+```text
+no comic panels, no panel borders, no speech bubbles, no long sentences, no paragraph text, no dense diagram, no page title bar, no footer, no watermark, no identity drift
 ```
 
 ### page_01

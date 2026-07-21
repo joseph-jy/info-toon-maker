@@ -30,6 +30,10 @@ Usage:
     python scripts/render_openai.py \
         --slug database-index-learning-comic \
         --track adult-learning-comic --mode series
+
+Series mode also renders one landscape catalog `thumbnail` slot when
+`series-prompts.md` declares it (output: 05_renders/thumbnail.png,
+default size 1536x1024 via OPENAI_THUMBNAIL_SIZE / --thumbnail-size).
 """
 
 from __future__ import annotations
@@ -109,6 +113,7 @@ class RenderJob:
     spec: PromptSpec
     out_path: Path
     reference_paths: list[Path]
+    size: str | None = None  # per-job size override (e.g. landscape thumbnail)
 
 
 @dataclass
@@ -217,7 +222,7 @@ def extract_series(prompts_dir: Path) -> list[PromptSpec]:
     )
 
     matches = list(
-        re.finditer(r"^###\s+(character_sheet|page_\d{2})\b", body, re.MULTILINE)
+        re.finditer(r"^###\s+(character_sheet|thumbnail|page_\d{2})\b", body, re.MULTILINE)
     )
     if not matches:
         raise SystemExit("no character_sheet or page_XX slots found in series-prompts.md")
@@ -651,6 +656,8 @@ def _out_name(track: str, slot_id: str, fmt: str) -> str:
     if track == TRACK_LEARNING:
         if slot_id == "character_sheet":
             return f"character-sheet.{fmt}"
+        if slot_id == "thumbnail":
+            return f"thumbnail.{fmt}"
         if re.fullmatch(r"page_\d{2}", slot_id):
             return f"{slot_id.replace('_', '-')}.{fmt}"
         raise SystemExit(f"unknown learning comic slot: {slot_id}")
@@ -687,6 +694,11 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--dry-run", action="store_true", help="do not call API, just list plan")
     parser.add_argument("--model", default=None, help="override OPENAI_IMAGE_MODEL")
     parser.add_argument("--size", default=None, help="override OPENAI_IMAGE_SIZE")
+    parser.add_argument(
+        "--thumbnail-size",
+        default=None,
+        help="override OPENAI_THUMBNAIL_SIZE for the series thumbnail slot (default 1536x1024)",
+    )
     parser.add_argument("--quality", default=None, help="override OPENAI_IMAGE_QUALITY")
     parser.add_argument("--format", dest="fmt", default=None, help="override OPENAI_IMAGE_FORMAT")
     parser.add_argument(
@@ -716,6 +728,9 @@ def main(argv: list[str]) -> int:
 
     model = args.model or os.environ.get("OPENAI_IMAGE_MODEL", "gpt-image-2")
     size = args.size or os.environ.get("OPENAI_IMAGE_SIZE", "1536x2048")
+    thumbnail_size = args.thumbnail_size or os.environ.get(
+        "OPENAI_THUMBNAIL_SIZE", "1536x1024"
+    )
     quality = args.quality or os.environ.get("OPENAI_IMAGE_QUALITY", "high")
     fmt = args.fmt or os.environ.get("OPENAI_IMAGE_FORMAT", "png")
     try:
@@ -765,7 +780,9 @@ def main(argv: list[str]) -> int:
             selected = [
                 spec for spec in specs if only_set is None or spec.slot_id in only_set
             ]
-            selected_pages = [spec for spec in selected if spec.slot_id.startswith("page_")]
+            selected_dependents = [
+                spec for spec in selected if spec.slot_id != "character_sheet"
+            ]
             character_spec = spec_by_id.get("character_sheet")
             if character_spec is None:
                 raise SystemExit("character_sheet slot is required for adult-learning-comic")
@@ -775,7 +792,7 @@ def main(argv: list[str]) -> int:
 
             needs_character_job = any(
                 spec.slot_id == "character_sheet" for spec in selected
-            ) or (bool(selected_pages) and not character_out.is_file())
+            ) or (bool(selected_dependents) and not character_out.is_file())
             if needs_character_job:
                 plan.append(
                     RenderJob(
@@ -786,7 +803,7 @@ def main(argv: list[str]) -> int:
                     )
                 )
 
-            for spec in selected_pages:
+            for spec in selected_dependents:
                 references = [character_out, *external_references]
                 plan.append(
                     RenderJob(
@@ -794,6 +811,7 @@ def main(argv: list[str]) -> int:
                         spec=spec,
                         out_path=renders_dir / _out_name(track, spec.slot_id, fmt),
                         reference_paths=references,
+                        size=thumbnail_size if spec.slot_id == "thumbnail" else None,
                     )
                 )
             continue
@@ -820,9 +838,10 @@ def main(argv: list[str]) -> int:
     print(f"[plan] {len(plan)} render(s) — model={model} size={size} quality={quality} fmt={fmt}")
     for job in plan:
         refs = ", ".join(str(path) for path in job.reference_paths) or "none"
+        size_note = f" size={job.size}" if job.size and job.size != size else ""
         print(
             f"  - [{job.track}] {job.spec.slot_id} -> "
-            f"{job.out_path.relative_to(repo_root)} references={refs}"
+            f"{job.out_path.relative_to(repo_root)} references={refs}{size_note}"
         )
 
     if args.dry_run:
@@ -849,7 +868,7 @@ def main(argv: list[str]) -> int:
                 job.spec,
                 job.out_path,
                 model=model,
-                size=size,
+                size=job.size or size,
                 quality=quality,
                 fmt=fmt,
                 timeout=timeout,
