@@ -78,7 +78,7 @@ Draft or validate the factual input, then convert approved research into a visua
 1. Read `../infographic-orchestrator/SKILL.md`, `../infographic-storyboard/SKILL.md`, and `../infographic-panel-render/SKILL.md`.
 2. Define the audience's plausible surface belief, missing distinction, corrected model, limits, and transfer decision in `learning-design.md` before writing pages.
 3. Assign one learning objective, one before/after knowledge state, and one central visual model to every page.
-4. Use 2-4 stable adult characters. Lock identity and speaking roles in `character-bible.md` before page prompts.
+4. Use 2-4 stable adult characters. Lock identity and speaking roles in `character-bible.md` before page prompts. Real people from the report may be cast directly at maximum recognizable likeness per the repository's Usage Context And Likeness Policy; fill the Real-Person Casting block in `character-bible.md` including a stylized fallback descriptor.
 5. Use `dialogue-baked` by default. Whitelist every exact title, diagram label, formula, and speech bubble; prohibit all extra text.
 6. Enumerate the exact panel count and every panel in each page prompt. Put a closing group scene inside a named panel; do not append a free-floating closing-scene instruction that can create an extra panel.
 7. Fill a complete 2-8 page series in `storyboard.md`, `layout-bible.md`, and `series-prompts.md`, including exactly one `thumbnail` slot: a single landscape catalog cover with one short Korean topic phrase (2-6 words) and one simple motif, no comic panels or body text. Keep `master-image-prompt.md` and `panel-prompts.md` present and explicitly route rendering to `series-prompts.md`.

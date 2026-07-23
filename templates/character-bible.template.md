@@ -32,6 +32,18 @@
 - Shape and color tokens:
 - Speaking function:
 
+## Real-Person Casting (Optional)
+<!-- Private, non-commercial use: real people may be cast at maximum recognizable likeness. Fill one block per real person; leave empty for a fully fictional cast. -->
+
+### <Real Person Name>
+- Cast role (explainer/learner/challenger/mascot):
+- Likeness target: maximum recognizable likeness
+- Actual face and build tokens:
+- Actual hair tokens:
+- Signature outfit and accessories:
+- Age band as of today:
+- Stylized fallback descriptor (used only if the render API refuses the likeness):
+
 ## Identity Tokens
 - Explainer immutable tokens:
 - Learner immutable tokens:

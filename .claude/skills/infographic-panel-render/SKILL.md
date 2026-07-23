@@ -7,6 +7,15 @@ description: "인포그래픽 포스터, PAGE형 세로 웹툰, 성인 학습만
 
 이 스킬은 실제 렌더보다 앞선 단계인 **prompt engineering harness**다. 목표는 이미지 모델이 실패해도 작업이 무너지지 않게 하는 것이다.
 
+## 사적 이용 및 실존 인물 정책
+
+이 하네스의 산출물은 소유자의 사적·비상업 용도로만 쓰인다 (`AGENTS.md`의 Usage Context And Likeness Policy 참조).
+
+- 프롬프트에서 기존 작품/작가/프랜차이즈의 스타일을 직접 지칭해도 된다. 저작권 회피용 문구나 "실존 대상과 닮지 않게" 류의 negative prompt를 넣지 않는다.
+- 실존 인물이 등장하면 이름을 그대로 쓰고, 실제 얼굴형·헤어·체형·연령대·시그니처 의상을 identity token으로 서술해 **최대한 닮게** 그린다. 일부러 다르게 변형한 유사 캐릭터를 만들지 않는다.
+- 실존 인물의 likeness token도 가상 캐릭터와 동일하게 캐릭터 시트와 모든 페이지 프롬프트에서 반복한다.
+- 단, 이미지 API 자체 모더레이션이 실존 인물 렌더를 거부하거나 왜곡할 수 있다. 이 경우를 render risk로 `imagegen-checklist.md`에 기록하고, 인물별 stylized fallback descriptor를 준비해 페이지 재설계 없이 재시도할 수 있게 한다.
+
 ## Required Outputs
 
 - `_workspace/<slug>/03_prompts/master-image-prompt.md`
