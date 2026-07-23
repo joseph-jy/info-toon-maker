@@ -32,6 +32,16 @@ Use 4, 5, 7, or 8 pages only when the learning design justifies the change.
 
 Record immutable identity tokens in `character-bible.md`: age band, face shape, hair silhouette, outfit silhouette, two signature colors, accessory, height relationship, and speaking role. Repeat those tokens in every page prompt.
 
+### Real-Person Cast
+
+Output is private and non-commercial, so real people may fill any cast role.
+
+- Name the person explicitly in the character bible, storyboard, and every prompt that draws them.
+- Target maximum recognizable likeness: describe their actual face shape, hair, build, age band, and signature outfit as the identity tokens. Do not invent a "legally distinct" redesign.
+- Treat the likeness exactly like fictional-cast continuity: same tokens on the character sheet and on every page.
+- Dialogue written for a real person follows the claim ledger like any other copy: invented lines are a normal teaching device, but they must not upgrade a claim's status or present speculation as that person's verified statement.
+- The Images API may refuse or distort a real-person likeness. Record that as a render risk and keep one stylized fallback descriptor per person in the character bible so a refused render can be retried without redesigning the page.
+
 ## Character Reference Strategy
 
 1. Render `character_sheet` first on a neutral background with front, three-quarter, and expression views.
