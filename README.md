@@ -149,7 +149,8 @@ infographic-toon/
 │   ├── init_infographic_run.sh     # 런 초기화
 │   ├── verify_infographic_run.sh   # 런 검증
 │   └── render_openai.py            # OpenAI 이미지 렌더링
-├── templates/           # 각 단계별 마크다운 템플릿 (11종)
+├── templates/           # 각 단계별 마크다운 템플릿 + 캐릭터 프로필 템플릿
+├── cast/                # 재사용 캐릭터 프로필 (git 무시, README/EXAMPLE만 추적)
 ├── _workspace/          # 실제 작업물 (git 무시)
 ├── reports/             # 소스 리포트 (인포툰 제작 전 단계)
 ├── CLAUDE.md            # AI 에이전트 지시사항

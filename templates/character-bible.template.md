@@ -1,5 +1,12 @@
 # Character Bible
 
+## Cast Source
+<!-- Reused from the private cast library? Record the profile ids. Format: references/cast-library-format.md -->
+- Cast library profiles used (`cast/<id>.character.yaml`): none
+- Ensemble used (`cast/<id>.ensemble.yaml`): none
+- New characters designed in this run:
+- Reference images to pass via `--reference`:
+
 ## Cast Lock
 
 ### Explainer

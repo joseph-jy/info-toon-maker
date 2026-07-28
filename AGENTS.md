@@ -52,6 +52,17 @@
   - `05_renders/thumbnail.png` (landscape catalog cover for the series list page)
   - `05_renders/page-01.png` through `page-08.png`
 
+## Private Cast Library
+- Reusable character profiles live in `cast/` as YAML, one file per character: `cast/<id>.character.yaml`. Casting combos live in `cast/<id>.ensemble.yaml`, reference images in `cast/images/`.
+- `cast/` is gitignored except `cast/README.md` and `cast/EXAMPLE.character.yaml`. Treat its contents as private: never paste profile content into tracked files, commit messages, or external services.
+- Field definitions: `references/cast-library-format.md`. Blank template: `templates/cast-profile.template.yaml`.
+- Before inventing characters for an `adult-learning-comic` run, list `cast/` and select from the available profiles. Match on the topic against `usage.good_topics`, `profile.expertise`, `profile.blind_spots`, and `default_role`/`alt_roles`; an `*.ensemble.yaml` that fits takes precedence over assembling a cast by hand.
+- Selection is a proposal, not a silent decision. State which profiles were chosen and why in one line before writing `character-bible.md`, so the user can override the casting.
+- When a profile is used, copy its `identity_tokens` and `voice` verbatim into `02_storyboard/character-bible.md`. Adapt only what the topic requires (which claims that character introduces, which misconception they voice); never mutate identity tokens inside a run.
+- Fallback is automatic and silent-safe: if `cast/` is absent, empty, or holds nobody suitable, design the cast from scratch exactly as before. Never block a run or ask the user to write a profile first.
+- Partial match is normal. Reuse the profiles that fit and invent only the missing roles; a run may mix library characters with new ones.
+- After a run that introduced a new character worth reusing, offer to save it as `cast/<id>.character.yaml`. Write it only if the user agrees.
+
 ## Cross-Tool Skill Entry Point
 - The canonical report drafting, validation, and infographic-toon production workflow lives at `.claude/skills/report-to-infographic-toon/SKILL.md`.
 - Claude Code uses the canonical `.claude/skills/` path.
@@ -136,7 +147,8 @@
 - Normalize topic, adult audience, prior knowledge, desired depth, source material, and page budget in `00_input/brief.md`.
 - Build a claim ledger in `01_research/research-summary.md`; mark unsupported or unstable claims `needs verification`.
 - Fill `02_storyboard/learning-design.md` before drawing the page storyboard. It must define learning objectives, misconception ladder, explanation spine, page-level knowledge-state changes, and a final retrieval/transfer check.
-- Fill `02_storyboard/character-bible.md` with stable visual identity tokens and speaking roles.
+- Check `cast/` for reusable character profiles before designing the cast; reuse a matching profile instead of inventing a new character.
+- Fill `02_storyboard/character-bible.md` with stable visual identity tokens and speaking roles. When a `cast/` profile is used, copy its `identity_tokens` and `voice` verbatim and record the source profile id.
 - Write a 2-8 page series map in `02_storyboard/storyboard.md` and the series-wide page grammar in `02_storyboard/layout-bible.md`.
 - Produce `03_prompts/series-prompts.md` with:
   - one shared prompt policy

@@ -42,6 +42,8 @@ description: "긴 문서나 설명 주제를 인포그래픽 포스터, 세로 �
 - 3-6페이지를 기본으로 하고, 좁은 micro lesson은 2페이지까지 허용하며, 최대 8페이지까지 확장한다. 페이지당 4-6개 panel.
 - 각 페이지는 learning objective와 knowledge state before/after를 하나씩 가진다.
 - 캐릭터 역할은 설명자, 학습자, 선택형 반론자/마스코트로 고정한다.
+- 캐릭터를 새로 만들기 전에 `cast/`의 재사용 프로필(`*.character.yaml`, `*.ensemble.yaml`)을 먼저 확인한다. 주제 대비 `usage.good_topics`, `expertise`, `blind_spots`, 역할로 캐스팅을 고르고, 고른 이유를 한 줄로 밝힌 뒤 `identity_tokens`와 `voice`를 그대로 `character-bible.md`로 옮기고 출처 프로필 id를 적는다. 포맷은 `references/cast-library-format.md`.
+- 폴백: `cast/`가 없거나 비어 있거나 맞는 인물이 없으면 평소대로 새로 설계한다. 일부만 맞으면 맞는 인물만 재사용하고 빈 역할만 새로 만든다. 프로필 작성을 요구하며 런을 멈추지 않는다.
 - 기본 6페이지 arc: 통념 -> 빠진 모델 -> 핵심 reveal -> 작동 원리 -> 적용과 한계 -> 재정의와 회상 질문.
 - `dialogue-baked`를 기본으로 하되 exact-copy whitelist를 페이지별로 작성한다.
 

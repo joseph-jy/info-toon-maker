@@ -1,0 +1,99 @@
+# Cast Profile Template
+# 복사 위치: cast/<id>.character.yaml   (cast/ 는 gitignore 대상)
+# 포맷 정의: references/cast-library-format.md
+# 키 이름은 그대로 두고 값만 채운다. 값은 한국어로 써도 된다.
+# 쓰지 않는 선택 항목은 지우거나 빈 값으로 둔다.
+
+schema_version: 1
+
+# --- Header (필수) ---
+id: ""                      # 파일명과 동일한 kebab-case 식별자
+name: ""                    # 만화에 표기될 이름
+name_en: ""                 # 선택. 라틴 문자 표기가 필요할 때
+one_liner: ""               # 한 줄 정의
+real_person: false          # 실존 인물이면 true (likeness 블록 필수)
+default_role: explainer     # explainer | learner | challenger | mascot
+alt_roles: []               # 선택. 소화 가능한 다른 역할
+status: active              # active | draft | retired
+
+# --- Profile (필수) ---
+profile:
+  age_band: ""              # 성인 연령대. 아동 코드 금지
+  occupation: ""
+  expertise: []
+  blind_spots: []           # 선택. learner/challenger 배치 근거
+  personality: []           # 선택. 키워드 3-5개
+  background: ""            # 선택. 2-3문장
+
+# --- Identity Tokens (필수) ---
+# 모든 페이지 프롬프트에 그대로 반복될 불변 시각 토큰.
+identity_tokens:
+  face: ""
+  hair: ""
+  build: ""
+  outfit: ""
+  accessory: ""             # 선택
+  signature_colors: []      # 1-3개. hex 또는 색 이름
+  height_note: ""           # 선택. 다른 캐스트 대비 상대 키
+  prohibited_drift: []      # 선택. 절대 변하면 안 되는 것
+
+# --- Voice (필수) ---
+voice:
+  speech_level: ""          # 존댓말 | 반말 | 혼합
+  tone: ""
+  catchphrases: []          # 말버릇. 예: "가령 ~ 이라고 해보죠"
+  verbal_tics: []           # 선택
+  vocabulary: ""            # 선택
+  sentence_length: ""       # 선택. 짧게 | 보통 | 길게
+  bubble_style: ""          # 선택. 말풍선 모양 규칙
+  sample_lines:             # 최소 2개
+    - context: ""
+      line: ""
+    - context: ""
+      line: ""
+  avoid: []                 # 선택. 이 인물이 쓰지 않는 말투
+
+# --- Teaching (필수) ---
+teaching:
+  speaking_function: ""     # 시리즈 안에서의 발화 기능
+  question_style: ""        # 선택. learner일 때
+  typical_misconceptions: []# 선택
+  explanation_devices: []   # 선택. 비유, 화이트보드, 수식 등
+
+# --- Reference Images (선택) ---
+# 경로는 cast/ 기준 상대경로. 렌더 시 --reference 로 넘길 수 있다.
+reference_images: []
+#  - path: images/<id>-01.png
+#    use: identity          # identity | outfit | pose | expression
+#    note: ""
+
+# --- Likeness (real_person: true 일 때만 필수) ---
+# likeness:
+#   target: maximum recognizable likeness
+#   face_tokens: ""
+#   hair_tokens: ""
+#   signature_outfit: ""
+#   age_band_as_of: ""
+#   stylized_fallback: ""   # 렌더 API 거절 시 대체 묘사
+#   claim_guard: ""         # 이 인물 입에 넣어도 되는 발화 범위
+
+# --- Render Notes (선택) ---
+render_notes:
+  moderation_risk: low      # low | medium | high
+  known_failures: []
+  retry_hint: ""
+
+# --- Relationships / Usage / Notes (선택) ---
+relationships: []
+#  - with: <other-id>
+#    dynamic: ""
+
+usage:
+  good_topics: []
+  avoid_topics: []
+  appeared_in: []
+#    - slug: ""
+#      date: YYYY-MM-DD
+#      role: explainer
+
+notes: ""

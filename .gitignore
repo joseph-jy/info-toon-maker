@@ -9,6 +9,11 @@ _workspace/
 # Source reports (user-generated content, not repo source)
 reports/
 
+# Private cast library (personal character profiles; docs + example only are tracked)
+cast/*
+!cast/README.md
+!cast/EXAMPLE.character.yaml
+
 # Local Claude Code settings (machine-specific permissions)
 .claude/settings.local.json
 

@@ -91,7 +91,7 @@ Optional:
    - risk/dilemma block
    - geopolitical escalation block
    - strategic close or checklist
-6. For `adult-learning-comic`, keep the whole series in one run. Fill `learning-design.md` and `character-bible.md` before page prompts.
+6. For `adult-learning-comic`, keep the whole series in one run. Check `cast/` for reusable character profiles first (format: `references/cast-library-format.md`), then fill `learning-design.md` and `character-bible.md` before page prompts.
 7. The learning-series default arc is surface belief -> missing model -> reveal -> mechanism -> transfer/limits -> reframe/recall.
 
 ### Phase 4: Prompt Pack
