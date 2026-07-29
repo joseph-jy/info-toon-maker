@@ -98,7 +98,7 @@
 
 ## Adult Learning Comic Grammar
 - Use `adult-learning-comic` when the user asks for a character-led educational comic, an explainer series, or a sequence like the LLM learning-comic reference.
-- Default to 3-6 pages, allow 2 pages for deliberately narrow micro-lessons, and cap at 8 pages. Each page is one portrait image with a title bar, 4-6 comic/diagram panels, and a short recap or forward hook.
+- Default to 3-6 pages, allow 2 pages for deliberately narrow micro-lessons, and cap at 8 pages. Each page is one portrait image with a title bar, 4-6 comic/diagram/material panels, and a short recap or forward hook.
 - The series must change the reader's knowledge state, not merely decorate facts. Use this default arc unless the topic requires another:
   1. surface belief or plausible misconception
   2. contrasting model or missing concept
@@ -111,9 +111,11 @@
   - learner: voices a competent adult's plausible questions
   - optional second learner: tests transfer or raises objections
   - optional mascot: carries transitions and summaries, never replaces the explanation
+- Carry explanation on four channels, not on dialogue alone: character speech, third-person narration boxes, in-world reference material (documents, screens, memos, mini tables), and diagram labels. When content resists a speech bubble, move it to narration or material instead of stretching the bubble.
+- Narration is a faceless third-person voice for context, numbers, timeframes, transitions, and source cues. It never delivers the page's core reveal or mechanism, and it keeps a claim's attribution intact; a claim marked `needs verification` never appears in narration.
 - Lock face shape, hair, outfit, age band, color tokens, and role before page prompts are written. Render `character-sheet` first and use it as a high-fidelity reference for all page renders.
 - Avoid school uniforms, child-coded proportions, chibi rendering, juvenile slang, fan-service, and empty reaction panels. The tone may be friendly and anime/webtoon-inspired while remaining professional and technically serious.
-- Every page must declare one learning objective, the reader's knowledge state before/after, one central visual model, and an exact-copy budget.
+- Every page must declare one learning objective, the reader's knowledge state before/after, one central visual model, and an exact-copy budget per text channel.
 
 ## Baked Text Rules
 - Safe baked text:
@@ -129,10 +131,21 @@
   - multi-line checklist items
 - If a block depends on exact Korean readability, mark it in `layout-bible.md` and keep the prompt visually suggestive instead of text-heavy.
 - `adult-learning-comic` may use `dialogue-baked` mode:
-  - exact page title, panel labels, diagram labels, formulas, and short/medium speech bubbles may be baked
-  - prefer 1-2 bubbles per panel and one idea per bubble
+  - exact page title, panel labels, diagram labels, formulas, speech bubbles, narration boxes, and reference-material text may be baked
+  - default explanation density is `extended`: about 450 Korean characters of baked copy per page, hard cap 500. `standard` is about 300 and is the fallback when legibility keeps failing.
+  - prefer 1-3 bubbles per panel of 10-40 Korean characters, one idea per bubble
+  - narration boxes: 2-3 per page, at most 1 per panel, 25-60 Korean characters each, rectangular and tail-less
+  - reference-material inserts: 1-2 per page, drawn as an object in the scene, list-shaped and short (title line plus 3-5 items of up to 20 characters, or a 2x3 mini table)
+  - spend added density on narration and material, not on longer bubbles; sized caption boxes survive rendering better than crowded bubbles
   - keep paragraph prose, citations, and source notes out of illustrated panels; reserve a simple footer box
-  - copy every exact string into the page prompt and prohibit extra text
+  - copy every exact string into the page prompt grouped by channel, record the page character total, and prohibit extra text
+  - full per-channel numbers live in `references/adult-learning-comic-image-rules.md`
+- `vertical-webtoon-page` uses the same four text channels and the same density knob:
+  - channels are speech bubbles, third-person narration boxes, in-world reference material (documents, screens, memos, mini tables), and short labels
+  - default explanation density is `extended`: about 450 Korean characters per page, hard cap 500; `standard` is about 300
+  - prefer 1-2 bubbles per panel of 10-40 Korean characters, 2-4 narration boxes per page (at most 1 per panel, 25-60 characters each), and 1-2 reference-material inserts per page
+  - the narration and claim-attribution rules above apply identically: narration never carries the core reveal, keeps attribution, and excludes unverified claims
+  - full per-channel numbers live in `references/webtoon-page-image-rules.md`
 
 ## Workflow
 ### When Starting A New Infographic

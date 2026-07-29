@@ -10,7 +10,8 @@ SERIES INVARIANTS
 - each page has one learning objective and changes one clearly stated reader knowledge state
 - each panel performs one teaching action: question, contrast, reveal, mechanism, evidence, limitation, application, recap, or retrieval
 - use one dominant explanatory visual model per page; diagrams must support the dialogue rather than decorate it
-- use a top title strip, 4-6 varied comic/diagram panels, stable white gutters, and a narrow recap or forward-hook footer
+- carry explanation on four channels: character speech bubbles, third-person narration boxes, in-world reference material, and diagram labels
+- use a top title strip, 4-6 varied comic/diagram/material panels, stable white gutters, and a narrow recap or forward-hook footer
 - keep the series friendly and visually inviting without becoming childish, chibi, school-life, fan-service, or a cute productivity infographic
 
 CHARACTER SHEET REFERENCE RULE
@@ -25,11 +26,20 @@ PHOTO IDENTITY REFERENCE RULE
 - if the photograph shows a different outfit than the character bible specifies, the character bible wins
 - ignore any text, logo, badge, or watermark present in the photograph
 
+NARRATION AND REFERENCE MATERIAL RULE
+- narration boxes are rectangular, tail-less caption boxes with a flat fill and a thin border, pinned to a panel's top or bottom edge
+- a narration box is a third-person voice with no speaker: never give it a bubble tail, a pointer, or a character's name
+- at most one narration box per panel; never place one over a face, a hand, or a diagram label
+- reference material is drawn as an object inside the scene: a paper document with visible edges, a screen inside a device bezel, a pinned memo, a whiteboard, or a small bordered table
+- material text stays list-shaped and short; never render a full paragraph inside a material insert
+- a character may hold, point at, or read the material, and their eye line should connect to it
+
 TEXT CONTRACT
 - render only the exact Korean/Latin strings explicitly whitelisted in the slot-specific prompt
 - do not add, paraphrase, translate, misspell, duplicate, or invent text
-- keep all text horizontal, high contrast, and inside generous bubbles or diagram labels
-- prioritize page title, speech bubbles, formula symbols, and diagram labels in that order
+- keep all text horizontal, high contrast, and inside generous bubbles, caption boxes, material frames, or diagram labels
+- prioritize page title, speech bubbles, narration boxes, formula symbols, diagram labels, and material text in that order
+- keep every bubble and caption box larger than its text needs; shrink the text block before shrinking its container
 - never fill empty space with pseudo-text
 
 OUTPUT
@@ -40,11 +50,15 @@ OUTPUT
 
 ## Shared Negative Prompt
 ```text
-no watermark, no random text, no gibberish Korean, no misspelled technical terms, no duplicated speech bubbles, no duplicated characters, no identity drift, no age drift, no wardrobe drift, no role swap, no school uniforms, no child-coded body proportions, no chibi, no fan-service, no photorealistic portrait, no uniform dashboard grid, no slide deck, no startup infographic, no unreadable formula, no cropped title, no overlapping text, no extra fingers, no broken hands
+no watermark, no random text, no gibberish Korean, no misspelled technical terms, no duplicated speech bubbles, no duplicated characters, no identity drift, no age drift, no wardrobe drift, no role swap, no school uniforms, no child-coded body proportions, no chibi, no fan-service, no photorealistic portrait, no uniform dashboard grid, no slide deck, no startup infographic, no unreadable formula, no cropped title, no overlapping text, no extra fingers, no broken hands, no narration box with a bubble tail, no narration box over a face or diagram label, no floating body text without a container, no paragraph inside a material insert, no text-choked panel, no shrunken unreadable caption text
 ```
 
 ## Page Slot Policy
 - Keep only the actual `page_XX` sections for this run.
+- Every `page_XX` whitelist is grouped by channel: title, bubbles, narration, material, diagram labels, footer.
+- Default explanation density is `extended`: about 450 Korean characters per page, hard cap 500. Record the counted total in
+  `- page character total:` and drop a narration box or move material text to the footer when a page exceeds the cap.
+- Under `standard` density, use 1-2 bubbles per panel, 0-1 narration boxes, and at most one material insert.
 - Minimum: `page_01` and `page_02`.
 - Default: add `page_03` through `page_06` as needed.
 - Maximum: `page_08`.
@@ -74,7 +88,7 @@ Replace this block with the final thumbnail prompt. One simple landscape cover i
 ```
 - negative:
 ```text
-no comic panels, no panel borders, no speech bubbles, no long sentences, no paragraph text, no dense diagram, no page title bar, no footer, no watermark, no identity drift
+no comic panels, no panel borders, no speech bubbles, no narration box, no caption box, no document or screen insert, no long sentences, no paragraph text, no dense diagram, no page title bar, no footer, no watermark, no identity drift
 ```
 
 ### page_01
@@ -82,15 +96,19 @@ no comic panels, no panel borders, no speech bubbles, no long sentences, no para
 - knowledge state before:
 - knowledge state after:
 - central visual model:
+- explanation density:
 - exact baked copy:
+- narration copy:
+- material copy:
+- page character total:
 - character reminder:
 - prompt:
 ```text
-Replace this block with the complete page 01 prompt. Specify title, 4-6 panel geometry, panel-by-panel teaching action, speakers, expressions, diagrams, every exact string, footer, and transition to page 02.
+Replace this block with the complete page 01 prompt. Specify title, 4-6 panel geometry, panel-by-panel teaching action, speakers, expressions, diagrams, reference-material inserts and what object carries them, narration-box placement per panel, every exact string grouped by channel, footer, and transition to page 02.
 ```
 - negative:
 ```text
-no extra text, no identity drift, no panel that does not advance the learning objective
+no extra text, no identity drift, no panel that does not advance the learning objective, no narration that states the core reveal in place of the cast and diagram
 ```
 
 ### page_02
@@ -98,7 +116,11 @@ no extra text, no identity drift, no panel that does not advance the learning ob
 - knowledge state before:
 - knowledge state after:
 - central visual model:
+- explanation density:
 - exact baked copy:
+- narration copy:
+- material copy:
+- page character total:
 - character reminder:
 - prompt:
 ```text
@@ -106,5 +128,5 @@ Replace this block with the complete page 02 prompt.
 ```
 - negative:
 ```text
-no extra text, no identity drift, no panel that does not advance the learning objective
+no extra text, no identity drift, no panel that does not advance the learning objective, no narration that states the core reveal in place of the cast and diagram
 ```

@@ -10,7 +10,10 @@ developer_instructions = """
 - baked-text policy is recorded and respected
 - no fake asset claims
 - adult-learning-comic page count matches learning design
-- each page declares objective, knowledge before/after, visual model, and exact-copy whitelist
+- each page declares objective, knowledge before/after, visual model, explanation density, and a channel-grouped exact-copy whitelist
+- for `vertical-webtoon-page` and `adult-learning-comic`, explanation density is declared and the page baked-copy total stays inside that budget
+- narration boxes are third-person and tail-less, carry only context/numbers/timeframe/transition/source cues, keep claim attribution, and exclude `needs verification` claims
+- reference-material inserts are drawn as objects in the scene and stay list-shaped
 - opening misconception is resolved by final reframe and retrieval/transfer check
 - character sheet exists before page renders and identity/role continuity is reviewed
 - formulas and claims match the claim ledger

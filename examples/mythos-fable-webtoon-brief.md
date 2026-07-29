@@ -29,7 +29,8 @@
 ## Constraints
 - Vertical page aspect, single page.
 - Korean primary copy.
-- Long policy quotes and multi-line rationales stay outside baked text; only short labels, panel numbers, PAGE header, and 1 short speech bubble per panel are safe.
+- Long policy quotes and multi-line rationales stay outside baked text. Safe baked copy is short labels, panel numbers, the PAGE header, 1-2 short speech bubbles per panel, 2-4 third-person narration caption boxes across the page, and one in-world document or screen insert.
+- Explanation density: `extended` (about 450 Korean characters for the page).
 
 ## Source Material
 - See the long-form Mythos 5 / Fable 5 export-control briefing provided by the user (four-part summary: national-security logic, Anthropic pushback, community analysis, sovereign-AI rise).

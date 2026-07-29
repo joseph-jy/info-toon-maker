@@ -33,6 +33,9 @@ description: "긴 문서나 설명 주제를 인포그래픽 포스터, 세로 �
 - 컷마다 하나의 논리 beat만 담당
 - 밝은 UI/화이트보드 컷과 어두운 시네마틱 시스템 컷을 교차
 - footer에는 주석, 경고, 다음 페이지 훅 중 하나만 배치
+- 설명은 네 채널로 나눈다: 말풍선, 제3자 나레이션 캡션 박스, 작품 내 자료 인서트(문서/화면/메모/미니 표), 짧은 라벨. 페이지당 나레이션 박스 2-4개(패널당 최대 1개, 개당 25-60자), 자료 인서트 1-2개가 기준이다.
+- explanation density를 `standard`(페이지당 약 300자)와 `extended`(약 450자, 하드캡 500자) 중에서 고르고 `layout-bible.md`에 적는다. 기본은 `extended`이며, 늘어난 분량은 나레이션과 자료 인서트에 배정한다.
+- 나레이션은 맥락, 수치, 시점, 전환, 출처 단서를 담고 핵심 reveal은 담지 않는다. 그림을 지워도 나레이션만으로 논지가 성립하면 인포툰이 아니라 캡션 붙은 삽화다. 출처 표시가 필요한 주장은 나레이션 안에서도 attribution을 유지하고, 미검증 주장은 나레이션에 넣지 않는다.
 
 ### Mode C: Adult Learning Comic
 사용자가 특정 주제를 성인용 캐릭터 학습만화로 가르쳐 달라고 할 때 사용한다.
@@ -45,7 +48,10 @@ description: "긴 문서나 설명 주제를 인포그래픽 포스터, 세로 �
 - 캐릭터를 새로 만들기 전에 `cast/`의 재사용 프로필(`*.character.yaml`, `*.ensemble.yaml`)을 먼저 확인한다. 주제 대비 `usage.good_topics`, `expertise`, `blind_spots`, 역할로 캐스팅을 고르고, 고른 이유를 한 줄로 밝힌 뒤 `identity_tokens`와 `voice`를 그대로 `character-bible.md`로 옮기고 출처 프로필 id를 적는다. 포맷은 `references/cast-library-format.md`.
 - 폴백: `cast/`가 없거나 비어 있거나 맞는 인물이 없으면 평소대로 새로 설계한다. 일부만 맞으면 맞는 인물만 재사용하고 빈 역할만 새로 만든다. 프로필 작성을 요구하며 런을 멈추지 않는다.
 - 기본 6페이지 arc: 통념 -> 빠진 모델 -> 핵심 reveal -> 작동 원리 -> 적용과 한계 -> 재정의와 회상 질문.
-- `dialogue-baked`를 기본으로 하되 exact-copy whitelist를 페이지별로 작성한다.
+- `dialogue-baked`를 기본으로 하되 exact-copy whitelist를 페이지별로, 채널별로 묶어 작성한다.
+- 설명은 캐릭터 대사만으로 싣지 않는다. 말풍선, 제3자 나레이션 박스, 작품 내 자료 인서트(문서/화면/메모/미니 표), 다이어그램 라벨 네 채널로 나눈다. 페이지당 나레이션 박스 2-3개(패널당 최대 1개, 개당 25-60자), 자료 인서트 1-2개가 기준이다.
+- explanation density를 `standard`(페이지당 약 300자)와 `extended`(약 450자, 하드캡 500자) 중에서 고르고 `layout-bible.md`에 적는다. 기본은 `extended`이며, 늘어난 분량은 나레이션과 자료 인서트에 배정한다.
+- 나레이션은 맥락, 수치, 시점, 전환, 출처 단서를 담고 핵심 reveal과 메커니즘은 담지 않는다. 출처 표시가 필요한 클레임은 나레이션 안에서도 attribution을 유지하고, `needs verification` 클레임은 나레이션에 넣지 않는다.
 
 ## Storyboard Rules
 
@@ -83,10 +89,14 @@ Adult Learning Comic은 페이지 수부터 정하지 않는다. `learning-desig
 - deck
 - short label
 - badge or stamp
+- narration box (제3자 서술, 화자 없음)
+- reference material text (문서/화면/메모/미니 표 안의 텍스트)
 - sidebar bullets
 - table
 - checklist
 - closing line
+
+각 조각마다 "누가 말하는가"를 먼저 정한다. 캐릭터가 말할 이유가 없는 정보(배경, 수치, 시점, 출처, 전환)는 말풍선에 억지로 넣지 말고 나레이션 박스나 자료 인서트로 보낸다.
 
 긴 문단은 그대로 두지 말고, 어디까지 이미지에 베이크할지와 어디부터 **이미지 밖에서 별도 처리할 텍스트**인지 구분한다.
 
@@ -117,7 +127,9 @@ Vertical Webtoon Page에서는 각 panel이 독립 카드처럼 보이면 안 �
 각 panel에는 필요한 경우 다음 항목을 둔다.
 - cast continuity: 반복 등장 인물, 표정, 의상, 위치
 - camera/framing: wide lab shot, close-up reaction, UI insert, system diagram
-- caption placement: left caption box, speech bubble, lower-right conclusion box
+- copy channel: 말풍선 / 나레이션 캡션 박스 / 자료 인서트 / 라벨 중 무엇으로 실을지
+- caption placement: 좌측 또는 좌하단 나레이션 박스(꼬리 없음), 말풍선, 우하단 결론 박스
+- material insert: 어떤 사물(문서, 기기 화면, 메모, 화이트보드, 미니 표)이 텍스트를 담는지와 누가 그것을 보는지
 - transition note: 다음 panel로 넘어가는 이유
 
 ### 5. Use Comparative Shapes
@@ -140,20 +152,23 @@ Vertical Webtoon Page에서는 각 panel이 독립 카드처럼 보이면 안 �
 
 기본값은 `text-conservative`.
 
-Vertical Webtoon Page에서 안전한 baked text:
+Vertical Webtoon Page에서 안전한 baked text (`extended` 기준, 페이지 총량 약 450자·하드캡 500자):
 - `PAGE 1`
-- 큰 제목
+- 큰 제목과 1문장 thesis
 - panel 번호
 - 1-6단어 라벨
-- 아주 짧은 말풍선 1개
+- 말풍선: 패널당 1-2개, 개당 10-40자
+- 나레이션 캡션 박스: 페이지당 2-4개, 패널당 최대 1개, 개당 25-60자
+- 자료 인서트: 페이지당 1-2개, 제목 1줄 + 20자 이내 항목 3-5개 또는 2열 x 3행 미니 표
 - 스탬프 또는 경고 배지
+- footer note: 2문장·약 80자까지
 
 Vertical Webtoon Page에서 위험한 baked text:
-- 좌측 설명 박스의 긴 한국어 문단
+- 나레이션 박스에 넣은 긴 한국어 문단
 - 정확한 정책 문구
 - 긴 시스템 프롬프트
-- 여러 줄 비교표
-- footnote
+- 2열 x 3행을 넘는 비교표
+- footnote 문단
 
 ## Layout Bible Rules
 
@@ -172,12 +187,19 @@ Vertical Webtoon Page에서 위험한 baked text:
 - `## Safe Baked Text`
 - `## High-Risk Blocks`
 
+`adult-learning-comic`에서는 추가로 다음을 기록한다.
+- `## Baked Copy Budget` (explanation density, 페이지 총량, 채널별 상한)
+- `## Narration And Material Channel` (나레이션 박스 스타일과 허용/금지 내용, 자료 인서트를 담는 사물)
+
 Vertical Webtoon Page에서는 추가로 다음을 기록한다.
 - page aspect ratio and panel count
 - title bar treatment
 - panel gutter and border style
 - numbered corner tag style
-- caption and speech bubble placement
+- narration box, caption, and speech bubble placement
+- reference-material insert style and which object carries it
+- explanation density와 페이지 총 글자 예산 (`## Baked Copy Budget`)
+- narration 허용/금지 내용과 attribution 처리 (`## Narration And Material Channel`)
 - character continuity rules
 - light UI panel vs dark cinematic panel ratio
 
@@ -193,6 +215,10 @@ Vertical Webtoon Page에서는 추가로 다음을 기록한다.
 - 성인 학습자를 무지하거나 유치한 인물로 만들지 말 것
 - 캐릭터 반응만 있고 개념 전환이 없는 페이지를 만들지 말 것
 - 설명자가 결론만 선언하고 근거, 메커니즘, 한계를 생략하지 말 것
+- 설명 부담을 나레이션 박스로 떠넘기지 말 것. 그림을 지워도 나레이션만으로 내용이 성립하면 만화가 아니라 캡션 붙은 삽화다
+- 나레이션 박스를 캐릭터 대사처럼 쓰거나 말풍선 꼬리를 붙이지 말 것
+- 출처가 필요한 주장을 화자 없는 나레이션으로 확정 사실처럼 서술하지 말 것
+- 자료 인서트를 화면 위에 떠 있는 본문 텍스트 덩어리로 만들지 말 것. 장면 안의 사물로 그릴 것
 - 마지막 페이지가 첫 페이지의 오개념을 명시적으로 해결하지 않은 채 끝나지 말 것
 
 ## Quality Check
@@ -202,5 +228,7 @@ Vertical Webtoon Page에서는 추가로 다음을 기록한다.
 - Hero, comparison, risk, closing이 페이지에서 식별되는가
 - PAGE 헤더, panel 번호, 컷 전환, footer/hook이 식별되는가
 - baked-text 허용 영역과 비허용 영역이 구분되었는가
+- 학습만화나 세로 웹툰이라면 explanation density가 선언되고 페이지 총량이 예산 안에 있는가
+- 각 카피 조각의 채널(말풍선 / 나레이션 / 자료 인서트 / 라벨)이 정해졌는가
 - prompt writer가 바로 사용할 수 있을 만큼 visual intent가 구체적인가
 - dark card / light paper card / warning stamp의 대비가 구조적으로 배치되었는가

@@ -7,6 +7,7 @@ Use these rules for `adult-learning-comic`: a 4-8 page portrait comic that teach
 - Start from a competent adult's plausible misconception, not artificial ignorance.
 - Give each page exactly one learning objective and one knowledge-state transition.
 - Separate definition, mechanism, evidence, limitation, and application. Do not compress all five into one panel.
+- Explanation is carried by four channels, not by dialogue alone: character speech, third-person narration boxes, in-world reference material, and diagram labels. Pick the channel that fits the content instead of stretching a speech bubble.
 - End the series with both:
   - a one-sentence reframe the reader can remember
   - a retrieval or transfer question that can reveal whether they understood
@@ -29,6 +30,7 @@ Use 4, 5, 7, or 8 pages only when the learning design justifies the change.
 - `learner`: a competent peer who voices likely reader questions and summarizes in their own words.
 - `challenger` (optional): raises edge cases, competing explanations, or transfer questions.
 - `mascot` (optional): handles page transitions and brief recaps. It does not deliver unsupported claims.
+- `narrator` (not a drawn character): the third-person voice inside narration boxes. It supplies context, setup, numbers, timeframes, source cues, and transitions. It never becomes a speaker with a face, a bubble, or a name.
 
 Record immutable identity tokens in `character-bible.md`: age band, face shape, hair silhouette, outfit silhouette, two signature colors, accessory, height relationship, and speaking role. Repeat those tokens in every page prompt.
 
@@ -61,11 +63,13 @@ Output is private and non-commercial, so real people may fill any cast role.
 - portrait 3:4 page, normally `1536x2048`
 - top title strip with `N 페이지` and one literal Korean headline
 - 4-6 panels with clean black borders and stable white gutters
-- mix three panel types:
+- mix four panel types:
   - character dialogue or reaction
   - large visual explanation or comparison
   - diagram, formula, or decision rule
+  - reference material panel: an in-world document, screen, memo, log, or mini table that the cast reads or points at
 - use one dominant teaching diagram per page
+- place narration boxes as rectangular tail-less caption boxes pinned to a panel's top or bottom edge, at most one per panel, never floating over a face or a diagram label
 - use eye lines and pointing gestures to connect characters to diagrams
 - reserve the bottom strip for a recap, limitation, source cue, or next-page hook
 
@@ -82,17 +86,38 @@ Avoid a uniform dashboard grid. Panel sizes should follow the explanation: a mec
 
 ## Dialogue-Baked Text Contract
 
-`dialogue-baked` is the default for this track.
+`dialogue-baked` is the default for this track, and `extended` is the default explanation density.
+
+### Explanation Density
+
+- `standard`: about 300 Korean characters of baked copy per page. Use for simple topics or when a render keeps failing legibility.
+- `extended` (default): about 450 Korean characters per page, hard cap 500. Spend the extra budget on narration boxes and reference material, not on longer speech bubbles.
+
+Record the selected density in `layout-bible.md`. Count the page total before writing the prompt; a page over the hard cap loses a narration box or moves material text to the footer.
+
+### Per-Channel Budget (`extended`)
 
 - exact page title: one line
 - panel labels: 1-8 words
-- speech bubbles: usually 1-2 per panel, one idea per bubble, preferably 10-32 Korean characters
+- speech bubbles: 1-3 per panel, one idea per bubble, preferably 10-40 Korean characters
+- narration boxes: 2-3 per page, at most 1 per panel, 25-60 Korean characters each, 1-2 lines
+- reference material inserts: 1-2 per page, each either one title line plus 3-5 items of up to 20 Korean characters, or a mini table of 2 columns by up to 3 rows
 - diagram labels: short noun phrases
 - equations: one central equation or transformation per panel
-- footer recap: one or two short sentences
+- footer recap: up to two sentences, about 80 Korean characters
 - source note: short citation key only; keep full bibliographic text outside the illustrated panels when possible
 
-The page prompt must list every allowed string verbatim and state: `Render only these strings. Do not add, paraphrase, translate, or duplicate text.`
+Under `standard`, drop to 1-2 bubbles per panel of 10-32 characters, 0-1 narration boxes per page, and at most one reference material insert.
+
+### Channel Rules
+
+- Narration is a third-person voice, not a character's line. It carries context, setup, numbers, timeframes, transitions, and source cues.
+- Narration never carries the page's core reveal or its mechanism. Those belong to the cast and the dominant diagram. A page whose explanation would still work with the art removed is a captioned illustration, not a teaching comic.
+- Narration inherits claim status. `party-claim`, `analysis`, and `speculation` keep their attribution inside the narration box; a claim marked `needs verification` never appears in narration at all, because a faceless voice reads as settled fact.
+- Reference material must look like an object in the scene, with a frame, a device bezel, or paper edges. Floating body text is not a material insert.
+- Keep material text short and list-shaped. Full paragraphs stay out of the image.
+
+The page prompt must list every allowed string verbatim, grouped by channel (title, bubbles, narration, material, diagram labels, footer), and state: `Render only these strings. Do not add, paraphrase, translate, or duplicate text.`
 
 ## Prompt Stack
 
@@ -103,7 +128,7 @@ Every page render combines these layers in this order:
 3. character identity lock and role lock
 4. shared adult educational comic style system
 5. page layout and panel-by-panel teaching beats
-6. exact baked-copy whitelist
+6. exact baked-copy whitelist grouped by channel, plus the page character total and selected density
 7. continuity reminder
 8. output requirements and negative constraints
 
@@ -113,6 +138,9 @@ Every page render combines these layers in this order:
 - pedagogical: each panel advances the page objective
 - continuity: character identity and roles match the character sheet
 - copy: every rendered string is on the whitelist and readable
+- density: the page total stays inside the selected density budget and no panel is text-choked
+- narration: narration boxes are third-person, tail-less, attribution-safe, and do not carry the core reveal
+- material: reference inserts read as objects in the scene and their text is legible at full page size
 - layout: title, panels, gutters, and footer are not cropped or overlapping
 - audience: tone respects adult readers and avoids juvenile framing
 - series: the last page actually resolves the misconception introduced on page 1
