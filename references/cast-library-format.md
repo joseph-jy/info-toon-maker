@@ -170,6 +170,9 @@ notes: 마스코트 없이 2인으로 진행. 페이지당 말풍선 4-6개.
 5. `age_band`는 모두 성인. 교복/아동 체형 묘사는 넣지 않는다.
 6. `real_person: true`인데 `likeness.stylized_fallback`이 비어 있으면 무효.
 7. `voice.sample_lines`는 최소 2개.
+8. 한 앙상블 안에서 두 인물의 구분 토큰이 2개 이하면 경고다. `age_band`, `hair`,
+   `outfit`, `signature_colors`, `build`를 대조해 확인한다. 프로필 자체는 유효하지만,
+   그 조합을 캐스팅하는 런은 "How A Run Consumes This" 5번의 오버라이드가 필요하다.
 
 ## How A Run Consumes This
 
@@ -198,19 +201,42 @@ notes: 마스코트 없이 2인으로 진행. 페이지당 말풍선 4-6개.
      묻지 않는다. 물어볼 결정이 없는데 질문을 만들어내지 않는다.
 4. 승인된 캐스팅의 `identity_tokens`를 `character-bible.md`의 Identity Tokens 절에
    **그대로** 복사한다. 런 안에서 임의로 바꾸지 않는다.
-5. `voice.catchphrases`와 `sample_lines`를 말풍선 카피 작성 기준으로 쓴다.
-6. `real_person: true`이면 `character-bible.md`의 Real-Person Casting 블록과
+   - 예외는 하나뿐이다: 아래 5번의 **닮은 캐스트 오버라이드**.
+5. 두 인물이 시각적으로 구분되는지 확인한다. 구분이 안 되면 **프로필이 아니라 런에 손댄다.**
+   `AGENTS.md`의 Private Cast Library 절이 정본이고, 여기서는 절차만 적는다.
+   - 판정: 두 인물의 `identity_tokens`를 나란히 놓고 `age_band`, `hair`, `outfit`,
+     `signature_colors`, `build`를 대조한다. 구분 토큰이 **2개 이하**면 위험하다.
+     독자는 축소된 페이지에서 인물을 알아봐야 하므로, 실루엣만으로 갈리지 않으면 화자를 오독한다.
+   - 조치: 한 인물의 **비-identity 핵심 속성**을 바꾼다. 머리색, 추가 액세서리, 상의 색은
+     저렴하다. 얼굴형, 연령대, 체형은 유사도 자체를 실어 나르므로 바꾸지 않는다.
+   - 기록: `character-bible.md`의 해당 인물 블록에 오버라이드 항목을 만든다. 지시 출처,
+     트리거 조건(공동 등장), 적용 단위(런이지 패널이 아님), 얻는 것, 잃는 것(유사도),
+     프로필을 수정하지 않았다는 사실을 적는다. 적지 않으면 나중에 유사도 감사에서
+     "프로필과 다른데 왜?"가 되고, 다른 런이 이 오버라이드를 정본으로 오해할 수 있다.
+   - 사진과 충돌할 때: `reference_images`의 사진이 바뀐 속성을 다른 값으로 보여주면
+     렌더가 사진을 상속한다. **세 곳**에 다시 적어야 한다 —
+     `series-prompts.md`의 Shared Prompt Policy 캐스트 블록,
+     같은 문서의 `PHOTO IDENTITY REFERENCE RULE`(해당 속성은 character bible이 이긴다고 명시),
+     그리고 `character_sheet` 슬롯 프롬프트. 시트 검수는 **원본 해상도로 확대해서** 한다.
+   - 팔레트 충돌 검사: 인물 식별용으로 넣은 색이 런이 의미로 예약한 색(경고 레드,
+     강조 앰버)과 겹치면 위계가 무너진다. 겹치면 분리된 값을 고르고 `layout-bible.md`의
+     Color System에 분리 규칙을 적고, 패널 배치에서 그 의미색을 해당 인물 근처에 두지 않는다.
+   - 되돌리는 조건: 그 인물만 나오는 런에서는 혼동 대상이 없으므로 프로필 원본을 쓴다.
+     실존 인물의 외형이 실제로 바뀐 경우에만 프로필을 고치며, 그건 오버라이드가 아니라
+     낡은 프로필 수정이다. 어느 쪽인지 **사용자에게 확인**하고 추측하지 않는다.
+6. `voice.catchphrases`와 `sample_lines`를 말풍선 카피 작성 기준으로 쓴다.
+7. `real_person: true`이면 `character-bible.md`의 Real-Person Casting 블록과
    `imagegen-checklist.md`의 render risk 항목을 채운다.
-7. `reference_images`가 있으면 `handoff.md`에 `--reference` 사용 지시를 적는다.
-8. `usage.appeared_in`은 **선택 사항이고 정본이 아니다.** 등장 이력의 정본은
+8. `reference_images`가 있으면 `handoff.md`에 `--reference` 사용 지시를 적는다.
+9. `usage.appeared_in`은 **선택 사항이고 정본이 아니다.** 등장 이력의 정본은
    `_workspace/*/02_storyboard/character-bible.md`의 "Cast library profiles used" 줄이며,
    `scripts/cast_usage.py`가 거기서 역산한다. 수동 필드를 정본으로 삼았을 때 한 번도
    채워지지 않아 회전 규칙이 작동하지 않았던 전례가 있다. 손으로 적고 싶으면 적어도 되지만,
    비어 있어도 결함이 아니고 회전 규칙은 스크립트 결과를 따른다.
-9. 반대로 `character-bible.md`의 "Cast library profiles used" 줄은 **반드시** 채운다.
-   이 줄이 비면 그 런은 회전 집계에서 누락되어 벤치 규칙이 조용히 무력화된다.
-   형식: `` - Cast library profiles used (`cast/<id>.character.yaml`): `<id-1>` (explainer), `<id-2>` (learner) ``
-   실제 프로필 id는 비공개다. 이 문서를 포함한 추적 파일에는 예시로도 적지 않는다.
+10. 반대로 `character-bible.md`의 "Cast library profiles used" 줄은 **반드시** 채운다.
+    이 줄이 비면 그 런은 회전 집계에서 누락되어 벤치 규칙이 조용히 무력화된다.
+    형식: `` - Cast library profiles used (`cast/<id>.character.yaml`): `<id-1>` (explainer), `<id-2>` (learner) ``
+    실제 프로필 id는 비공개다. 이 문서를 포함한 추적 파일에는 예시로도 적지 않는다.
 
 주의: `cast/` 내용은 비공개 자료다. 런 산출물(`_workspace/`, `reports/`)도
 gitignore 대상이지만, `cast/`의 원문을 커밋 대상 문서(`README.md`, 템플릿,
