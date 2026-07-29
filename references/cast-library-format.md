@@ -175,19 +175,42 @@ notes: 마스코트 없이 2인으로 진행. 페이지당 말풍선 4-6개.
 
 학습만화 런에서:
 
-1. 주제와 `usage.good_topics`, `expertise`, `blind_spots`, 역할을 대조해 여러 프로필 중에서
-   캐스팅을 고른다. 맞는 앙상블이 있으면 그것을 우선 쓴다. 고른 이유를 한 줄로 밝혀
-   사용자가 캐스팅을 바꿀 수 있게 한다.
+1. 캐스팅을 제안하기 **전에** `python scripts/cast_usage.py --eligibility`를 돌려
+   누가 벤치(쿨다운)이고 누가 콜드(0회)인지 확인한다. 회전 규칙은 `AGENTS.md`의
+   Private Cast Library 절이 정본이다: 최근 3개 라이브러리 사용 런에 나온 인물은 벤치,
+   콜드 목록이 비지 않은 동안에는 최소 1명을 콜드에서 뽑는다. 벤치 인물을 쓰려면
+   왜 대체 불가인지 제안과 `character-bible.md`에 함께 적는다.
+2. 주제와 `usage.good_topics`, `expertise`, `blind_spots`, 역할을 대조해 여러 프로필 중에서
+   캐스팅을 고른다. 맞는 앙상블이 있으면 그것을 우선 쓴다.
+   - 주제 적합도만으로 고르면 매번 같은 인물이 당선된다(argmax). 1번 단계가 그것을 막는다.
    - 맞는 인물이 없거나 `cast/`가 비어 있으면 그냥 새로 설계한다 (기본 동작).
    - 일부만 맞으면 맞는 인물만 재사용하고 나머지 역할만 새로 만든다.
    - 새로 만든 인물이 재사용할 가치가 있으면 런이 끝난 뒤 `cast/`에 저장할지 물어본다.
-2. 고른 인물의 `identity_tokens`를 `character-bible.md`의 Identity Tokens 절에
+3. 고른 이유와 회전 규칙이 벤치한 인물을 한 줄로 밝히고 **사용자 승인을 받는다.**
+   통보가 아니라 대기하는 게이트다. `character-bible.md`를 쓰기 전, 그리고 반드시
+   `character_sheet` 렌더 전에 묻는다 — 시트가 나온 뒤 캐스팅을 바꾸면 그 렌더와
+   그것을 참조한 페이지가 전부 버려진다.
+   - 반려("이번에는 다른 사람 써보자" 포함)면 남은 풀에서 **다른** 캐스팅을 제안한다.
+     반려된 인물은 그 런 안에서 다시 제안하지 않고, 새 근거를 붙여 재설득하지도 않는다.
+   - 반려는 그 런 한정이다. 영구 사용 금지가 아니고 쿨다운 집계에도 영향이 없다.
+   - 풀이 바닥나면 그 사실을 말하고 나머지 역할을 새로 설계한다. 무한 반복하지 않는다.
+   - `cast/`가 비어 있거나 맞는 인물이 아예 없어 처음부터 새로 설계하는 경우에는
+     묻지 않는다. 물어볼 결정이 없는데 질문을 만들어내지 않는다.
+4. 승인된 캐스팅의 `identity_tokens`를 `character-bible.md`의 Identity Tokens 절에
    **그대로** 복사한다. 런 안에서 임의로 바꾸지 않는다.
-3. `voice.catchphrases`와 `sample_lines`를 말풍선 카피 작성 기준으로 쓴다.
-4. `real_person: true`이면 `character-bible.md`의 Real-Person Casting 블록과
+5. `voice.catchphrases`와 `sample_lines`를 말풍선 카피 작성 기준으로 쓴다.
+6. `real_person: true`이면 `character-bible.md`의 Real-Person Casting 블록과
    `imagegen-checklist.md`의 render risk 항목을 채운다.
-5. `reference_images`가 있으면 `handoff.md`에 `--reference` 사용 지시를 적는다.
-6. 렌더가 끝나면 `usage.appeared_in`에 slug와 날짜를 추가한다.
+7. `reference_images`가 있으면 `handoff.md`에 `--reference` 사용 지시를 적는다.
+8. `usage.appeared_in`은 **선택 사항이고 정본이 아니다.** 등장 이력의 정본은
+   `_workspace/*/02_storyboard/character-bible.md`의 "Cast library profiles used" 줄이며,
+   `scripts/cast_usage.py`가 거기서 역산한다. 수동 필드를 정본으로 삼았을 때 한 번도
+   채워지지 않아 회전 규칙이 작동하지 않았던 전례가 있다. 손으로 적고 싶으면 적어도 되지만,
+   비어 있어도 결함이 아니고 회전 규칙은 스크립트 결과를 따른다.
+9. 반대로 `character-bible.md`의 "Cast library profiles used" 줄은 **반드시** 채운다.
+   이 줄이 비면 그 런은 회전 집계에서 누락되어 벤치 규칙이 조용히 무력화된다.
+   형식: `` - Cast library profiles used (`cast/<id>.character.yaml`): `<id-1>` (explainer), `<id-2>` (learner) ``
+   실제 프로필 id는 비공개다. 이 문서를 포함한 추적 파일에는 예시로도 적지 않는다.
 
 주의: `cast/` 내용은 비공개 자료다. 런 산출물(`_workspace/`, `reports/`)도
 gitignore 대상이지만, `cast/`의 원문을 커밋 대상 문서(`README.md`, 템플릿,

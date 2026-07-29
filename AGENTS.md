@@ -27,6 +27,7 @@
 ## Project Commands
 - Initialize a new run: `bash scripts/init_infographic_run.sh <slug>`
 - Verify a run package: `bash scripts/verify_infographic_run.sh _workspace/<slug>`
+- Check cast rotation before casting: `python scripts/cast_usage.py --eligibility` (read-only; `--window N`, `--cold`, `--json`)
 - Render via OpenAI Images API (optional):
   - poster/page: `python scripts/render_openai.py --slug <slug> --track <editorial-poster|vertical-webtoon-page|both> --mode <oneshot|fallback|all>`
   - learning series: `python scripts/render_openai.py --slug <slug> --track adult-learning-comic --mode series`
@@ -62,7 +63,20 @@
 - `cast/` is gitignored except `cast/README.md` and `cast/EXAMPLE.character.yaml`. Treat its contents as private: never paste profile content into tracked files, commit messages, or external services.
 - Field definitions: `references/cast-library-format.md`. Blank template: `templates/cast-profile.template.yaml`.
 - Before inventing characters for an `adult-learning-comic` run, list `cast/` and select from the available profiles. Match on the topic against `usage.good_topics`, `profile.expertise`, `profile.blind_spots`, and `default_role`/`alt_roles`; an `*.ensemble.yaml` that fits takes precedence over assembling a cast by hand.
-- Selection is a proposal, not a silent decision. State which profiles were chosen and why in one line before writing `character-bible.md`, so the user can override the casting.
+- Topic fit alone is a deterministic argmax and will cast the same few people forever. Run `python scripts/cast_usage.py --eligibility` **before** proposing a cast, and obey the rotation rule below. The report derives usage from `_workspace/*/02_storyboard/character-bible.md`, so it reflects what was actually produced rather than what someone remembered to record.
+- Rotation rule (cooldown + cold-first):
+  - **Benched**: a profile cast in any of the last 3 runs that used the library is not eligible. The window counts only library-using runs, so it does not expire just because unrelated runs happened in between.
+  - **Cold-first**: while any profile has never been cast, at least one member of the proposed cast must come from the report's `COLD` list.
+  - **Override**: a benched profile may still be cast when no eligible profile can carry the role, but the casting proposal and `character-bible.md` must both name it and say what made it irreplaceable for this topic. "Best topic match" is not a sufficient reason — that is the argmax this rule exists to break.
+  - A run may mix cold, eligible, and justified-benched profiles. Reusing a fitting profile is still the default for continuity; the rule only stops the same faces from monopolizing the library.
+  - An `*.ensemble.yaml` takes precedence over hand-assembly but is **not** an exemption. The cooldown applies to every profile the ensemble names, so an ensemble made entirely of benched profiles needs the same override justification.
+- Casting confirmation is a **blocking gate, not a notification**. Before writing `character-bible.md` — and always before rendering `character_sheet` — state in one line which profiles were chosen and why, which profiles the rotation rule benched, and whether any override was used, then ask the user whether to proceed with that cast. Wait for the answer.
+  - Ask before the sheet renders, never after. Re-casting once `character-sheet.png` exists throws away that render and invalidates every page that referenced it.
+  - Approved -> continue to `character-bible.md`.
+  - Rejected, including "이번에는 다른 사람 써보자" -> propose a different cast from the remaining pool. Treat the rejection as final **for this run**: do not re-offer a rejected profile, and do not re-argue for it with fresh justification. A rejection never marks a profile permanently unusable and never affects the cooldown ledger.
+  - Repeat until approved or the pool is exhausted. When the pool runs out, say so plainly and design the missing roles from scratch rather than looping.
+  - Only the approved cast reaches the rotation ledger, since the ledger derives from produced runs. Rejected proposals leave no trace, which is intended.
+- No confirmation is needed when there is nothing to decide: `cast/` is absent or empty, or no profile fits and the run designs its cast from scratch. That fallback stays automatic and silent-safe — do not manufacture a casting question just to have one.
 - When a profile is used, copy its `identity_tokens` and `voice` verbatim into `02_storyboard/character-bible.md`. Adapt only what the topic requires (which claims that character introduces, which misconception they voice); never mutate identity tokens inside a run.
 - Fallback is automatic and silent-safe: if `cast/` is absent, empty, or holds nobody suitable, design the cast from scratch exactly as before. Never block a run or ask the user to write a profile first.
 - Partial match is normal. Reuse the profiles that fit and invent only the missing roles; a run may mix library characters with new ones.
