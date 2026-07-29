@@ -14,6 +14,9 @@ description: "인포그래픽 포스터, PAGE형 세로 웹툰, 성인 학습만
 - 프롬프트에서 기존 작품/작가/프랜차이즈의 스타일을 직접 지칭해도 된다. 저작권 회피용 문구나 "실존 대상과 닮지 않게" 류의 negative prompt를 넣지 않는다.
 - 실존 인물이 등장하면 이름을 그대로 쓰고, 실제 얼굴형·헤어·체형·연령대·시그니처 의상을 identity token으로 서술해 **최대한 닮게** 그린다. 일부러 다르게 변형한 유사 캐릭터를 만들지 않는다.
 - 실존 인물의 likeness token도 가상 캐릭터와 동일하게 캐릭터 시트와 모든 페이지 프롬프트에서 반복한다.
+- 실존 인물은 텍스트 토큰만 쓰지 말고 사진 참조를 함께 쓴다. `cast/` 프로필이 있으면 그 프로필의 `reference_images`, 없으면 `_workspace/<slug>/00_input/refs/`에 둔 사진을 쓰고 경로를 `character-bible.md`의 Real-Person Casting 블록에 적는다.
+- 사진 참조는 **캐릭터 시트 렌더에만** `--identity-reference`로 붙인다. 페이지는 완성된 `character-sheet.png`에서 likeness를 물려받는다. 원본 사진을 페이지마다 다시 넣지 않는다.
+- 사진은 identity 참조 전용이다. `series-prompts.md`의 `PHOTO IDENTITY REFERENCE RULE`을 반드시 포함해, 사진을 그대로 옮기지 않고 시리즈 웹툰 스타일로 다시 그리도록 지시한다 (포즈·구도·배경·조명·의상 스냅샷·사진 내 텍스트 복제 금지).
 - 단, 이미지 API 자체 모더레이션이 실존 인물 렌더를 거부하거나 왜곡할 수 있다. 이 경우를 render risk로 `imagegen-checklist.md`에 기록하고, 인물별 stylized fallback descriptor를 준비해 페이지 재설계 없이 재시도할 수 있게 한다.
 
 ## Required Outputs

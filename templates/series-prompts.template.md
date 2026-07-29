@@ -13,10 +13,17 @@ SERIES INVARIANTS
 - use a top title strip, 4-6 varied comic/diagram panels, stable white gutters, and a narrow recap or forward-hook footer
 - keep the series friendly and visually inviting without becoming childish, chibi, school-life, fan-service, or a cute productivity infographic
 
-REFERENCE IMAGE RULE
+CHARACTER SHEET REFERENCE RULE
 - when a character sheet is supplied, use it only as a high-fidelity identity reference
 - preserve faces, hair, outfits, accessories, and color tokens
 - do not reproduce the character-sheet grid, poses, labels, or neutral background inside the comic page
+
+PHOTO IDENTITY REFERENCE RULE
+- when a photograph of a person is supplied, treat it strictly as an identity reference for facial structure, hair, build, age band, and signature outfit
+- redraw that person fully in this series' webtoon illustration style; the output must be drawn artwork, never a photograph, photo cutout, photo collage, or photo-traced panel
+- do not copy the photograph's pose, framing, crop, camera angle, lighting, background, or clothing snapshot; pose and stage the character according to the panel description only
+- if the photograph shows a different outfit than the character bible specifies, the character bible wins
+- ignore any text, logo, badge, or watermark present in the photograph
 
 TEXT CONTRACT
 - render only the exact Korean/Latin strings explicitly whitelisted in the slot-specific prompt

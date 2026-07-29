@@ -17,6 +17,9 @@
 - Real people may appear as cast members. When they do, aim for **maximum recognizable likeness**, not a deliberately altered lookalike:
   - Name the person in the storyboard and character bible, and use their actual face shape, hair, build, age band, and signature outfit as the identity tokens.
   - Repeat those likeness tokens in every page prompt, exactly like fictional-cast continuity.
+  - Prefer a photo identity reference over text tokens alone. A `cast/` profile supplies one through its `reference_images`; a real person with no profile (for example a public figure named in the report) uses ad-hoc images under `_workspace/<slug>/00_input/refs/`. Record the paths in the Real-Person Casting block of `character-bible.md`.
+  - Attach photo references to the character-sheet render only, with `--identity-reference <path>`. Pages inherit the likeness from `character-sheet.png`; re-feeding source photos per page compounds photo-copy and moderation risk.
+  - Photo references are identity input, not artwork to reproduce. Every prompt that consumes one must carry the `PHOTO IDENTITY REFERENCE RULE`: redraw the person in the series illustration style and do not inherit the photo's pose, crop, background, lighting, clothing snapshot, or embedded text.
 - Two constraints survive because they are pipeline facts, not legal caution:
   - The claim ledger still governs factual content. Invented dialogue in a real person's mouth is a normal teaching device, but it must not upgrade a claim's status or stage speculation as that person's verified statement.
   - The downstream Images API applies its own moderation and may refuse or distort a real-person likeness. Record this as a render risk in `imagegen-checklist.md` and include one stylized fallback descriptor per real person so a refused render can be retried without redesigning the page.
@@ -45,6 +48,8 @@
   - `02_storyboard/learning-design.md`
   - `02_storyboard/character-bible.md`
   - `03_prompts/series-prompts.md`
+- Optional input assets:
+  - `00_input/refs/` holds identity reference photos for real people who have no `cast/` profile. Characters that do have a profile keep using the profile's `reference_images` paths instead.
 - Optional generated assets:
   - `05_renders/block_*.png`
   - `05_renders/final-poster.png`

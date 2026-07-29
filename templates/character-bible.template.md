@@ -49,6 +49,10 @@
 - Actual hair tokens:
 - Signature outfit and accessories:
 - Age band as of today:
+- Identity reference images:
+  <!-- cast/ profile -> its reference_images paths. No cast/ profile (e.g. a public figure named in the report) -> store ad-hoc images under 00_input/refs/ and list them here. Leave "none (text tokens only)" if no photo is available. -->
+- Reference usage: identity only; redraw fully in the series webtoon style. Do not inherit the photo's pose, crop, background, lighting, clothing snapshot, or embedded text.
+- Reference attach point: character-sheet render only, via `--identity-reference`. Pages inherit the likeness from `character-sheet.png`.
 - Stylized fallback descriptor (used only if the render API refuses the likeness):
 
 ## Identity Tokens
