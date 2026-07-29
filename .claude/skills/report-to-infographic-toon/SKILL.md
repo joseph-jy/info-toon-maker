@@ -79,10 +79,11 @@ Draft or validate the factual input, then convert approved research into a visua
 2. Define the audience's plausible surface belief, missing distinction, corrected model, limits, and transfer decision in `learning-design.md` before writing pages.
 3. Assign one learning objective, one before/after knowledge state, and one central visual model to every page.
 4. Use 2-4 stable adult characters. Check `cast/` for reusable profiles before inventing anyone; if one fits, copy its `identity_tokens` and `voice` verbatim and note the profile id (format: `references/cast-library-format.md`). Run `python scripts/cast_usage.py --eligibility` first and obey the rotation rule in `AGENTS.md`; then **stop and get the user's approval of the proposed cast** before writing `character-bible.md` and before any `character_sheet` render. If they reject it or ask for different people, re-propose from the remaining pool and do not re-offer a rejected profile in the same run. Skip the approval step only when `cast/` is empty or nobody fits and the cast is designed from scratch. Lock identity and speaking roles in `character-bible.md` before page prompts. Real people from the report may be cast directly at maximum recognizable likeness per the repository's Usage Context And Likeness Policy; fill the Real-Person Casting block in `character-bible.md` including identity reference image paths and a stylized fallback descriptor. A `cast/` profile supplies photo references through its `reference_images`; a real person with no profile uses ad-hoc images under `00_input/refs/` (ask the user for them if none exist and continue with text tokens only if they are unavailable).
-5. Use `dialogue-baked` by default. Whitelist every exact title, diagram label, formula, and speech bubble; prohibit all extra text.
-6. Enumerate the exact panel count and every panel in each page prompt. Put a closing group scene inside a named panel; do not append a free-floating closing-scene instruction that can create an extra panel.
-7. Fill a complete 2-8 page series in `storyboard.md`, `layout-bible.md`, and `series-prompts.md`, including exactly one `thumbnail` slot: a single landscape catalog cover with one short Korean topic phrase (2-6 words) and one simple motif, no comic panels or body text. Keep `master-image-prompt.md` and `panel-prompts.md` present and explicitly route rendering to `series-prompts.md`.
-8. Resolve the opening misconception on the final page with a reframe, retrieval question, and transfer question.
+5. Use `dialogue-baked` by default. Whitelist every exact title, panel label, diagram label, formula, speech bubble, narration box, and reference-material string, grouped by channel; prohibit all extra text.
+6. Use `extended` explanation density by default: about 450 Korean characters of baked copy per page, hard cap 500. Spend the added budget on third-person narration boxes (2-3 per page, at most 1 per panel, 25-60 characters each) and in-world reference-material inserts (1-2 per page, drawn as a document, screen, memo, whiteboard, or mini table), not on longer speech bubbles. Narration carries context, numbers, timeframes, transitions, and source cues only; the core reveal and mechanism stay with the cast and the dominant diagram. Narration keeps a claim's attribution and never carries a `needs verification` claim. Drop to `standard` density (about 300 characters) when legibility keeps failing.
+7. Enumerate the exact panel count and every panel in each page prompt. Put a closing group scene inside a named panel; do not append a free-floating closing-scene instruction that can create an extra panel.
+8. Fill a complete 2-8 page series in `storyboard.md`, `layout-bible.md`, and `series-prompts.md`, including exactly one `thumbnail` slot: a single landscape catalog cover with one short Korean topic phrase (2-6 words) and one simple motif, no comic panels or body text. Keep `master-image-prompt.md` and `panel-prompts.md` present and explicitly route rendering to `series-prompts.md`.
+9. Resolve the opening misconception on the final page with a reframe, retrieval question, and transfer question.
 
 ## Verify And Render
 
@@ -113,7 +114,10 @@ Inspect every rendered image and record the result in `imagegen-checklist.md` an
 - Confirm character face, age, outfit, color, and role continuity.
 - Confirm that every panel teaches or advances one intended beat.
 - Check Korean text for corruption, invention, duplication, cropping, and overflow.
-- Check that attributed claims remain attributed and speculation is not staged as verified fact.
+- Check the page baked-copy total against the density budget and confirm no panel is text-choked.
+- Check that narration boxes are tail-less and speaker-less, carry only context/numbers/transitions/source cues, and do not replace the cast and diagram as the source of the reveal.
+- Check that reference-material inserts read as objects in the scene and stay legible at full page size.
+- Check that attributed claims remain attributed and speculation is not staged as verified fact, including inside narration boxes.
 - Check diagrams, formulas, timelines, and exact names against the report.
 - Report actual filenames. Never treat a dry-run, placeholder, or prompt as a rendered image.
 

@@ -35,6 +35,11 @@
 - `dialogue-baked` for adult learning comics by default
 - `all-baked` only if explicitly requested
 
+## Explanation Density (Vertical Webtoon Page, Adult Learning Comic)
+- `extended` by default: about 450 Korean characters of baked copy per page, spent on narration boxes and reference material rather than longer speech bubbles
+- `standard`: about 300 Korean characters per page, for simple topics or after repeated legibility failures
+- Selected:
+
 ## Constraints
 - Aspect ratio
 - Deadline

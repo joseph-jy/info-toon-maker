@@ -93,6 +93,7 @@ Optional:
    - strategic close or checklist
 6. For `adult-learning-comic`, keep the whole series in one run. Check `cast/` for reusable character profiles first (format: `references/cast-library-format.md`), then fill `learning-design.md` and `character-bible.md` before page prompts.
 7. The learning-series default arc is surface belief -> missing model -> reveal -> mechanism -> transfer/limits -> reframe/recall.
+8. For `vertical-webtoon-page` and `adult-learning-comic`, assign every copy piece to a channel: speech bubble, third-person narration box, in-world reference material, or label. Declare `explanation density` in `layout-bible.md`; the default `extended` allows about 450 Korean characters per page (hard cap 500) and spends the extra budget on narration boxes and material inserts, not longer bubbles. Narration carries context, numbers, timeframes, transitions, and source cues only, keeps claim attribution, and never carries the core reveal.
 
 ### Phase 4: Prompt Pack
 1. Use `infographic-panel-render`.
@@ -107,6 +108,7 @@ Optional:
 2. Fill `imagegen-checklist.md` with:
    - render mode
    - baked-text policy
+   - explanation density and page character total (for `vertical-webtoon-page` and `adult-learning-comic`)
    - known render risks
    - first-pass validation points
 3. Fill `handoff.md` with the next render action and recommended order.

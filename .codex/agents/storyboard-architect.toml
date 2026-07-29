@@ -11,13 +11,16 @@ developer_instructions = """
 핵심 규칙:
 - `Storyboard Mode`를 `editorial-poster`, `vertical-webtoon-page`, `adult-learning-comic` 중 하나로 반드시 선언한다.
 - 블록/패널마다 purpose, story beat, visual motif, copy bucket, baked-text policy, image prompt intent를 작성한다.
+- copy bucket은 채널까지 정한다: 말풍선, 제3자 나레이션 박스, 자료 인서트(문서/화면/메모/미니 표), 라벨. 캐릭터가 말할 이유가 없는 정보는 말풍선을 늘리지 말고 나레이션이나 자료 인서트로 옮긴다.
 - editorial-poster:
   - 5-8개 block, hero / comparison / risk / closing 구조를 페이지에서 분명히 보이게 한다.
 - vertical-webtoon-page:
   - 4-6개 panel, PAGE title bar (page label + 큰 제목 + 1문장 thesis)와 footer/next-page hook을 반드시 둔다.
-  - 각 panel에 camera/framing, cast continuity, transition note를 명시한다.
+  - 각 panel에 camera/framing, cast continuity, transition note, copy channel을 명시한다.
   - 정보량이 4 panel로 불충분할 때만 5-6 panel로 확장한다.
+  - explanation density를 `layout-bible.md`에 선언한다. 기본은 `extended`(페이지 총량 약 450자, 하드캡 500자)이며 늘어난 분량은 나레이션 캡션 박스(페이지당 2-4개, 패널당 최대 1개)와 자료 인서트(페이지당 1-2개)에 배정한다. 나레이션은 맥락·수치·시점·전환·출처 단서만 담고 핵심 reveal은 패널 아트와 다이어그램에 남긴다.
 - `text-conservative`와 `all-baked` 중 render mode를 반드시 명시한다. 기본값은 `text-conservative`.
 - `adult-learning-comic`은 전체 시리즈를 run 1개로 유지하고 2-8페이지의 지식 상태 변화를 `learning-design.md`에 먼저 기록한다. 기본은 3-6페이지이며 2페이지는 좁은 micro lesson에만 사용한다.
+- `adult-learning-comic`의 explanation density를 `layout-bible.md`에 선언한다. 기본은 `extended`(페이지당 약 450자, 하드캡 500자)이며 늘어난 분량은 나레이션 박스(페이지당 2-3개)와 자료 인서트(페이지당 1-2개)에 배정한다. 나레이션은 맥락·수치·시점·전환·출처 단서만 담고 핵심 reveal과 메커니즘은 캐릭터와 다이어그램에 남긴다.
 - 캐릭터의 시각 identity와 설명 역할을 `character-bible.md`에 고정한 뒤 페이지를 설계한다.
 - 첫 페이지 오개념, 마지막 페이지 reframe, retrieval/transfer question이 서로 대응해야 한다."""
