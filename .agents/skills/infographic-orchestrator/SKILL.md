@@ -102,6 +102,7 @@ Optional:
    - block-by-block prompts for fallback rendering
 3. For `adult-learning-comic`, produce `series-prompts.md` instead: shared policy + character sheet + one landscape `thumbnail` prompt (short topic phrase + simple motif only) + one `page_XX` prompt per page.
 4. Keep the storyboard and prompt pack strictly aligned.
+5. Run the Korean copy voice pass over every baked string before freezing the whitelist, following `references/korean-copy-voice-rules.md`. Drop the AI signature phrases, count parallelism and colon subtitles series-wide, keep each character's register and ending set fixed, and preserve the hedges the claim ledger requires. Record it under `## Korean Copy Voice Pass` in `imagegen-checklist.md`.
 
 ### Phase 5: Image QA
 1. Run `bash scripts/verify_infographic_run.sh _workspace/<slug>`.
@@ -111,6 +112,7 @@ Optional:
    - explanation density and page character total (for `vertical-webtoon-page` and `adult-learning-comic`)
    - known render risks
    - first-pass validation points
+   - the Korean copy voice pass result (S1 patterns remaining, register consistency, series-wide counts, hedges kept for claim status)
 3. Fill `handoff.md` with the next render action and recommended order.
 4. For `adult-learning-comic`, verify the character sheet first, then page 01, then the remaining pages using the same reference image.
 

@@ -11,6 +11,20 @@
 - Explanation density (`standard` / `extended`):
 - Page character total vs budget:
 
+## Korean Copy Voice Pass
+<!-- Run once before the exact-copy whitelist is frozen. Rules and pattern IDs: references/korean-copy-voice-rules.md -->
+- Pass performed at (before whitelist freeze / after render):
+- S1 banned patterns remaining (must be 0; list ID + string if any):
+- Character count recheck after voice fixes:
+- Stylistic hedges removed:
+- Epistemic hedges kept for `party-claim` / `analysis` / `speculation`:
+- No claim status was upgraded by a voice fix:
+- No new figure, metaphor, or cliche was introduced that the report does not support:
+- Per-character ending sets stay separated and register is fixed across the series:
+- Same ending repeated 4+ times in a row on any page:
+- Series-level counts (English gloss first-use only / parallelism <=1 / "X에서 Y로" <=1 / colon subtitle 0 / closing formula 0):
+- Voice defects accepted without re-render (and recorded in handoff):
+
 ## First-Pass Validation
 - Hero block reads clearly:
 - Scene card count matches storyboard:

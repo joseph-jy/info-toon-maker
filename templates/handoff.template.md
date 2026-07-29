@@ -51,7 +51,16 @@
 - each page has one objective and a visible knowledge-state transition
 - one dominant teaching diagram per page
 - exact Korean strings come only from each page's whitelist
+- each character keeps one speech level and one ending set across every page
 - final page resolves the opening misconception and includes a retrieval or transfer check
+
+## Accepted Copy Voice Defects
+<!-- Voice defects found after render that will not be re-rendered. A string fix costs that page's render,
+     so record what was left in and why instead of dropping it silently. Rules: references/korean-copy-voice-rules.md -->
+- Page and string:
+- Pattern ID:
+- Why it was not re-rendered:
+- Rule to apply in the next series:
 
 ## Notes For Downstream Assembly
 - This harness does not build HTML.

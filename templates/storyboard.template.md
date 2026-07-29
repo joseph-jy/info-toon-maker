@@ -23,6 +23,7 @@
 - Learner:
 - Challenger:
 - Mascot:
+- Relationship and register map (who speaks in which speech level and ending set; see `references/korean-copy-voice-rules.md`):
 
 ## Page Header
 - Page label:
@@ -79,6 +80,7 @@
 - Required visual model:
 
 ## Table Or Checklist Areas
+- Which copy was rewritten to remove an AI-tell pattern, and which ID?
 - Which content must stay as exact text?
 - Which content moves to a narration box instead of a speech bubble, and why?
 - Which content becomes an in-world reference material insert, and what object carries it?

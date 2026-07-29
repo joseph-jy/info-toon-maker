@@ -79,6 +79,16 @@ Under `standard`, drop to a single short bubble per panel, 0-2 narration boxes p
 - Reference material must look like an object in the scene, with a frame, a device bezel, or paper edges. Floating body text is not a material insert.
 - Keep material text short and list-shaped.
 
+### Copy Voice
+
+Every baked string passes the voice rules in `references/korean-copy-voice-rules.md` before the whitelist is frozen.
+
+- Drop the AI signature phrases: summation labels, significance inflation, enumeration intros, hype adjectives, closing formulas, formal-noun endings, sentence-initial connectives in narration, double passives, `~에 의해`, `~에 대해`, third-person pronouns, emoji, emphasis quotes inside bubbles.
+- The page title and the closing line are where these cluster. Colon-subtitle titles are never used; `A가 아니라 B` parallelism and `X에서 Y로` appear at most once per page.
+- Narration is the channel where a stylistic tell shows most, because there is no speaker to absorb it. Hold it to zero.
+- The claim ledger outranks the voice rules: remove stylistic hedges, keep the ones that carry attribution or uncertainty.
+- With a recurring cast, keep each speaker's speech level and ending set stable across panels.
+
 ### Still Unsafe
 
 - full body paragraphs in narration boxes

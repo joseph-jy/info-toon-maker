@@ -62,6 +62,21 @@
 - Mascot immutable tokens:
 - Relative heights:
 
+## Voice Lock
+<!-- Register is a character property and is fixed for the whole series. A cast/ profile's `voice` is the
+     source of truth: copy speech_level, tone, catchphrases, and avoid verbatim and do not "fix" them.
+     Rules and pattern IDs: references/korean-copy-voice-rules.md -->
+
+- Relationship map (who outranks whom; what sets each speech level):
+- Explainer register (`존댓말` / `반말` / `혼합`) and ending set:
+- Learner register and ending set:
+- Challenger register and ending set:
+- Mascot register and ending set:
+- Catchphrases copied verbatim from a `cast/` profile (do not normalize):
+- Endings each character never uses:
+- Narration voice (third-person, no speaker, no sentence-initial connective):
+- Series-wide register drift check (no character mixes 해요체 / 합쇼체 / 한다체):
+
 ## Role Continuity
 - Who introduces claims:
 - Who voices misconceptions:

@@ -90,6 +90,16 @@ cast/<id>.character.yaml   (영구, 비공개)
 | `sample_lines` | 필수 | 상황별 예시 대사 2-4개. `context` + `line` 쌍 |
 | `avoid` | 선택 | 이 인물이 절대 쓰지 않는 말투/표현 |
 
+`voice`는 어투 규칙(`references/korean-copy-voice-rules.md`)보다 세다. 런에서 프로필을 쓸 때
+`speech_level`, `catchphrases`, `verbal_tics`는 그대로 옮기고 일반 규칙으로 다듬지 않는다.
+실제 사람의 말버릇은 사람이 쓴 대사의 증거이고, 그걸 표준화하면 인물이 사라진다.
+어투 규칙은 런에서 **새로 쓰는 대사**에 적용된다.
+
+같은 런에 여러 프로필을 캐스팅할 때는 `speech_level`과 종결어미 세트가 인물별로 갈라지는지 본다.
+전원이 `존댓말`이고 종결어미까지 같으면 대사가 한 사람이 쓴 초안처럼 읽힌다. 이때는 프로필을
+고치지 말고, 혼동되는 외형을 런 범위로 조정할 때와 같은 방식으로 종결어미 세트를 런에서 갈라
+`character-bible.md`의 Voice Lock에 적는다.
+
 ### 5. `teaching` (필수)
 
 | key | 필수 | 설명 |
@@ -224,7 +234,9 @@ notes: 마스코트 없이 2인으로 진행. 페이지당 말풍선 4-6개.
    - 되돌리는 조건: 그 인물만 나오는 런에서는 혼동 대상이 없으므로 프로필 원본을 쓴다.
      실존 인물의 외형이 실제로 바뀐 경우에만 프로필을 고치며, 그건 오버라이드가 아니라
      낡은 프로필 수정이다. 어느 쪽인지 **사용자에게 확인**하고 추측하지 않는다.
-6. `voice.catchphrases`와 `sample_lines`를 말풍선 카피 작성 기준으로 쓴다.
+6. `voice.catchphrases`와 `sample_lines`를 말풍선 카피 작성 기준으로 쓴다. `voice` 전체를
+   `character-bible.md`의 Voice Lock에 옮기고, 새로 쓰는 대사는 `references/korean-copy-voice-rules.md`를
+   따른다. 프로필의 말버릇은 그 규칙보다 세므로 고치지 않는다.
 7. `real_person: true`이면 `character-bible.md`의 Real-Person Casting 블록과
    `imagegen-checklist.md`의 render risk 항목을 채운다.
 8. `reference_images`가 있으면 `handoff.md`에 `--reference` 사용 지시를 적는다.

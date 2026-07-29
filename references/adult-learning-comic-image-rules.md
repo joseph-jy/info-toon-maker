@@ -119,6 +119,15 @@ Under `standard`, drop to 1-2 bubbles per panel of 10-32 characters, 0-1 narrati
 
 The page prompt must list every allowed string verbatim, grouped by channel (title, bubbles, narration, material, diagram labels, footer), and state: `Render only these strings. Do not add, paraphrase, translate, or duplicate text.`
 
+### Copy Voice
+
+Every string above also passes the voice rules in `references/korean-copy-voice-rules.md` before the whitelist is frozen.
+
+- Each character keeps one speech level and one ending set for the whole series. Explainer explains, learner asks, challenger counters; a cast that all speaks the same 존댓말 with the same 종결어미 is the loudest AI tell this track produces. Lock it in the character bible's Voice Lock block, and copy a `cast/` profile's `voice` verbatim rather than normalizing it.
+- Drop the AI signature phrases in every channel: summation labels, significance inflation, enumeration intros, hype adjectives, closing formulas, formal-noun endings, sentence-initial connectives in narration, double passives, `~에 의해`, `~에 대해`, third-person pronouns, emoji, emphasis quotes inside bubbles. Removing them usually shortens the string, which helps the density budget.
+- Count series-wide, not per page: English gloss on first use only, `A가 아니라 B` at most once, `X에서 Y로` at most once, colon-subtitle page titles never.
+- The claim ledger outranks the voice rules. Remove stylistic hedges; keep the hedges that carry `party-claim`, `analysis`, or `speculation` attribution. No voice fix may upgrade a claim or introduce a figure the report does not support.
+
 ## Prompt Stack
 
 Every page render combines these layers in this order:
@@ -138,6 +147,7 @@ Every page render combines these layers in this order:
 - pedagogical: each panel advances the page objective
 - continuity: character identity and roles match the character sheet
 - copy: every rendered string is on the whitelist and readable
+- voice: the copy voice pass is recorded with zero remaining S1 patterns, each character's register and ending set held across pages, and the series-wide counts hold
 - density: the page total stays inside the selected density budget and no panel is text-choked
 - narration: narration boxes are third-person, tail-less, attribution-safe, and do not carry the core reveal
 - material: reference inserts read as objects in the scene and their text is legible at full page size

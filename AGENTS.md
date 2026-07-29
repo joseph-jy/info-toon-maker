@@ -138,6 +138,7 @@
 - Lock face shape, hair, outfit, age band, color tokens, and role before page prompts are written. Render `character-sheet` first and use it as a high-fidelity reference for all page renders.
 - Avoid school uniforms, child-coded proportions, chibi rendering, juvenile slang, fan-service, and empty reaction panels. The tone may be friendly and anime/webtoon-inspired while remaining professional and technically serious.
 - Every page must declare one learning objective, the reader's knowledge state before/after, one central visual model, and an exact-copy budget per text channel.
+- Give each character a fixed speech level and a distinct ending set, and hold both for the whole series. A cast whose members all speak in the same 존댓말 with the same 종결어미 reads as one AI draft no matter how good the art is. Rules: `references/korean-copy-voice-rules.md`.
 
 ## Baked Text Rules
 - Safe baked text:
@@ -169,6 +170,16 @@
   - the narration and claim-attribution rules above apply identically: narration never carries the core reveal, keeps attribution, and excludes unverified claims
   - full per-channel numbers live in `references/webtoon-page-image-rules.md`
 
+## Korean Copy Voice
+- Every Korean string baked into an image goes through a voice pass before the exact-copy whitelist is frozen: page titles, speech bubbles, narration boxes, material inserts, diagram labels, badges, footer recaps, and the thumbnail phrase. Full rules, pattern IDs, and per-channel guidance: `references/korean-copy-voice-rules.md`.
+- The rules are adapted from `epoko77-ai/im-not-ai` (MIT, `humanize-korean`). Pattern IDs are kept so the original taxonomy stays traceable, but that harness rewrites existing prose under a change-rate gate while this repo authors 10-60 character strings. Import it as an authoring constraint plus one pre-render review, never as a rewrite loop and never as a quantitative gate — a 450-character page is too small a sample for its metrics.
+- Drop the AI signature phrases in every channel: summation labels (`결론적으로`, `요약하면`, `이를 통해`), significance inflation (`시사하는 바가 큽니다`, `주목할 만합니다`), enumeration intros (`다음과 같습니다`), hype adjectives, closing formulas (`~할 때입니다`), formal-noun endings (`~한 것입니다`), sentence-initial connectives in narration boxes, double passives, `~에 의해` passives, `~에 대해`, third-person pronouns, emoji, and emphasis quotes inside bubbles.
+- Count these across the whole series, not per page: an English gloss appears on first use only, `A가 아니라 B` parallelism at most once, `X에서 Y로` at most once, colon-subtitle page titles never. Six page titles built from the same rhetorical shape is the most visible AI tell this harness produces.
+- **The claim ledger outranks the voice rules.** Remove stylistic hedges, keep epistemic ones. A hedge that carries a `party-claim` attribution, an `analysis` marker, or a `speculation` marker stays; deleting it is a claim upgrade, not a tone fix. The reverse also holds: the pass only removes AI tells and never plants a figure, metaphor, or cliche the report does not support.
+- Do not "improve" a `cast/` profile's `voice`. `speech_level`, `catchphrases`, and `verbal_tics` are copied verbatim and win over the generic rules; a real person's speech habits are evidence of human writing. The voice rules govern newly authored lines.
+- Do not nativize standard technical terms (`API`, `prompt`, `token`, `GPU`, `LLM`). Do not flatten a deliberately list-shaped material insert into prose, and do not add a long sentence for rhythm — both fight the per-channel character budgets.
+- Record the pass in `04_review/imagegen-checklist.md` under `## Korean Copy Voice Pass`. An unrecorded pass counts as not performed. Editing a string after its page renders means re-rendering that page; if you accept a defect instead, say so in `handoff.md`.
+
 ## Workflow
 ### When Starting A New Infographic
 - Run `bash scripts/init_infographic_run.sh <slug>`.
@@ -179,6 +190,7 @@
 - Produce both:
   - `03_prompts/master-image-prompt.md` for one-shot poster generation.
   - `03_prompts/panel-prompts.md` for block-by-block fallback generation.
+- Run the Korean copy voice pass over every baked string before the prompts are frozen, and record it under `## Korean Copy Voice Pass` in `04_review/imagegen-checklist.md`.
 - Write final checks and remaining risks in `04_review/imagegen-checklist.md`.
 - Summarize what is ready, what is inferred, and what still needs rendering in `04_review/handoff.md`.
 
@@ -189,6 +201,7 @@
 - Fill `02_storyboard/learning-design.md` before drawing the page storyboard. It must define learning objectives, misconception ladder, explanation spine, page-level knowledge-state changes, and a final retrieval/transfer check.
 - Check `cast/` for reusable character profiles before designing the cast; reuse a matching profile instead of inventing a new character.
 - Fill `02_storyboard/character-bible.md` with stable visual identity tokens and speaking roles. When a `cast/` profile is used, copy its `identity_tokens` and `voice` verbatim and record the source profile id.
+- Fill the Voice Lock block in `02_storyboard/character-bible.md` at the same time: the relationship map, each character's speech level, and each character's ending set. Register is locked before page copy is written, exactly like the visual identity tokens.
 - Write a 2-8 page series map in `02_storyboard/storyboard.md` and the series-wide page grammar in `02_storyboard/layout-bible.md`.
 - Produce `03_prompts/series-prompts.md` with:
   - one shared prompt policy
@@ -196,6 +209,7 @@
   - one `thumbnail` prompt (single landscape catalog cover: one short Korean topic phrase plus one simple motif, nothing more)
   - one complete `page_XX` prompt per page
 - Render the character sheet first. Render the thumbnail and every page through the image edit endpoint using that sheet as a reference unless the user explicitly disables reference conditioning. The thumbnail renders once per series at landscape size (default `1536x1024`; the catalog page crops to 16:10).
+- Run the Korean copy voice pass over every page's whitelist before `series-prompts.md` is frozen, then record it under `## Korean Copy Voice Pass` in `04_review/imagegen-checklist.md`. Run it before rendering, not after: a string fix after a page renders costs that page's render.
 - Record factual, pedagogical, Korean-text, and continuity checks in `04_review/imagegen-checklist.md` and exact render order in `04_review/handoff.md`.
 
 ### When Revising An Existing Run
@@ -215,6 +229,7 @@ A task is complete only when all of the following are true:
 8. For `adult-learning-comic`, `learning-design.md`, `character-bible.md`, and `series-prompts.md` pass the mode-specific verifier.
 9. For `adult-learning-comic`, the series contains 2-8 page prompts, each with a learning objective, knowledge-state change, exact-copy contract, panel sequence, and character reminder.
 10. A dry-run of `scripts/render_openai.py --track adult-learning-comic --mode series` resolves `character_sheet`, `thumbnail`, and every `page_XX` slot without parser warnings.
+11. `imagegen-checklist.md` records the Korean copy voice pass with zero remaining S1 patterns, and for `adult-learning-comic` the character bible's Voice Lock names a speech level and ending set per character.
 
 ## When Blocked
 - If factual claims are uncertain, mark them as `needs verification` in the research summary.

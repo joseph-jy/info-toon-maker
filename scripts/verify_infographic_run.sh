@@ -86,6 +86,8 @@ fi
 
 if [[ -f "${RUN_DIR}/04_review/imagegen-checklist.md" ]]; then
   check_heading "${RUN_DIR}/04_review/imagegen-checklist.md" "^## Render Mode" "Render Mode heading"
+  check_heading "${RUN_DIR}/04_review/imagegen-checklist.md" "^## Korean Copy Voice Pass" "Korean Copy Voice Pass heading"
+  check_pattern "${RUN_DIR}/04_review/imagegen-checklist.md" "^- S1 banned patterns remaining.*: .+" "recorded copy voice pass result"
 fi
 
 if [[ -f "${RUN_DIR}/04_review/handoff.md" ]]; then
@@ -124,6 +126,7 @@ if [[ "${is_learning_comic}" -eq 1 ]]; then
   if [[ -f "${character_bible}" ]]; then
     check_heading "${character_bible}" "^## Cast Lock" "Cast Lock heading"
     check_heading "${character_bible}" "^## Identity Tokens" "Identity Tokens heading"
+    check_heading "${character_bible}" "^## Voice Lock" "Voice Lock heading"
     check_heading "${character_bible}" "^## Role Continuity" "Role Continuity heading"
     check_heading "${character_bible}" "^## Visual Continuity" "Visual Continuity heading"
     check_heading "${character_bible}" "^## Reference Render" "Reference Render heading"
@@ -137,6 +140,7 @@ if [[ "${is_learning_comic}" -eq 1 ]]; then
   if [[ -f "${series_prompts}" ]]; then
     check_heading "${series_prompts}" "^## Shared Prompt Policy" "Shared Prompt Policy heading"
     check_heading "${series_prompts}" "^## Shared Negative Prompt" "Shared Negative Prompt heading"
+    check_heading "${series_prompts}" "^## Copy Voice Contract" "Copy Voice Contract heading"
     check_heading "${series_prompts}" "^### character_sheet" "character_sheet slot"
     check_heading "${series_prompts}" "^### thumbnail" "thumbnail slot"
 

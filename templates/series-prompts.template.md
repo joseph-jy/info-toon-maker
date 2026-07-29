@@ -53,6 +53,21 @@ OUTPUT
 no watermark, no random text, no gibberish Korean, no misspelled technical terms, no duplicated speech bubbles, no duplicated characters, no identity drift, no age drift, no wardrobe drift, no role swap, no school uniforms, no child-coded body proportions, no chibi, no fan-service, no photorealistic portrait, no uniform dashboard grid, no slide deck, no startup infographic, no unreadable formula, no cropped title, no overlapping text, no extra fingers, no broken hands, no narration box with a bubble tail, no narration box over a face or diagram label, no floating body text without a container, no paragraph inside a material insert, no text-choked panel, no shrunken unreadable caption text
 ```
 
+## Copy Voice Contract
+<!-- For whoever authors the whitelisted strings, not an instruction to the image model.
+     Full rules and pattern IDs: references/korean-copy-voice-rules.md -->
+
+- Register and ending set per character (copied from `character-bible.md` Voice Lock):
+- Banned in every string: 결론적으로 / 요약하면 / 이를 통해 / 시사하는 바가 큽니다 / 주목할 만합니다 /
+  다음과 같습니다 / 혁신적 / 획기적 / ~할 때입니다 / 콜론 부제 제목 / "~한 것입니다" 형식명사 종결 /
+  문두 접속사(또한·따라서·즉·나아가) / 이중 피동 / "~에 의해" 피동 / "~에 대해" / 대명사 그·그녀·그것 /
+  이모지 / 말풍선 안 강조 따옴표
+- Series-wide budgets: English gloss first use only, parallelism max 1, "X에서 Y로" max 1,
+  colon subtitle 0, closing formula 0
+- Hedges preserved because the claim ledger requires them:
+- Technical terms kept in the original:
+- Voice pass completed before this whitelist was frozen (yes/no):
+
 ## Page Slot Policy
 - Keep only the actual `page_XX` sections for this run.
 - Every `page_XX` whitelist is grouped by channel: title, bubbles, narration, material, diagram labels, footer.
