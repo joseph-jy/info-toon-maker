@@ -39,16 +39,22 @@ Output is private and non-commercial, so real people may fill any cast role.
 - Name the person explicitly in the character bible, storyboard, and every prompt that draws them.
 - Target maximum recognizable likeness: describe their actual face shape, hair, build, age band, and signature outfit as the identity tokens. Do not invent a "legally distinct" redesign.
 - Treat the likeness exactly like fictional-cast continuity: same tokens on the character sheet and on every page.
+- Prefer a photo identity reference over text tokens alone. Record the image paths in the Real-Person Casting block of `character-bible.md` and pass them to the character-sheet render with `--identity-reference`:
+  - a `cast/` profile supplies them through its `reference_images` entries
+  - a real person who has no `cast/` profile (for example a public figure named in the report) uses ad-hoc images stored under `_workspace/<slug>/00_input/refs/`
+- Photo references are identity input only. The rendered character must be drawn in the series webtoon style, never a photograph or photo-traced panel, and must not inherit the photo's pose, crop, background, lighting, or clothing snapshot.
 - Dialogue written for a real person follows the claim ledger like any other copy: invented lines are a normal teaching device, but they must not upgrade a claim's status or present speculation as that person's verified statement.
 - The Images API may refuse or distort a real-person likeness. Record that as a render risk and keep one stylized fallback descriptor per person in the character bible so a refused render can be retried without redesigning the page.
 
 ## Character Reference Strategy
 
 1. Render `character_sheet` first on a neutral background with front, three-quarter, and expression views.
-2. Use the character sheet as an image reference for every page through the Images edit endpoint.
-3. The page prompt must say the input is an identity reference only: preserve faces, hair, outfits, and color tokens; do not reproduce the sheet layout or labels.
-4. Do not chain the previous comic page as the only reference. That compounds layout and anatomy drift.
-5. With `gpt-image-2`, omit `input_fidelity`; the model processes image references at high fidelity automatically.
+2. Attach photo identity references to the character-sheet render only, with `--identity-reference <path>`. That is where a real face is converted once into series-style artwork.
+3. Use the character sheet as an image reference for every page through the Images edit endpoint. Do not attach the source photographs to page renders; the sheet already carries the likeness, and re-feeding photos compounds photo-copy and moderation risk on every page.
+4. The page prompt must say the input is an identity reference only: preserve faces, hair, outfits, and color tokens; do not reproduce the sheet layout or labels.
+5. When a photograph is supplied, the prompt must also carry the photo identity reference rule: redraw in the series webtoon style, and do not inherit the photo's pose, crop, background, lighting, clothing snapshot, or embedded text.
+6. Do not chain the previous comic page as the only reference. That compounds layout and anatomy drift.
+7. With `gpt-image-2`, omit `input_fidelity`; the model processes image references at high fidelity automatically.
 
 ## Page Grammar
 

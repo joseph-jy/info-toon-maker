@@ -710,6 +710,16 @@ def main(argv: list[str]) -> int:
             "Learning-comic pages also use the generated character sheet automatically."
         ),
     )
+    parser.add_argument(
+        "--identity-reference",
+        action="append",
+        default=[],
+        help=(
+            "photo identity reference for the character_sheet slot only; repeat for "
+            "multiple images. adult-learning-comic only. Pages inherit the likeness "
+            "from the rendered character sheet instead of the source photos."
+        ),
+    )
     args = parser.parse_args(argv)
 
     repo_root = _resolve_repo_root(Path(__file__))
@@ -760,10 +770,25 @@ def main(argv: list[str]) -> int:
         return 2
 
     external_references = [Path(value).expanduser().resolve() for value in args.reference]
-    missing_references = [path for path in external_references if not path.is_file()]
+    identity_references = [
+        Path(value).expanduser().resolve() for value in args.identity_reference
+    ]
+    missing_references = [
+        path
+        for path in (*external_references, *identity_references)
+        if not path.is_file()
+    ]
     if missing_references:
         for path in missing_references:
             print(f"[fatal] reference image not found: {path}", file=sys.stderr)
+        return 2
+
+    if identity_references and args.track != TRACK_LEARNING:
+        print(
+            "[fatal] --identity-reference is only valid with "
+            "--track adult-learning-comic (it attaches to the character_sheet slot)",
+            file=sys.stderr,
+        )
         return 2
 
     tracks = (
@@ -799,8 +824,15 @@ def main(argv: list[str]) -> int:
                         track=track,
                         spec=character_spec,
                         out_path=character_out,
-                        reference_paths=list(external_references),
+                        reference_paths=[*identity_references, *external_references],
                     )
+                )
+            elif identity_references:
+                print(
+                    "[warn] --identity-reference ignored: the character_sheet slot is "
+                    "not in this plan. Re-render the sheet to apply a new likeness "
+                    "reference.",
+                    file=sys.stderr,
                 )
 
             for spec in selected_dependents:
