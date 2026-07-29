@@ -28,5 +28,9 @@ model: opus
   - vertical-webtoon-page는 `references/webtoon-page-image-rules.md`를 우선 반영한다.
 - 부정 프롬프트에는 generic dashboard, slide deck, pastel app aesthetic, cute manga panel page, minimal swiss poster, startup landing page infographic 회피를 포함하는 편이 좋다.
 - `adult-learning-comic`에서는 `cute manga panel page`를 금지하지 않는다. 대신 adult proportions, professional setting, no school uniform, no chibi, no juvenile framing을 명시한다.
-- 모든 `page_XX` 프롬프트는 shared policy와 독립적으로 합쳐져도 완전해야 하며, 채널별로 묶은 exact-copy whitelist 이외의 텍스트 생성을 금지한다.
+- 카피 어투: exact-copy whitelist를 확정하기 직전에 어투 패스를 한 번 돌린다. 전체 규칙은 `references/korean-copy-voice-rules.md`.
+  - S1 금지 목록(결산 라벨, 의의 과장, 열거 도입, hype, 결말 공식, 형식명사 종결, 문두 접속사, 이중 피동, `~에 의해`, `~에 대해`, 대명사, 이모지, 말풍선 안 강조 따옴표)이 0건이어야 한다. 고친 뒤 글자수를 다시 센다.
+  - 시리즈 단위로 센다: 영어 병기 첫 등장 1회, 대구 최대 1회, `X에서 Y로` 최대 1회, 콜론 부제 제목 0회.
+  - `series-prompts.md`의 `## Copy Voice Contract`에 인물별 register와 종결어미 세트, 유지한 완곡, 원어 보존 용어를 적는다.
+  - claim ledger가 어투보다 세다. 습관적 완곡만 빼고 `party-claim`/`analysis`/`speculation`의 출처·불확실성 표시는 남긴다. 어투 수정으로 클레임을 올리거나 리포트에 없는 수치·비유를 심지 않는다.
 - `gpt-image-2` 페이지 렌더는 `character-sheet.png`를 identity reference로 사용한다.

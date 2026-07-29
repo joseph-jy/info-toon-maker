@@ -144,7 +144,7 @@ infographic-toon/
 │   └── skills/          # Codex 호환 스킬 진입점
 ├── assets/              # HTML 참고 템플릿
 ├── examples/            # 예제 브리프
-├── references/          # 트랙별 이미지 생성 규칙
+├── references/          # 트랙별 이미지 생성 규칙 + 한국어 카피 어투 규칙
 ├── scripts/
 │   ├── init_infographic_run.sh     # 런 초기화
 │   ├── verify_infographic_run.sh   # 런 검증
@@ -187,6 +187,18 @@ AI 이미지 생성에서 긴 한국어 본문은 아직 신뢰도가 낮습니�
 | 숫자 라벨 | 비교표 전체 |
 | 경고 스탬프 | 정확한 법률/기술 문구 |
 | 1-6단어 배지 | 여러 줄 체크리스트 |
+
+### 어투도 산출물이다
+
+이미지에 들어가는 한국어 문자열은 짧지만, AI 티는 짧은 문자열에서 더 잘 보입니다.
+페이지 제목 6개가 모두 "A가 아니라 B"거나 등장인물 전원이 같은 종결어미를 쓰면
+그림 품질과 무관하게 시리즈 전체가 생성물로 읽힙니다.
+
+프롬프트를 확정하기 전에 어투 패스를 한 번 돌리고 `imagegen-checklist.md`에 기록합니다.
+규칙은 `references/korean-copy-voice-rules.md`이고,
+[epoko77-ai/im-not-ai](https://github.com/epoko77-ai/im-not-ai)(MIT)의 `humanize-korean`
+분류 체계를 만화 카피 조건에 맞게 옮긴 것입니다. 단, **claim ledger가 어투보다 셉니다** —
+습관적 완곡은 빼지만 출처·불확실성 표시는 남깁니다. 어투를 다듬어 클레임을 올리면 안 됩니다.
 
 ### 프롬프트 퍼스트
 

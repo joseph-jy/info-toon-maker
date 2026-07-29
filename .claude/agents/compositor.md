@@ -13,3 +13,4 @@ model: opus
 - placeholder와 actual asset를 구분해 기록한다.
 - 실제 PNG가 없으면 render handoff만 남기고, 조립이 된 것처럼 말하지 않는다.
 - adult-learning-comic은 character sheet, page 01 smoke test, remaining pages 순서와 각 페이지의 reference dependency를 기록한다.
+- 렌더 후에 발견했지만 재렌더하지 않기로 한 어투 결함은 `handoff.md`에 남긴다. 문자열 수정은 그 페이지 재렌더를 뜻하므로, 넘어간 결함은 조용히 두지 않고 다음 시리즈 규칙으로 올린다.

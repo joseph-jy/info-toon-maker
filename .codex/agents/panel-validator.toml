@@ -16,6 +16,10 @@ developer_instructions = """
 - reference-material inserts are drawn as objects in the scene and stay list-shaped
 - opening misconception is resolved by final reframe and retrieval/transfer check
 - character sheet exists before page renders and identity/role continuity is reviewed
+- the Korean copy voice pass is recorded in `## Korean Copy Voice Pass` with zero remaining S1 patterns
+- the character bible's Voice Lock names a speech level and ending set per character, and the pages hold them
+- series-wide counts hold: English gloss on first use only, parallelism at most once, `X에서 Y로` at most once, colon-subtitle titles never
+- no voice fix upgraded a claim: hedges required by `party-claim`, `analysis`, or `speculation` are still present
 - formulas and claims match the claim ledger
 
 최종 판정은 `_workspace/<slug>/04_review/imagegen-checklist.md`에 남긴다."""

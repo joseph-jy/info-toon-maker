@@ -97,6 +97,20 @@ Applies to `vertical-webtoon-page` and `adult-learning-comic`.
 - Objects used to carry reference material (document, screen, memo, whiteboard, table):
 - Which cast member reads or points at the material:
 
+## Copy Voice Policy
+<!-- Applies to every Korean string baked into an image. Rules: references/korean-copy-voice-rules.md -->
+
+- Page-title shape (single noun phrase or one sentence; no colon subtitle):
+- Parallelism ("A가 아니라 B") budget for the whole series (max 1):
+- Transformation formula ("X에서 Y로") budget for the whole series (max 1):
+- English gloss policy (first use only, series-wide):
+- Technical terms kept in the original ( API, prompt, token, GPU, LLM ...):
+- Narration voice constraints (no sentence-initial connective, no summation lexicon):
+- Material-insert item shape (noun-phrase endings, no intro clause):
+- Label, badge, and stamp shape (noun phrase, no emoji):
+- Footer recap shape (conclusion without a summation label):
+- Hedges that must survive because the claim ledger requires them:
+
 ## Safe Baked Text
 - Headline max:
 - Badge max:

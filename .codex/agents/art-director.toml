@@ -26,5 +26,6 @@ developer_instructions = """
   - explanation density(`standard`/`extended`, 기본 `extended`)와 페이지 총 글자 예산을 `layout-bible.md`에 적는다. 밀도를 올릴 때 말풍선을 키우지 말고 캡션 박스와 자료 인서트를 쓴다.
   - 밝은 전문 환경, 검은 패널선, 청록/파랑 구조색, 한 가지 warm emphasis color를 기본 검토한다.
   - 학습 흐름과 diagram legibility를 분위기보다 우선한다.
+- `layout-bible.md`의 `## Copy Voice Policy`를 채운다: 제목 형태(콜론 부제 금지), 대구와 `X에서 Y로`의 시리즈 예산, 영어 병기 정책, 원어 보존 용어, 나레이션 문체 제약, 라벨·배지 형태, footer 형태, claim status 때문에 남겨야 하는 완곡. 규칙은 `references/korean-copy-voice-rules.md`.
 - body copy가 깨지지 않도록 텍스트 밀도 정책을 먼저 정한다. 기본값은 `text-conservative`.
 - 장식보다 읽기 순서가 우선이다. hero/PAGE header, comparison/reveal, risk/escalation, closing/hook의 위계가 페이지에서 즉시 식별되어야 한다."""
