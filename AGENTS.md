@@ -28,6 +28,7 @@
 - Initialize a new run: `bash scripts/init_infographic_run.sh <slug>`
 - Verify a run package: `bash scripts/verify_infographic_run.sh _workspace/<slug>`
 - Check cast rotation before casting: `python scripts/cast_usage.py --eligibility` (read-only; `--window N`, `--cold`, `--json`)
+- Cast appearance statistics: `python scripts/cast_usage.py --stats` (per-profile counts, share, runs-since-last, role mix, co-appearance pairs, run list). A run whose cast is marked `[recovered]` has a missing or off-template `Cast Source` line in its `character-bible.md`; `--declared-only` shows the strict numbers.
 - Render via OpenAI Images API (optional):
   - poster/page: `python scripts/render_openai.py --slug <slug> --track <editorial-poster|vertical-webtoon-page|both> --mode <oneshot|fallback|all>`
   - learning series: `python scripts/render_openai.py --slug <slug> --track adult-learning-comic --mode series`
