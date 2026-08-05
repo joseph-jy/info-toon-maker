@@ -32,6 +32,8 @@ description: "인포그래픽 포스터, PAGE형 세로 웹툰, 성인 학습만
 
 - 공통 정책은 `series-prompts.md`의 `Shared Prompt Policy`에 한 번 정의한다.
 - `character_sheet`를 첫 슬롯으로 둔다.
+- `character_sheet` 슬롯 프롬프트에 `FIGURE PROPORTION LOCK` 블록을 그대로 넣는다. `adult proportions`만 쓰면 모델이 5-6등신(머리 크고 다리 짧은 체형)으로 그린다. 7.5등신, 골반선 = 전신 높이의 중점, 무릎 = 발바닥에서 28%, 전신 컷 머리·신발 잘림 금지를 숫자로 명시한다. negative에 `no short legs, no oversized head, no 5-head or 6-head proportions, no cropped feet`를 더한다. 전문은 `references/adult-learning-comic-image-rules.md`의 Figure Proportion Lock.
+- 이 블록은 시트 슬롯 전용이다. shared policy나 page 프롬프트에 넣지 않는다. 페이지는 패널 안에서 상반신 위주로 잡히므로 전신 비율 규격이 패널 연출과 충돌하고, 비율 교정은 시트 참조 이미지를 통해 전달된다. 이미 승인된 페이지 구도를 건드리지 않는 것도 이유다.
 - `thumbnail` 슬롯을 정확히 하나 둔다. 시리즈 목록 카드용 가로형 커버 1장이며, 짧은 한국어 주제 문구(2-6단어) 하나와 간단한 중심 모티프, 최대 1-2명의 등장인물만 담는다. 만화 패널, 말풍선, 본문 텍스트는 금지. 렌더 기본 크기는 1536x1024이고 목록 페이지가 16:10으로 크롭하므로 문구와 모티프를 중앙 16:10 안전 영역에 둔다.
 - 각 `page_XX`는 learning objective, knowledge state before/after, central visual model, explanation density, exact baked copy, narration copy, material copy, page character total, character reminder, prompt를 가진다.
 - 설명은 네 개 채널로 나눠 싣는다: 캐릭터 말풍선, 제3자 나레이션 박스, 작품 내 자료 인서트(문서/화면/메모/미니 표), 다이어그램 라벨. 말풍선에 안 들어가는 내용은 말풍선을 늘리지 말고 나레이션이나 자료 인서트로 옮긴다.

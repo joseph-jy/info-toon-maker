@@ -58,6 +58,35 @@ Output is private and non-commercial, so real people may fill any cast role.
 6. Do not chain the previous comic page as the only reference. That compounds layout and anatomy drift.
 7. With `gpt-image-2`, omit `input_fidelity`; the model processes image references at high fidelity automatically.
 
+### Figure Proportion Lock
+
+`adult proportions` alone does not survive the render. Left to itself the model draws the sheet at roughly 5-to-6 head heights — oversized cranium, shortened thigh, compressed shin — which reads as a teenager and, when the cast is real people, as an unflattering caricature of them. Positive numeric anchoring fixes it; adding `no chibi` to the negative list does not.
+
+Carry this block verbatim inside the `character_sheet` slot prompt, after the shared policy:
+
+```text
+FIGURE PROPORTION LOCK (this slot)
+- Draw every adult at realistic 7.5-head proportions: the head, measured from the top of the hair to the chin, is about 1/7.5 of the standing height.
+- Put the hip line at the vertical midpoint of the standing figure: sole-to-hip equals hip-to-top-of-head. The legs are as long as the torso and head stacked above them.
+- Knee joint at about 28% of the standing height above the sole. Thigh and shin read as nearly equal lengths.
+- Wrist falls at the hip line, fingertips reach mid-thigh, elbow sits at the navel.
+- Shoulders span about 2.5 head widths for men and about 2 for women, with a visible neck between jaw and shoulder line.
+- Draw each full-body view head-to-toe with both shoes completely inside the frame and clear empty margin above the hair and below the shoes. Nothing touches or crosses the canvas edge.
+- Make the full-body figures tall within their row. Do not shrink the figure and enlarge the head to fill the space.
+```
+
+Slot negative additions: `no short legs, no oversized head, no 5-head or 6-head proportions, no teenage body, no cropped feet, no cropped shoes`.
+
+Scope: the lock belongs to the `character_sheet` slot, not to the shared prompt policy and not to page prompts. Pages frame the cast bust-up or waist-up inside panels, where a standing-figure spec fights the panel staging; they inherit the corrected anatomy through the sheet reference instead. Leaving page prompt text untouched also keeps already-approved page composition stable.
+
+Verify it by measuring the rendered sheet rather than eyeballing it:
+
+- head height divided into standing height lands between 7 and 8
+- the hip line sits within 48-52% of the standing height
+- no figure's hair or shoes are clipped by the canvas edge
+
+A sheet that fails is a sheet re-render, not a page re-render: `--mode series --only character_sheet`. When pages already exist against the old sheet, re-render the sheet alone and record the anatomy mismatch between sheet and pages in `handoff.md`; silently re-rendering approved pages to match costs the whole series.
+
 ## Page Grammar
 
 - portrait 3:4 page, normally `1536x2048`
@@ -78,7 +107,7 @@ Avoid a uniform dashboard grid. Panel sizes should follow the explanation: a mec
 ## Adult Visual Tone
 
 - polished Korean educational webtoon or anime-inspired editorial illustration
-- adult faces and body proportions; expressive but not child-coded
+- adult faces and body proportions; expressive but not child-coded (the character sheet states the numbers: see Figure Proportion Lock)
 - professional studio, lab, workshop, office, or domain-relevant setting
 - bright warm-white base, black ink borders, blue/teal structure colors, and one warm emphasis color
 - diagrams are clean and textbook-legible; scenes remain atmospheric enough to feel like a comic

@@ -94,6 +94,7 @@
 ## Reference Render
 - Required output: `05_renders/character-sheet.png`
 - Views: front, three-quarter, side, and three expressions per main character
+- Figure proportions: 7.5 head heights, hip line at the vertical midpoint, full body uncropped (Figure Proportion Lock in `references/adult-learning-comic-image-rules.md`; the numbers live in the `character_sheet` slot prompt)
 - Background:
 - Labels allowed:
 - Identity reference instruction: preserve faces, hair, outfits, accessories, and color tokens; ignore the sheet layout in page renders.

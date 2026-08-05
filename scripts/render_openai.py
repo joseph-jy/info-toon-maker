@@ -689,7 +689,10 @@ def main(argv: list[str]) -> int:
     parser.add_argument(
         "--only",
         default=None,
-        help="comma-separated slot ids to render (e.g. block_00,panel_01). fallback/all only.",
+        help=(
+            "comma-separated slot ids to render (e.g. block_00,panel_01, or "
+            "character_sheet to re-render the sheet alone without touching pages)."
+        ),
     )
     parser.add_argument("--dry-run", action="store_true", help="do not call API, just list plan")
     parser.add_argument("--model", default=None, help="override OPENAI_IMAGE_MODEL")

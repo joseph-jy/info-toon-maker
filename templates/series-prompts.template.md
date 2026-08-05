@@ -86,12 +86,26 @@ no watermark, no random text, no gibberish Korean, no misspelled technical terms
 - purpose: lock the recurring adult cast before page rendering
 - prompt:
 ```text
-Replace this block with the final character-sheet prompt. Include every immutable identity token from character-bible.md, front and three-quarter views, relative heights, expression row, fixed outfits, fixed accessories, and a neutral background. Use no speech bubbles and only short name/role labels if needed.
+Replace the paragraph below with the final character-sheet prompt. Include every immutable identity token from character-bible.md, front and three-quarter views, relative heights, expression row, fixed outfits, fixed accessories, and a neutral background. Use no speech bubbles and only short name/role labels if needed.
+
+FIGURE PROPORTION LOCK (this slot)
+- Draw every adult at realistic 7.5-head proportions: the head, measured from the top of the hair to the chin, is about 1/7.5 of the standing height.
+- Put the hip line at the vertical midpoint of the standing figure: sole-to-hip equals hip-to-top-of-head. The legs are as long as the torso and head stacked above them.
+- Knee joint at about 28% of the standing height above the sole. Thigh and shin read as nearly equal lengths.
+- Wrist falls at the hip line, fingertips reach mid-thigh, elbow sits at the navel.
+- Shoulders span about 2.5 head widths for men and about 2 for women, with a visible neck between jaw and shoulder line.
+- Draw each full-body view head-to-toe with both shoes completely inside the frame and clear empty margin above the hair and below the shoes. Nothing touches or crosses the canvas edge.
+- Make the full-body figures tall within their row. Do not shrink the figure and enlarge the head to fill the space.
 ```
 - negative:
 ```text
-no comic panels, no scene background, no alternate costumes, no age variants, no school uniforms, no chibi proportions, no duplicated views, no long text
+no comic panels, no scene background, no alternate costumes, no age variants, no school uniforms, no chibi proportions, no duplicated views, no long text, no short legs, no oversized head, no 5-head or 6-head proportions, no teenage body, no cropped feet, no cropped shoes
 ```
+<!-- Keep the FIGURE PROPORTION LOCK block verbatim. It stays in this slot only:
+     page prompts frame the cast bust-up inside panels and inherit the corrected
+     anatomy through the sheet reference. Rationale and the measurement check:
+     references/adult-learning-comic-image-rules.md -->
+
 
 ### thumbnail
 - purpose: one landscape catalog cover that reveals the series topic at a glance

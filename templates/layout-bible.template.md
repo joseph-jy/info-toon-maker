@@ -62,7 +62,7 @@
 ## Character Lock (Adult Learning Comic)
 - Character-sheet dependency:
 - Immutable identity tokens:
-- Adult age/proportion rules:
+- Adult age/proportion rules: (character sheet renders at 7.5 head heights with the hip line at the midpoint; page panels inherit it from the sheet)
 - Role and bubble-style mapping:
 - Reference-image instruction:
 

@@ -50,6 +50,7 @@
 - Page 1 misconception is resolved by the final page:
 - Final retrieval and transfer checks are present:
 - Character sheet exists before page renders:
+- Character sheet proportions measured, not eyeballed: head fits 7-8 times into the standing height, hip line at 48-52%, no hair or shoes clipped by the canvas edge:
 - Faces, hair, outfits, accessories, and speaking roles remain stable:
 - Every rendered string appears in the exact-copy whitelist:
 - Page baked-copy total stays inside the density budget and no panel is text-choked:
