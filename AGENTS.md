@@ -20,6 +20,9 @@
   - Prefer a photo identity reference over text tokens alone. A `cast/` profile supplies one through its `reference_images`; a real person with no profile (for example a public figure named in the report) uses ad-hoc images under `_workspace/<slug>/00_input/refs/`. Record the paths in the Real-Person Casting block of `character-bible.md`.
   - Attach photo references to the character-sheet render only, with `--identity-reference <path>`. Pages inherit the likeness from `character-sheet.png`; re-feeding source photos per page compounds photo-copy and moderation risk.
   - Photo references are identity input, not artwork to reproduce. Every prompt that consumes one must carry the `PHOTO IDENTITY REFERENCE RULE`: redraw the person in the series illustration style and do not inherit the photo's pose, crop, background, lighting, clothing snapshot, or embedded text.
+  - **Check how old the photo is before trusting it for age.** A public figure's site often serves one headshot for a decade — check the EXIF date (`file <path>` prints it) and the page it came from. Drawing an eleven-year-old photo faithfully renders the person a decade younger than they are now, which is a likeness error, not fidelity. State the intended age band explicitly in the `character_sheet` slot prompt and in the `PHOTO IDENTITY REFERENCE RULE` ("mid-to-late thirties; do not follow the age in the photograph"), and note the photo's date in the Real-Person Casting block.
+  - Record the reference's pixel dimensions too. A small source (under roughly 400px on the long edge) weakens likeness fidelity, and that belongs in `imagegen-checklist.md` as a render risk rather than being discovered after the sheet renders. Ask the user for a better image when one is likely to exist; do not silently accept a thumbnail.
+  - Anything the photo does not actually show — height, a signature garment, an accessory — is a staging choice, not an observed fact. Either omit it or mark it in `handoff.md` as invented. Do not manufacture a number for it.
 - Two constraints survive because they are pipeline facts, not legal caution:
   - The claim ledger still governs factual content. Invented dialogue in a real person's mouth is a normal teaching device, but it must not upgrade a claim's status or stage speculation as that person's verified statement.
   - The downstream Images API applies its own moderation and may refuse or distort a real-person likeness. Record this as a render risk in `imagegen-checklist.md` and include one stylized fallback descriptor per real person so a refused render can be retried without redesigning the page.
@@ -31,8 +34,12 @@
 - Cast appearance statistics: `python scripts/cast_usage.py --stats` (per-profile counts, share, runs-since-last, role mix, co-appearance pairs, run list). A run whose cast is marked `[recovered]` has a missing or off-template `Cast Source` line in its `character-bible.md`; `--declared-only` shows the strict numbers.
 - Render via OpenAI Images API (optional):
   - poster/page: `python scripts/render_openai.py --slug <slug> --track <editorial-poster|vertical-webtoon-page|both> --mode <oneshot|fallback|all>`
-  - learning series: `python scripts/render_openai.py --slug <slug> --track adult-learning-comic --mode series`
+  - learning series: `python scripts/render_openai.py --slug <slug> --track adult-learning-comic --mode series --size 1024x1536`
   - requires `.env` with `OPENAI_API_KEY`; add `--dry-run` to preview the render plan.
+  - **Always pass `--size 1024x1536` for portrait pages.** Without it the script falls back to `OPENAI_IMAGE_SIZE`, which this repo's `.env` sets to `1536x2048`, and the whole series renders at the wrong aspect ratio with no warning. The verifier and the dry-run both still pass, so nothing catches it until you open the images. The thumbnail slot overrides to `1536x1024` on its own and needs no flag.
+  - **Re-rendering pages requires `--only`.** The script does **not** skip a `character_sheet` that already exists, so a second `--mode series` call re-renders the sheet — and unless the `--identity-reference` photos are passed again, re-renders it *without* them. That silently destroys the locked sheet whose likeness every page inherits. To re-render pages, name the slots: `--only thumbnail,page_01,...,page_06`. To re-render the sheet alone: `--only character_sheet` with the photos attached.
+  - `--identity-reference` attaches photos to the `character_sheet` slot only. Pages inherit likeness from `character-sheet.png`; passing the flag on a pages-only run logs `[warn] --identity-reference ignored`, which is correct behavior.
+  - `--dry-run` first on every re-render, and read the plan's `character_sheet` line before committing to the call.
 
 ## Workspace Contract
 - Every run lives under `_workspace/<slug>/`.
@@ -155,6 +162,9 @@
   - exact legal or technical wording
   - multi-line checklist items
 - If a block depends on exact Korean readability, mark it in `layout-bible.md` and keep the prompt visually suggestive instead of text-heavy.
+- **Every baked Korean string also goes through a spelling-robustness pass. Rules: `references/korean-baked-text-spelling-rules.md`.** This is separate from the voice pass and runs alongside it, before the whitelist is frozen. The model misspells correct strings during rasterization — the whitelist is usually right and the render is wrong — so the lever is choosing glyph-robust wording, not writing better Korean. Ranking: **substitute the string > positive jamo guard > re-render.** Re-rendering an unchanged prompt is not a fix; it fixes the target sometimes and introduces a new typo elsewhere often.
+- The smallest strings on a page (arrow labels, axis numbers, badges, one-word captions) fail *more* than bubble text and resist guards that work on longer strings. Give them the most conservative wording, not the least. Page titles and thumbnail phrases avoid compound final consonants (`ㄺ ㄵ ㄶ ㄼ ㅄ`), which collapse at display weight even when they are fine at body size.
+- A string that fails twice under a guard gets replaced, not guarded harder. When typos start moving between locations instead of shrinking in count, stop re-rendering and record the survivors as accepted defects in `handoff.md`.
 - `adult-learning-comic` may use `dialogue-baked` mode:
   - exact page title, panel labels, diagram labels, formulas, speech bubbles, narration boxes, and reference-material text may be baked
   - default explanation density is `extended`: about 450 Korean characters of baked copy per page, hard cap 500. `standard` is about 300 and is the fallback when legibility keeps failing.
@@ -232,6 +242,8 @@ A task is complete only when all of the following are true:
 9. For `adult-learning-comic`, the series contains 2-8 page prompts, each with a learning objective, knowledge-state change, exact-copy contract, panel sequence, and character reminder.
 10. A dry-run of `scripts/render_openai.py --track adult-learning-comic --mode series` resolves `character_sheet`, `thumbnail`, and every `page_XX` slot without parser warnings.
 11. `imagegen-checklist.md` records the Korean copy voice pass with zero remaining S1 patterns, and for `adult-learning-comic` the character bible's Voice Lock names a speech level and ending set per character.
+12. **If any file exists under `05_renders/`, every one of those images has been opened and inspected, and the result is recorded in `handoff.md`.** Rendering is not done when the API returns success; it is done when someone has read the Korean text and counted the figures. The record must state, per slot: clean, or the specific defect. Defects shipped without a fix are labelled **accepted defects** with the correct string beside the rendered one, so a later reader knows the whitelist was right and the render was wrong. A run whose `handoff.md` still says renders are pending while files exist on disk fails this item.
+13. **If renders exist, the claim-critical checks were verified against the actual images, not against the prompt.** Attribution badges, status markers (`예측`, `가능성 제시`, `저자 주장 · 검증 안 됨`), hedges, and any mandatory exclusion must be confirmed visible — or confirmed absent, for exclusions — in the rendered page. A prompt that contains the badge is not evidence the badge rendered.
 
 ## When Blocked
 - If factual claims are uncertain, mark them as `needs verification` in the research summary.

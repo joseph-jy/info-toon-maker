@@ -82,6 +82,7 @@ Under `standard`, drop to a single short bubble per panel, 0-2 narration boxes p
 ### Copy Voice
 
 Every baked string passes the voice rules in `references/korean-copy-voice-rules.md` before the whitelist is frozen.
+Every baked string also passes the spelling-robustness rules in `references/korean-baked-text-spelling-rules.md` in the same pass. Substitute a fragile string, guard it positively only when it cannot be substituted, and treat re-rendering as a last resort.
 
 - Drop the AI signature phrases: summation labels, significance inflation, enumeration intros, hype adjectives, closing formulas, formal-noun endings, sentence-initial connectives in narration, double passives, `~에 의해`, `~에 대해`, third-person pronouns, emoji, emphasis quotes inside bubbles.
 - The page title and the closing line are where these cluster. Colon-subtitle titles are never used; `A가 아니라 B` parallelism and `X에서 Y로` appear at most once per page.

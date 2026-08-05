@@ -87,6 +87,39 @@ Verify it by measuring the rendered sheet rather than eyeballing it:
 
 A sheet that fails is a sheet re-render, not a page re-render: `--mode series --only character_sheet`. When pages already exist against the old sheet, re-render the sheet alone and record the anatomy mismatch between sheet and pages in `handoff.md`; silently re-rendering approved pages to match costs the whole series.
 
+### Negatives Do Not Remove Things — Not Style, Not People
+
+The proportion lock above is one instance of a general rule: **the negative list is weak at removal and the positive description is strong.** It holds for entities as much as for rendering style.
+
+Observed: a guest character was meant to appear only inside a wall-mounted screen. The prompt carried `no Steve Yegge in panels 2 to 6`, `no Steve Yegge in the closing group scene`, *and* the sentence `Steve Yegge does not appear` in the panel body. He was still drawn standing in the office in the last two panels, twice. What fixed it on the first try was positive:
+
+- **State the figure count as a number** and demand a count before drawing: "this panel contains exactly three human figures, and every one of them is one of the three recurring women."
+- **Rule out the category, not just the name**: "no man appears in this panel — no tall gray-haired man, no standing male figure, including at the edges, in the background, in shadow, or seen from behind." Naming only the person leaves the silhouette available.
+- **Fill the space with a named object.** The model puts a person wherever the composition wants one, so say what goes there instead: "the space to the right of the three women is filled by the dark window glass and one leafy floor plant — an object, never a person."
+
+Apply the same shape to any removal: an unwanted figure, a piece of furniture, a UI element, a color. Say how many, say what occupies the gap. Keep the negative list as a backstop, never as the mechanism.
+
+### Speaker Attribution Is Not Text
+
+When one character speaks twice in a panel, the guard against duplicating the figure is to name the bubbles separately — but **whatever identifier you write in the prompt can be drawn as visible text.** A prompt using `bubble A upper:` / `bubble B lower:` and `Rounded bubble from 모네:` produced a page with the letters `A` and `B` and the names `모네`, `소피`, `조이` printed beside the bubbles, like a script's speaker tags left in the artwork.
+
+- Identify bubbles by **position and appearance only**: "her upper bubble", "the leftmost woman in the cream knit gets a rounded warm-brown-border bubble".
+- Add one line to the slot prompt: speaker attribution is staging information, never text to draw; do not render letters or character names as labels.
+- Negative backstop: `no letter labels beside speech bubbles, no character name labels, no speaker name prefixes, no script-style dialogue attribution`.
+- Character names are safe in blocks **outside** the panel descriptions — the character reminder, the cast policy. The dangerous placement is a name immediately before a quoted string.
+
+### Numeric Diagrams: Compare Lengths, Not Positions
+
+Do not ask for a value to be placed at a position along a scale. Percentage-of-axis-length instructions have missed by 8-10 percentage points even with "do not guess these positions" in the prompt, because the model has to solve for an absolute coordinate.
+
+When the teaching point is that one number exceeds another, **compare lengths**: two bars sharing a left baseline, the longer one full width, the shorter one specified as a fraction of it ("just over one quarter, so the longer bar is roughly three and a half times longer"). Relative length needs no coordinate. Then:
+
+- Remove the axis, the tick marks, the gradations, and the scale endpoints from both the prompt and the whitelist. Leaving `0` and `200` in the whitelist invites the axis back.
+- Put each number at its own bar's end; do not also label the bars, or the string appears twice on the page. Tie bars to the diagram above by **color** instead.
+- Keep any trend curve in a **separate inset with no numbers at all**. A numbered axis and a trend curve in one frame is what lets a value land on the wrong gradation.
+- Reserve a ticked axis for showing a single value.
+- Counting diagrams behave differently from measuring ones and are reliable: exact counts plus an explicit arrangement ("exactly 5 holes, exactly 8 birds, three holes with one bird, two holes with two, the eighth outside on the right") rendered correctly first time. Prefer a countable diagram over a measured one when either would teach the point.
+
 ## Page Grammar
 
 - portrait 3:4 page, normally `1536x2048`
