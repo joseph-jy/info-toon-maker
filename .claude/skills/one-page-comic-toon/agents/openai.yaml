@@ -1,0 +1,7 @@
+interface:
+  display_name: "One-Page Comic Toon"
+  short_description: "짧은 주제를 한 장에 풀어내는 설명 만화형 인포그래픽"
+  default_prompt: "Use $one-page-comic-toon to turn this short topic into a single tall Korean comic infographic."
+
+policy:
+  allow_implicit_invocation: true

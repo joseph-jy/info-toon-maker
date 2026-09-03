@@ -149,6 +149,12 @@
 - Every page must declare one learning objective, the reader's knowledge state before/after, one central visual model, and an exact-copy budget per text channel.
 - Give each character a fixed speech level and a distinct ending set, and hold both for the whole series. A cast whose members all speak in the same 존댓말 with the same 종결어미 reads as one AI draft no matter how good the art is. Rules: `references/korean-copy-voice-rules.md`.
 
+## One-Page Comic Toon Grammar
+- Use `one-page-comic-toon` for a short, self-contained explainer that should finish as one tall comic-infographic image.
+- Keep `adult-learning-comic` unchanged for 2-8 page learning series. The one-page track does not read `cast/`, does not run cast rotation or approval, and does not create `character-bible.md`, `learning-design.md`, or `character-sheet.png`.
+- The one-page track uses `vertical-webtoon-page` as its renderer: a strong title/hero strip, 4-6 numbered teaching beats, and one closing strip. Use fresh fictional characters per run and repeat their visual tokens across panels for continuity.
+- Keep the existing claim ledger, Korean voice pass, spelling-robustness pass, verifier, render-only-if-files-exist rule, and rendered-image QA requirements.
+
 ## Baked Text Rules
 - Safe baked text:
   - short Korean titles
