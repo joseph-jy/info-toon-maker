@@ -49,5 +49,6 @@
 ## Accuracy Gates
 - Claims that require exact wording:
 - Formulas or diagrams that require manual checking:
-- Analogies and where each analogy stops:
+- Analogies and where each analogy stops (visual models and props count here):
+- Explainer verbal analogies (max 1 per page, max 3 per series): page, the analogy string, and the literal statement it follows:
 - Claims still marked `needs verification`:

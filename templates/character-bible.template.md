@@ -69,6 +69,7 @@
 
 - Relationship map (who outranks whom; what sets each speech level):
 - Explainer register (`존댓말` / `반말` / `혼합`) and ending set:
+- Explainer explanation mode (direct statement in domain terms; verbal analogy at most 1 per page, each after its literal line; list the pages that spend one):
 - Learner register and ending set:
 - Challenger register and ending set:
 - Mascot register and ending set:

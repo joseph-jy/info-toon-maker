@@ -58,6 +58,7 @@ no watermark, no random text, no gibberish Korean, no misspelled technical terms
      Full rules and pattern IDs: references/korean-copy-voice-rules.md -->
 
 - Register and ending set per character (copied from `character-bible.md` Voice Lock):
+- Explainer direct statement: mechanism and claim bubbles name the actual subject and behavior (substitution test passed). Explainer analogies used (page / string / the literal line it follows; max 1 per page, max 3 per series):
 - Banned in every string: 결론적으로 / 요약하면 / 이를 통해 / 시사하는 바가 큽니다 / 주목할 만합니다 /
   다음과 같습니다 / 혁신적 / 획기적 / ~할 때입니다 / 콜론 부제 제목 / "~한 것입니다" 형식명사 종결 /
   문두 접속사(또한·따라서·즉·나아가) / 이중 피동 / "~에 의해" 피동 / "~에 대해" / 대명사 그·그녀·그것 /

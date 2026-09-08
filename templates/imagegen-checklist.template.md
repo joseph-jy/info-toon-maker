@@ -20,6 +20,9 @@
 - Epistemic hedges kept for `party-claim` / `analysis` / `speculation`:
 - No claim status was upgraded by a voice fix:
 - No new figure, metaphor, or cliche was introduced that the report does not support:
+- Explainer direct-statement check (every mechanism or claim bubble is literally true of the system; the subject is the actual thing, not a stand-in):
+- Explainer verbal analogies per page (max 1, each after its literal line) and series total (max 3):
+- Reference-material inserts, diagram labels, and page titles use domain terms, not metaphor stand-ins:
 - Per-character ending sets stay separated and register is fixed across the series:
 - Same ending repeated 4+ times in a row on any page:
 - Series-level counts (English gloss first-use only / parallelism <=1 / "X에서 Y로" <=1 / colon subtitle 0 / closing formula 0):

@@ -84,6 +84,8 @@ description: "짧은 주제를 한 장에 풀어내는 설명 만화형 인포�
 
 카피를 확정하기 전에 저장소의 `references/korean-copy-voice-rules.md`와 `references/korean-baked-text-spelling-rules.md`를 읽고 한 번만 패스한다. S1 패턴은 0건이어야 하며, `party-claim`·`analysis`·`speculation`을 표시하는 인식론적 완곡은 삭제하지 않는다. 작은 배지와 화살표 라벨은 특히 오탈자에 취약하므로 두 번 실패한 문자열은 더 강한 가드보다 짧고 안정적인 문자열로 교체한다.
 
+설명을 맡은 캐릭터의 말풍선은 직접 서술한다. 메커니즘과 주장은 실제 대상을 주어로, 실제 동작과 조건을 그 분야의 용어로 말하고, 비유는 그 캐릭터의 풍선에서 한 장에 최대 1개, 직접 서술 문장 뒤에만 둔다. 농담과 비유는 질문하는 캐릭터와 마스코트가 맡는다. 자료 인서트와 라벨은 분야 용어를 쓴다. 규칙: `references/korean-copy-voice-rules.md`의 "설명자 직접 서술".
+
 ## Prompt Pack And Rendering
 
 공통 run 계약을 지키며 다음 파일을 만든다.

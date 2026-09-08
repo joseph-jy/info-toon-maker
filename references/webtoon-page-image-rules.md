@@ -89,6 +89,7 @@ Every baked string also passes the spelling-robustness rules in `references/kore
 - Narration is the channel where a stylistic tell shows most, because there is no speaker to absorb it. Hold it to zero.
 - The claim ledger outranks the voice rules: remove stylistic hedges, keep the ones that carry attribution or uncertainty.
 - With a recurring cast, keep each speaker's speech level and ending set stable across panels.
+- The character who carries the explanation states it literally: the actual subject, the actual behavior, the condition. Verbal analogies in that character's bubbles are limited to one per page and follow the literal line; the other characters carry the jokes and the figurative paraphrase. Material inserts and labels use the domain's real terms. Rule: Explainer Direct Statement in `references/korean-copy-voice-rules.md`.
 
 ### Still Unsafe
 

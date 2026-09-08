@@ -24,6 +24,7 @@
 - Challenger:
 - Mascot:
 - Relationship and register map (who speaks in which speech level and ending set; see `references/korean-copy-voice-rules.md`):
+- Explainer explanation mode (direct statement in domain terms; where the one allowed analogy per page sits, if any):
 
 ## Page Header
 - Page label:

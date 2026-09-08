@@ -107,6 +107,7 @@ For every source include title, publisher, author when available, date, URL or d
 - Put one proposition in each claim-ledger row.
 - Use exact dates such as `2026-07-10`, not `recently`.
 - Preserve attribution in `allowed wording`.
+- Write `allowed wording` literally, in the domain's own terms (`모델명이 보이면 점수가 부풀어 익명 평가가 필요하다`), never as a figurative shorthand (`이름표 떼고, 심판은 다른 집에서`). Downstream copy inherits this column, and a metaphor here licenses the explainer to speak in metaphor.
 - Give separate IDs to the event, its alleged cause, and its interpreted meaning.
 - Record disagreement between sources rather than choosing silently.
 - Keep source excerpts short; summarize unless exact wording is essential.

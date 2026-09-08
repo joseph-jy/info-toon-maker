@@ -26,7 +26,7 @@ Use 4, 5, 7, or 8 pages only when the learning design justifies the change.
 
 ## Cast System
 
-- `explainer`: a working adult with domain credibility. Explains evidence and limitations, not just conclusions.
+- `explainer`: a working adult with domain credibility. Explains evidence and limitations, not just conclusions. States every mechanism and claim literally, in the domain's own terms — the actual subject, the actual behavior, the condition it holds under — and spends at most one verbal analogy per page, always after the literal line. Figurative paraphrase and jokes belong to the learner, challenger, and mascot; the explainer is the voice that turns them back into facts. Rule: Explainer Direct Statement in `references/korean-copy-voice-rules.md`.
 - `learner`: a competent peer who voices likely reader questions and summarizes in their own words.
 - `challenger` (optional): raises edge cases, competing explanations, or transfer questions.
 - `mascot` (optional): handles page transitions and brief recaps. It does not deliver unsupported claims.
@@ -186,6 +186,7 @@ The page prompt must list every allowed string verbatim, grouped by channel (tit
 Every string above also passes the voice rules in `references/korean-copy-voice-rules.md` before the whitelist is frozen.
 
 - Each character keeps one speech level and one ending set for the whole series. Explainer explains, learner asks, challenger counters; a cast that all speaks the same 존댓말 with the same 종결어미 is the loudest AI tell this track produces. Lock it in the character bible's Voice Lock block, and copy a `cast/` profile's `voice` verbatim rather than normalizing it.
+- The explainer speaks literally. A mechanism bubble must be true of the system when read word for word: `LLM은 같은 모델이 생성한 텍스트를 더 후하게 평가하는 경향이 있어요`, not `이름표가 보이면 후해지니까 떼고, 심판은 다른 집에서 데려와요`. Explainer analogies: at most one per page and three per series, each placed after the literal statement it illustrates, never as the only place the fact appears. Reference-material inserts, diagram labels, and page titles use the domain's real terms because they stand for real documents. The learner and challenger keep their figurative, casual lines; that is where the lightness of the series lives.
 - Drop the AI signature phrases in every channel: summation labels, significance inflation, enumeration intros, hype adjectives, closing formulas, formal-noun endings, sentence-initial connectives in narration, double passives, `~에 의해`, `~에 대해`, third-person pronouns, emoji, emphasis quotes inside bubbles. Removing them usually shortens the string, which helps the density budget.
 - Count series-wide, not per page: English gloss on first use only, `A가 아니라 B` at most once, `X에서 Y로` at most once, colon-subtitle page titles never.
 - The claim ledger outranks the voice rules. Remove stylistic hedges; keep the hedges that carry `party-claim`, `analysis`, or `speculation` attribution. No voice fix may upgrade a claim or introduce a figure the report does not support.
@@ -210,6 +211,7 @@ Every page render combines these layers in this order:
 - continuity: character identity and roles match the character sheet
 - copy: every rendered string is on the whitelist and readable
 - voice: the copy voice pass is recorded with zero remaining S1 patterns, each character's register and ending set held across pages, and the series-wide counts hold
+- explainer: every explainer bubble carrying a mechanism or claim passes the substitution test (literally true of the system, subject named as itself); explainer analogies at most one per page, each after its literal line; material inserts, diagram labels, and page titles use domain terms
 - density: the page total stays inside the selected density budget and no panel is text-choked
 - narration: narration boxes are third-person, tail-less, attribution-safe, and do not carry the core reveal
 - material: reference inserts read as objects in the scene and their text is legible at full page size
