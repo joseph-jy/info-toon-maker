@@ -105,6 +105,15 @@
 - Use the same skill for three task modes: source-report drafting/normalization, source-report validation, and approved-report-to-infographic production.
 - Do not perform additional research during report normalization unless the user explicitly requests research. Mark unsupported material `needs verification`.
 
+### Cross-Tool Instruction Synchronization
+
+- Shared instruction changes must reach both Claude Code and Codex in the same changeset. `.agents/` is not uniformly a set of wrappers, and Codex agent definitions live separately in `.codex/agents/`.
+- Agent pairs: `.claude/agents/<name>.md` is the canonical shared instruction body; mirror it into `developer_instructions` in `.codex/agents/<name>.toml`. Preserve platform-specific metadata such as model selection instead of copying the whole file.
+- Mirrored skills: keep the complete `SKILL.md` identical between `.claude/skills/` and `.agents/skills/` for `infographic-assembly`, `infographic-orchestrator`, `infographic-panel-render`, and `infographic-storyboard`.
+- Delegating skills: `report-to-infographic-toon` and `one-page-comic-toon` use short `.agents/skills/` entry points that read their `.claude/skills/` canonical workflow. Check their target paths; do not overwrite these wrappers with duplicated workflow bodies.
+- For image-model or reference-flow changes, check `scripts/render_openai.py`, `.env.sample`, `README.md`, `AGENTS.md`, shared `references/`, both agent directories, and both skill directories. Keep secrets and the real `.env` out of search output and commits.
+- Before handing off or committing changes to these instructions, run `python3 -B -m unittest discover -s scripts -p 'test_*.py'`. `scripts/test_cross_tool_sync.py` checks counterpart inventory, shared bodies, and wrapper targets. New agents/skills need counterparts; an intentional new wrapper needs an explicit entry in the test's `DELEGATING_SKILLS` set and this section.
+
 ## Target Visual Grammar
 - Default target is a **dark, editorial, cinematic infographic-toon poster**.
 - Preferred page logic:

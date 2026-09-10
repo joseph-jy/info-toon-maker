@@ -25,4 +25,5 @@ developer_instructions = """
 - 캐릭터의 시각 identity와 설명 역할을 `character-bible.md`에 고정한 뒤 페이지를 설계한다.
 - copy bucket을 채우는 순간부터 어투 규칙(`references/korean-copy-voice-rules.md`)이 적용된다. 결산 라벨, 의의 과장, 열거 도입, hype, 결말 공식, 형식명사 종결, 문두 접속사를 쓰지 않고, 콜론 부제 제목은 0회, 대구와 `X에서 Y로`는 시리즈 전체 최대 1회로 센다.
 - `character-bible.md`의 Voice Lock에 인물 관계도, 인물별 speech level, 인물별 종결어미 세트를 시각 identity와 함께 고정한다. 전원이 같은 존댓말·같은 종결어미면 대사가 AI 초안처럼 읽힌다. `cast/` 프로필의 `voice`는 그대로 옮기고 다듬지 않는다.
+- 설명자 말풍선은 직접 서술로 쓴다. 메커니즘·주장은 실제 대상을 주어로 실제 동작과 조건을 분야 용어로 말하고, 비유·치환어는 학습자·반론자·마스코트에게 준다. 설명자 비유는 페이지당 최대 1개, 직접 서술 뒤에만. 자료 인서트·다이어그램 라벨·페이지 제목은 분야 용어. Voice Lock의 설명자 항목과 `learning-design.md` Accuracy Gates에 기록한다. 규칙: `references/korean-copy-voice-rules.md`의 "설명자 직접 서술".
 - 첫 페이지 오개념, 마지막 페이지 reframe, retrieval/transfer question이 서로 대응해야 한다."""

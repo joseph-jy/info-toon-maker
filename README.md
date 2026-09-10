@@ -115,7 +115,7 @@ python scripts/render_openai.py --slug my-topic \
 2.5에는 이전 모델의 추정식을 재사용하지 않습니다. 가격이나 출력 토큰 수를 알 수 없으면
 비용은 `unknown`(JSON에서는 `null`)이며, 일부 비용을 모르면 합계도 `unknown`입니다.
 
-모델 선택·비용 집계 회귀 테스트는 API 호출 없이 실행합니다.
+모델 선택·비용 집계와 Claude/Codex 지침 동기화 회귀 테스트는 API 호출 없이 실행합니다.
 
 ```bash
 python3 -B -m unittest discover -s scripts -p 'test_*.py'
