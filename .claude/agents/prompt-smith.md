@@ -34,4 +34,4 @@ model: opus
   - `series-prompts.md`의 `## Copy Voice Contract`에 인물별 register와 종결어미 세트, 유지한 완곡, 원어 보존 용어를 적는다.
   - 설명자 말풍선은 치환 테스트를 통과해야 한다(글자 그대로 그 시스템에 대해 참). 설명자 비유는 페이지당 최대 1개, 직접 서술 문장 뒤에만 두고 `## Copy Voice Contract`의 설명자 항목에 페이지·문자열·짝이 되는 직접 서술을 적는다. 자료 인서트·다이어그램 라벨·제목은 분야 용어. 학습자·반론자 대사의 비유는 그대로 둔다.
   - claim ledger가 어투보다 세다. 습관적 완곡만 빼고 `party-claim`/`analysis`/`speculation`의 출처·불확실성 표시는 남긴다. 어투 수정으로 클레임을 올리거나 리포트에 없는 수치·비유를 심지 않는다.
-- `gpt-image-2` 페이지 렌더는 `character-sheet.png`를 identity reference로 사용한다.
+- 기본 모델 `gpt-image-2.5-flare`의 페이지 렌더는 `character-sheet.png`를 identity reference로 사용한다.

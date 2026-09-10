@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render infographic prompts via OpenAI Images API (gpt-image-2).
+"""Render infographic prompts via OpenAI Images API (gpt-image-2.5-flare).
 
 This script is the ONE exception to the harness rule "no in-repo image
 rendering". Everything else in the repo still stops at prompt packs and
@@ -29,7 +29,7 @@ Usage:
 
     python scripts/render_openai.py \
         --slug database-index-learning-comic \
-        --track adult-learning-comic --mode series
+        --track adult-learning-comic --mode series --size 1024x1536
 
 Series mode also renders one landscape catalog `thumbnail` slot when
 `series-prompts.md` declares it (output: 05_renders/thumbnail.png,
@@ -133,11 +133,16 @@ class RenderResult:
     job: RenderJob
     operation: str
     usage: UsageSummary
-    estimated_cost_usd: float
+    estimated_cost_usd: float | None
     cost_note: str
 
 
-GPT_IMAGE_2_PRICE_PER_1M = {
+DEFAULT_IMAGE_MODEL = "gpt-image-2.5-flare"
+PRICED_IMAGE_MODELS = {"gpt-image-2", "gpt-image-2.5-flare", "gpt-image-2.5-sunburst"}
+
+# Standard uncached token rates shared by these model families (2026-09-10).
+# https://developers.openai.com/api/docs/guides/image-generation#gpt-image-25-costs
+IMAGE_PRICE_PER_1M = {
     "text_input": 5.00,
     "image_input": 8.00,
     "image_output": 30.00,
@@ -258,6 +263,12 @@ def extract_series(prompts_dir: Path) -> list[PromptSpec]:
 
 # ---------- Usage and cost reporting ----------
 
+def _priced_model_family(model: str) -> str | None:
+    """Recognize supported aliases and their dated snapshots, not other models."""
+    family = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", model)
+    return family if family in PRICED_IMAGE_MODELS else None
+
+
 def _as_int(value: object) -> int | None:
     if isinstance(value, bool):
         return None
@@ -336,7 +347,7 @@ def extract_usage_summary(
     if usage is None:
         estimated_output = (
             estimate_gpt_image_2_output_tokens(size, quality)
-            if model == "gpt-image-2"
+            if _priced_model_family(model) == "gpt-image-2"
             else None
         )
         return UsageSummary(
@@ -353,7 +364,7 @@ def extract_usage_summary(
 
     input_details = _details_dict(usage, "input_tokens_details")
     output_tokens = _first_int(usage, ("output_tokens", "image_output_tokens"))
-    if output_tokens is None and model == "gpt-image-2":
+    if output_tokens is None and _priced_model_family(model) == "gpt-image-2":
         output_tokens = estimate_gpt_image_2_output_tokens(size, quality)
 
     return UsageSummary(
@@ -376,12 +387,14 @@ def estimate_cost_usd(
     *,
     model: str,
     has_image_references: bool,
-) -> tuple[float, str]:
-    if model != "gpt-image-2":
+) -> tuple[float | None, str]:
+    if _priced_model_family(model) is None:
         return (
-            0.0,
-            f"Cost estimate unavailable because pricing constants are configured for gpt-image-2, not {model}.",
+            None,
+            f"Cost estimate unavailable because pricing is not configured for {model}.",
         )
+    if usage.output_tokens is None:
+        return None, "Output token count was unavailable; cost is unknown."
 
     total = 0.0
     notes: list[str] = []
@@ -389,32 +402,32 @@ def estimate_cost_usd(
     if usage.text_input_tokens is not None or usage.image_input_tokens is not None:
         text_tokens = usage.text_input_tokens or 0
         image_tokens = usage.image_input_tokens or 0
-        total += text_tokens * GPT_IMAGE_2_PRICE_PER_1M["text_input"] / 1_000_000
-        total += image_tokens * GPT_IMAGE_2_PRICE_PER_1M["image_input"] / 1_000_000
+        total += text_tokens * IMAGE_PRICE_PER_1M["text_input"] / 1_000_000
+        total += image_tokens * IMAGE_PRICE_PER_1M["image_input"] / 1_000_000
 
         if usage.input_tokens is not None:
             unknown_input_tokens = max(usage.input_tokens - text_tokens - image_tokens, 0)
             if unknown_input_tokens:
                 key = "image_input" if has_image_references else "text_input"
-                total += unknown_input_tokens * GPT_IMAGE_2_PRICE_PER_1M[key] / 1_000_000
+                total += unknown_input_tokens * IMAGE_PRICE_PER_1M[key] / 1_000_000
                 notes.append(
                     f"{unknown_input_tokens} input tokens lacked modality detail "
                     f"and were priced as {key.replace('_', ' ')}."
                 )
     elif usage.input_tokens is not None:
         key = "image_input" if has_image_references else "text_input"
-        total += usage.input_tokens * GPT_IMAGE_2_PRICE_PER_1M[key] / 1_000_000
+        total += usage.input_tokens * IMAGE_PRICE_PER_1M[key] / 1_000_000
         notes.append(
             "Input modality details were unavailable; all input tokens were priced "
             f"as {key.replace('_', ' ')}."
         )
 
-    if usage.output_tokens is not None:
-        total += usage.output_tokens * GPT_IMAGE_2_PRICE_PER_1M["image_output"] / 1_000_000
-        if usage.output_tokens_estimated:
-            notes.append("Output tokens were estimated from gpt-image-2 size and quality.")
     else:
-        notes.append("Output token count was unavailable; output cost is omitted.")
+        notes.append("Input usage was unavailable; estimate covers output only.")
+
+    total += usage.output_tokens * IMAGE_PRICE_PER_1M["image_output"] / 1_000_000
+    if usage.output_tokens_estimated:
+        notes.append("Output tokens were estimated from gpt-image-2 size and quality.")
 
     return total, " ".join(notes)
 
@@ -430,8 +443,15 @@ def _sum_optional(values: Iterable[int | None]) -> int | None:
     return sum(present)
 
 
-def _fmt_usd(value: float) -> str:
-    return f"${value:.4f}"
+def _fmt_usd(value: float | None) -> str:
+    return f"${value:.4f}" if value is not None else "unknown"
+
+
+def _total_estimated_cost(results: Iterable[RenderResult]) -> float | None:
+    costs = [result.estimated_cost_usd for result in results]
+    if not costs or any(cost is None for cost in costs):
+        return None
+    return sum(cost for cost in costs if cost is not None)
 
 
 def _rel(path: Path, root: Path) -> str:
@@ -455,7 +475,7 @@ def write_render_cost_report(
     report_path = workspace / "04_review" / "render-cost-report.md"
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
-    total_cost = sum(result.estimated_cost_usd for result in results)
+    total_cost = _total_estimated_cost(results)
     total_input_tokens = _sum_optional(result.usage.input_tokens for result in results)
     total_output_tokens = _sum_optional(result.usage.output_tokens for result in results)
     total_tokens = _sum_optional(result.usage.total_tokens for result in results)
@@ -471,8 +491,13 @@ def write_render_cost_report(
         f"- Size: `{size}`",
         f"- Quality: `{quality}`",
         f"- Format: `{fmt}`",
-        "- Price basis: OpenAI API standard pricing for `gpt-image-2` "
-        "as configured in `scripts/render_openai.py`.",
+        (
+            f"- Price basis: OpenAI API standard pricing for `{model}` "
+            "as configured in `scripts/render_openai.py` (2026-09-10)."
+            if _priced_model_family(model) is not None
+            else f"- Price basis: unavailable for `{model}`."
+        ),
+        "- Scope: completed renders only; uncached input rates, excluding cache discounts.",
         f"- Completed renders: {len(results)}",
         f"- Failed renders: {len(failures)}",
         "",
@@ -517,7 +542,12 @@ def write_render_cost_report(
     notes = []
     if any_missing_usage:
         notes.append(
-            "One or more API responses did not include usage; those rows use output-token estimates only."
+            "One or more API responses did not include usage; see row notes for available estimates."
+        )
+    if total_cost is None:
+        notes.append(
+            "Unknown costs are not zero. A total requires at least one completed render "
+            "and a cost estimate for every completed render."
         )
     if any_estimated_output:
         notes.append(
@@ -537,7 +567,11 @@ def write_render_cost_report(
             "operation": result.operation,
             "output_file": _rel(result.job.out_path, repo_root),
             "references": [_rel(path, repo_root) for path in result.job.reference_paths],
-            "estimated_cost_usd": round(result.estimated_cost_usd, 8),
+            "estimated_cost_usd": (
+                round(result.estimated_cost_usd, 8)
+                if result.estimated_cost_usd is not None
+                else None
+            ),
             "usage": result.usage.raw_usage,
             "usage_note": result.usage.note,
         }
@@ -589,7 +623,7 @@ def render_one(
         client_kwargs["project"] = proj
     client = OpenAI(**client_kwargs)
 
-    # gpt-image-2 has no dedicated negative-prompt field; merge into prompt tail.
+    # The Image API has no dedicated negative-prompt field; merge into prompt tail.
     merged = spec.prompt.strip()
     if spec.negative.strip():
         merged = (
@@ -739,7 +773,7 @@ def main(argv: list[str]) -> int:
     prompts_dir = workspace / "03_prompts"
     renders_dir = workspace / "05_renders"
 
-    model = args.model or os.environ.get("OPENAI_IMAGE_MODEL", "gpt-image-2")
+    model = args.model or os.environ.get("OPENAI_IMAGE_MODEL") or DEFAULT_IMAGE_MODEL
     size = args.size or os.environ.get("OPENAI_IMAGE_SIZE", "1536x2048")
     thumbnail_size = args.thumbnail_size or os.environ.get(
         "OPENAI_THUMBNAIL_SIZE", "1536x1024"
@@ -942,7 +976,7 @@ def main(argv: list[str]) -> int:
             results=results,
             failures=failures,
         )
-        total_cost = sum(result.estimated_cost_usd for result in results)
+        total_cost = _total_estimated_cost(results)
         total_tokens = _sum_optional(result.usage.total_tokens for result in results)
         total_output_tokens = _sum_optional(result.usage.output_tokens for result in results)
         print(

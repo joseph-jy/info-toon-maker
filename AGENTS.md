@@ -3,7 +3,7 @@
 ## Purpose
 - This repo is a harness for producing either a **single-page infographic poster** or a **2-8 page adult learning comic series** with recurring characters.
 - This repo is **not** responsible for HTML page assembly. It stops at image-generation guidance, prompt packs, and image QA handoff.
-- One narrow exception: `scripts/render_openai.py` is allowed to call the OpenAI Images API (default model `gpt-image-2`) and write real files to `_workspace/<slug>/05_renders/`. The rest of the harness must still treat rendering as downstream — never claim renders exist unless the files actually exist on disk.
+- One narrow exception: `scripts/render_openai.py` is allowed to call the OpenAI Images API (default model `gpt-image-2.5-flare`) and write real files to `_workspace/<slug>/05_renders/`. The rest of the harness must still treat rendering as downstream — never claim renders exist unless the files actually exist on disk.
 - Treat dense Korean copy as a reliability problem. Default to an **image-first but text-conservative workflow**:
   - Generate illustrations, scene boxes, badges, stamps, and atmosphere with image prompts.
   - Keep long exact Korean body copy out of the baked image unless the user explicitly asks for a risky all-baked render.

@@ -14,7 +14,7 @@
 | 스토리보드 | 블록 분할, 레이아웃 바이블 | `02_storyboard/` |
 | 프롬프트 | 원샷 + 블록별 폴백 프롬프트 | `03_prompts/` |
 | QA | 렌더 체크리스트 + 핸드오프 문서 | `04_review/` |
-| 렌더 (선택) | OpenAI gpt-image-2로 생성된 PNG | `05_renders/` |
+| 렌더 (선택) | OpenAI gpt-image-2.5-flare로 생성된 PNG | `05_renders/` |
 
 ---
 
@@ -95,7 +95,7 @@ python scripts/render_openai.py --slug my-topic \
 
 # 학습만화 시리즈 (캐릭터 시트 → 페이지 순서로 자동 렌더)
 python scripts/render_openai.py --slug my-topic \
-  --track adult-learning-comic --mode series
+  --track adult-learning-comic --mode series --size 1024x1536
 
 # 실제 API 호출 없이 렌더 계획만 확인
 python scripts/render_openai.py --slug my-topic \
@@ -109,8 +109,17 @@ python scripts/render_openai.py --slug my-topic \
 
 렌더 완료 후 `scripts/render_openai.py`는 토큰 사용량과 추정 비용을
 `_workspace/<slug>/04_review/render-cost-report.md`에 기록합니다. API 응답에
-`usage`가 포함되면 실제 토큰을 사용하고, 누락된 경우 `gpt-image-2` 출력 토큰
-계산식으로 가능한 범위만 추정합니다.
+`usage`가 포함되면 실제 토큰에 모델 단가를 적용합니다. Flare·Sunburst·GPT Image 2와
+날짜가 붙은 snapshot을 지원하며, 입력 비용은 캐시 할인 전 단가로 추정합니다.
+사용량이 없는 경우 출력 토큰 추정식은 `gpt-image-2`에만 적용합니다.
+2.5에는 이전 모델의 추정식을 재사용하지 않습니다. 가격이나 출력 토큰 수를 알 수 없으면
+비용은 `unknown`(JSON에서는 `null`)이며, 일부 비용을 모르면 합계도 `unknown`입니다.
+
+모델 선택·비용 집계 회귀 테스트는 API 호출 없이 실행합니다.
+
+```bash
+python3 -B -m unittest discover -s scripts -p 'test_*.py'
+```
 
 ---
 
@@ -217,9 +226,14 @@ AI 이미지 생성에서 긴 한국어 본문은 아직 신뢰도가 낮습니�
 | 환경변수 | 기본값 | 설명 |
 |----------|--------|------|
 | `OPENAI_API_KEY` | (필수) | OpenAI Images API 키 |
-| `OPENAI_IMAGE_MODEL` | `gpt-image-2` | 이미지 모델 |
+| `OPENAI_IMAGE_MODEL` | `gpt-image-2.5-flare` | 이미지 모델 |
 | `OPENAI_IMAGE_SIZE` | `1536x2048` | 출력 해상도 (3:4 세로) |
 | `OPENAI_IMAGE_QUALITY` | `high` | 렌더 품질 |
+
+모델 선택 순서는 `--model` → `OPENAI_IMAGE_MODEL` → `gpt-image-2.5-flare`입니다.
+환경변수가 비어 있어도 기본 모델을 사용합니다. 정밀 편집은
+`--model gpt-image-2.5-sunburst`, 기존 모델 비교는 `--model gpt-image-2`로 지정할 수 있습니다.
+2.5는 `xhigh`·`max`도 지원하지만 기본 품질은 검증에 사용한 `high`를 유지합니다.
 
 권장 해상도 프리셋:
 - `1024x1536` — 빠른 미리보기 (2:3)
@@ -347,4 +361,4 @@ $report-to-infographic-toon
 
 - **필수**: [Claude Code](https://claude.ai/claude-code) 또는 Codex (에이전트 오케스트레이션)
 - **선택**: Python 3.10+, `openai>=1.40.0` (이미지 렌더링 시)
-- **선택**: OpenAI API 키 (gpt-image-2 Images API 접근 권한)
+- **선택**: OpenAI API 키 (gpt-image-2.5-flare Images API 접근 권한)

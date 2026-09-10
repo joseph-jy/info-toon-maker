@@ -56,7 +56,7 @@ Output is private and non-commercial, so real people may fill any cast role.
 4. The page prompt must say the input is an identity reference only: preserve faces, hair, outfits, and color tokens; do not reproduce the sheet layout or labels.
 5. When a photograph is supplied, the prompt must also carry the photo identity reference rule: redraw in the series webtoon style, and do not inherit the photo's pose, crop, background, lighting, clothing snapshot, or embedded text.
 6. Do not chain the previous comic page as the only reference. That compounds layout and anatomy drift.
-7. With `gpt-image-2`, omit `input_fidelity`; the model processes image references at high fidelity automatically.
+7. The default `gpt-image-2.5-flare` renderer uses this reference workflow without an `input_fidelity` parameter. Keep that tested request shape. With legacy `gpt-image-2`, also omit `input_fidelity`; that model processes image references at high fidelity automatically.
 
 ### Figure Proportion Lock
 
